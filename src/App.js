@@ -1,5 +1,5 @@
 import { ThemeProvider } from "@mui/material";
-import WelcomeScreen from "./components/templates/WelcomeScreen";
+import WelcomeScreen from "./components/templates/WelcomeScreen/WelcomeScreen";
 import { theme } from "./utils/theme";
 
 function App() {

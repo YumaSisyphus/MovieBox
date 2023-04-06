@@ -1,0 +1,91 @@
+.Navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    list-style: none;
+    margin-top: 0;
+    z-index: 1;
+    padding-top: 10px;
+    transition: .4s;
+    padding-left: 10%;
+}
+
+.Navbar:hover {
+    box-shadow: inset 0px 15px 15px 0px #050809d7;
+}
+
+
+.NavbarText {
+    color: #ebebeb;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    letter-spacing: 1px;
+}
+
+.NavbarText:hover {
+    color: #ffffff;
+}
+
+.NavbarHeader {
+    color: #ebebeb;
+    font-weight: 800 !important;
+    letter-spacing: 1px;
+}
+
+
+.BackgroundImage {
+    background-image: url("../../../assets/ChungkingExpress.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 90vh;
+    position: relative;
+    z-index: 0;
+}
+
+.BackgroundImage::after {
+    box-shadow: inset 10px -100px 20px 5px #09090e, inset 20px -60px 100px 50px #09090e, inset -20px -100px 100px 50px #09090e;
+    content: '';
+    display: block;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    z-index: -10 !important;
+}
+
+.Description {
+    position: absolute;
+    width: 50%;
+    left: 25%;
+    bottom: 40px;
+    text-align: center;
+}
+
+.DescriptionText {
+    font-size: 38px !important;
+    color: #ffffff;
+    font-weight: 600 !important;
+}
+
+.QuoteText {
+    color: #aaaaaa;
+}
+
+/* 
+.MovieBorder {
+    transition: .4s;
+    position: relative;
+}
+
+.MovieBorder::after {
+    content: "";
+    width: 200;
+    height: 200;
+    background-color: #ffffff;
+    position: absolute;
+    top: 0;
+}
+
+.MovieBorder:hover {
+    border: 1px solid #e9c46a !important;
+} */

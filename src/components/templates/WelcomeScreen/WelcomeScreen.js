@@ -9,6 +9,7 @@ import TheBatman from "../../../assets/TheBatman.jpg"
 import DecisionToLeave from "../../../assets/DecisionToLeave.jpg"
 import Everything from "../../../assets/everything.jpg"
 import Seven from "../../../assets/Seven.jpg"
+import Header from "../../header/Header";
 
 const WelcomeScreen = () => {
     return (
@@ -17,6 +18,7 @@ const WelcomeScreen = () => {
                 <Container
                     maxWidth="lg"
                 >
+                    <Header />
                     <div className={styles.BackgroundImage}>
                         <Container
                             maxWidth="lg"

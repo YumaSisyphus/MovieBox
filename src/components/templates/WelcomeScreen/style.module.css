@@ -43,7 +43,7 @@
 }
 
 .BackgroundImage::after {
-    box-shadow: inset 10px -100px 20px 5px #09090e, inset 20px -60px 100px 50px #09090e, inset -20px -100px 100px 50px #09090e;
+    box-shadow: inset 10px -100px 20px 5px #0c0c0f, inset 20px -60px 100px 50px #0c0c0f, inset -20px -100px 100px 50px #0c0c0f;
     content: '';
     display: block;
     height: 100%;
@@ -71,21 +71,36 @@
     color: #aaaaaa;
 }
 
-/* 
+
 .MovieBorder {
-    transition: .4s;
+    transition: all .4s;
+    border: 3px solid transparent;
     position: relative;
 }
 
-.MovieBorder::after {
-    content: "";
-    width: 200;
-    height: 200;
-    background-color: #ffffff;
-    position: absolute;
-    top: 0;
+.MovieBorder:hover {
+    border: 3px solid #2A9D8F !important;
 }
 
-.MovieBorder:hover {
-    border: 1px solid #e9c46a !important;
-} */
+.servicesBox {
+    background-color: #445566;
+    display: flex;
+    padding: 22px;
+    border-radius: 3px;
+}
+
+.servicesBox:hover {
+    background-color: #fd9131;
+}
+
+.ServiceIcon {
+    color: #e6f5f4b3;
+    font-size: 40px !important;
+    margin-right: 15px;
+}
+
+
+
+.servicesBox:hover .ServiceIcon {
+    color: #e6f5f4;
+}

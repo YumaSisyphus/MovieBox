@@ -7,8 +7,7 @@ function App() {
   return (
     <div className="App">
       <ThemeProvider theme={theme}>
-        {/* <WelcomeScreen/> */}
-        <Header />
+        <WelcomeScreen />
       </ThemeProvider>
     </div>
   );

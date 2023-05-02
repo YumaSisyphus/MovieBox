@@ -8,17 +8,23 @@ import JohnWick from "../../../assets/JohnWick.jpg"
 import TheBatman from "../../../assets/TheBatman.jpg"
 import DecisionToLeave from "../../../assets/DecisionToLeave.jpg"
 import Everything from "../../../assets/everything.jpg"
-import Seven from "../../../assets/Seven.jpg"
-import Header from "../../header/Header";
+import GrandBudapest from "../../../assets/GrandBudapest.jpg"
+import Footer from "../../footer/Footer";
+import BookOnlineIcon from '@mui/icons-material/BookOnline';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import RateReviewIcon from '@mui/icons-material/RateReview';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import TheaterComedyIcon from '@mui/icons-material/TheaterComedy';
+import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
+import Babylon from '../../../assets/Babylon.jpg'
 
 const WelcomeScreen = () => {
     return (
-        <div style={{ width: "100%", height: "100vh", backgroundColor: "#09090e" }}>
+        <div style={{ width: "100%", height: "100vh", backgroundColor: "#0c0c0f" }}>
             <ThemeProvider theme={theme}>
                 <Container
                     maxWidth="lg"
                 >
-                    <Header />
                     <div className={styles.BackgroundImage}>
                         <Container
                             maxWidth="lg"
@@ -159,96 +165,229 @@ const WelcomeScreen = () => {
 
                     </Box>
 
-
-
-
-
                 </Container>
 
                 <Box
-                    mt={8}
-                    bgcolor="#09090e">
+                    mt={4}
+                    sx={{ paddingTop: "5px" }}
+                    bgcolor="#0c0c0f">
                     <Container
                         maxWidth="md">
-
-
                         <Grid
                             container
                             mt={8}
                             display="flex"
                             justifyContent="space-between">
-
-                            <Box
-                                width={150}
-                                height={200}
-                                className={styles.MovieBorder}
-                                sx={{
-                                    backgroundImage: `url(${JohnWick})`,
-                                    backgroundSize: "cover",
-                                    backgroundRepeat: "no-repeat",
-                                    backgroundPosition: "center"
-                                }}
-                                borderRadius="5px">
-                            </Box>
-                            <Box
-                                width={150}
-                                height={200}
-                                sx={{
-                                    backgroundImage: `url(${TheBatman})`,
-                                    backgroundSize: "cover",
-                                    backgroundRepeat: "no-repeat",
-                                    backgroundPosition: "center"
-                                }}
-                                borderRadius="5px">
-                            </Box>
-                            <Box
-                                width={150}
-                                height={200}
-                                sx={{
-                                    backgroundImage: `url(${DecisionToLeave})`,
-                                    backgroundSize: "cover",
-                                    backgroundRepeat: "no-repeat",
-                                    backgroundPosition: "center"
-                                }}
-                                borderRadius="5px">
-                            </Box>
-                            <Box
-                                width={150}
-                                height={200}
-                                sx={{
-                                    backgroundImage: `url(${Everything})`,
-                                    backgroundSize: "cover",
-                                    backgroundRepeat: "no-repeat",
-                                    backgroundPosition: "center"
-                                }}
-                                borderRadius="5px">
-                            </Box>
-                            <Box
-                                width={150}
-                                height={200}
-                                sx={{
-                                    backgroundImage: `url(${Seven})`,
-                                    backgroundSize: "cover",
-                                    backgroundRepeat: "no-repeat",
-                                    backgroundPosition: "right"
-                                }}
-                                borderRadius="5px">
-                            </Box>
+                            <Link
+                                href="/"
+                                underline="none">
+                                <Box
+                                    width={150}
+                                    height={200}
+                                    className={styles.MovieBorder}
+                                    sx={{
+                                        backgroundImage: `url(${JohnWick})`,
+                                        backgroundSize: "cover",
+                                        backgroundRepeat: "no-repeat",
+                                        backgroundPosition: "center"
+                                    }}
+                                    borderRadius="5px">
+                                </Box>
+                            </Link>
+                            <Link
+                                href="/"
+                                underline="none">
+                                <Box
+                                    width={150}
+                                    height={200}
+                                    className={styles.MovieBorder}
+                                    sx={{
+                                        backgroundImage: `url(${TheBatman})`,
+                                        backgroundSize: "cover",
+                                        backgroundRepeat: "no-repeat",
+                                        backgroundPosition: "center"
+                                    }}
+                                    borderRadius="5px">
+                                </Box>
+                            </Link>
+                            <Link
+                                href="/"
+                                underline="none">
+                                <Box
+                                    width={150}
+                                    height={200}
+                                    className={styles.MovieBorder}
+                                    sx={{
+                                        backgroundImage: `url(${Babylon})`,
+                                        backgroundSize: "cover",
+                                        backgroundRepeat: "no-repeat",
+                                        backgroundPosition: "center"
+                                    }}
+                                    borderRadius="5px">
+                                </Box>
+                            </Link>
+                            <Link
+                                href="/"
+                                underline="none">
+                                <Box
+                                    width={150}
+                                    height={200}
+                                    className={styles.MovieBorder}
+                                    sx={{
+                                        backgroundImage: `url(${Everything})`,
+                                        backgroundSize: "cover",
+                                        backgroundRepeat: "no-repeat",
+                                        backgroundPosition: "center"
+                                    }}
+                                    borderRadius="5px">
+                                </Box>
+                            </Link>
+                            <Link
+                                href="/"
+                                underline="none">
+                                <Box
+                                    width={150}
+                                    height={200}
+                                    className={styles.MovieBorder}
+                                    sx={{
+                                        backgroundImage: `url(${GrandBudapest})`,
+                                        backgroundSize: "cover",
+                                        backgroundRepeat: "no-repeat",
+                                        backgroundPosition: "right"
+                                    }}
+                                    borderRadius="5px">
+                                </Box>
+                            </Link>
 
                         </Grid>
-
                         <Box mt={8}>
                             <Typography
-                                color="#aaaaaa">
+                                color="#aaaaaa"
+                                letterSpacing="2px"
+                                variant="body2">
                                 MovieBox lets you...
                             </Typography>
                         </Box>
+                        <Grid container
+                            spacing={1}
+                            mb={10}
+                            sx={{ paddingTop: "5px" }}>
+                            <Grid item
+                                lg={4}
+                            >
+                                <Link href="/"
+                                    underline="none">
+                                    <Box
+                                        className={styles.servicesBox}
+                                    >
+                                        <Typography>
+                                            <BookOnlineIcon
+                                                className={styles.ServiceIcon}
+                                            />
+                                        </Typography>
+                                        <Typography
+                                            variant="body2"
+                                            color="#e6f5f4">
+                                            Book your Tickets online whenever you want for any movie you want</Typography>
+                                    </Box>
+                                </Link>
+                            </Grid>
+                            <Grid item
+                                lg={4}>
+                                <Link href="/"
+                                    underline="none">
+                                    <Box
+                                        className={styles.servicesBox}>
+                                        <Typography>
+                                            <VisibilityIcon
+                                                className={styles.ServiceIcon}
+                                            />
+                                        </Typography>
+                                        <Typography
+                                            variant="body2"
+                                            color="#e6f5f4">
+                                            Watched Movie online whenever you want for any movie you want</Typography>
+                                    </Box>
+                                </Link>
+                            </Grid>
+                            <Grid item
+                                lg={4}>
+                                <Link href="/"
+                                    underline="none">
+                                    <Box
+                                        className={styles.servicesBox}>
+                                        <Typography>
+                                            <RateReviewIcon
+                                                className={styles.ServiceIcon}
+                                            />
+                                        </Typography>
+                                        <Typography
+                                            variant="body2"
+                                            color="#e6f5f4">
+                                            Leave a Review whenever you want for any movie you want</Typography>
+                                    </Box>
+                                </Link>
+                            </Grid>
+                            <Grid item
+                                lg={4}>
+                                <Link href="/"
+                                    underline="none">
+                                    <Box
+                                        className={styles.servicesBox}>
+                                        <Typography>
+                                            <FavoriteIcon
+                                                className={styles.ServiceIcon}
+                                            />
+                                        </Typography>
+                                        <Typography
+                                            variant="body2"
+                                            color="#e6f5f4">
+                                            Favorite your movies whenever you want for any movie you want</Typography>
+                                    </Box>
+                                </Link>
+                            </Grid>
+                            <Grid item
+                                lg={4}>
+                                <Link href="/"
+                                    underline="none">
+                                    <Box
+                                        className={styles.servicesBox}>
+                                        <Typography>
+                                            <TheaterComedyIcon
+                                                className={styles.ServiceIcon}
+                                            />
+                                        </Typography>
+                                        <Typography
+                                            variant="body2"
+                                            color="#e6f5f4">
+                                            Theatres online whenever you want for any movie you want</Typography>
+                                    </Box>
+                                </Link>
+                            </Grid>
+                            <Grid item
+                                lg={4}>
+                                <Link href="/"
+                                    underline="none">
+                                    <Box
+                                        className={styles.servicesBox}>
+                                        <Typography>
+                                            <FormatListBulletedIcon
+                                                className={styles.ServiceIcon}
+                                            />
+                                        </Typography>
+                                        <Typography
+                                            variant="body2"
+                                            color="#e6f5f4">
+                                            List Favorite Movies whenever you want for any movie you want</Typography>
+                                    </Box>
+                                </Link>
+                            </Grid>
+                        </Grid>
+
 
                     </Container>
-
+                    <Footer />
                 </Box>
-
-
             </ThemeProvider>
         </div>
     );

@@ -1,4 +1,4 @@
-import { Container, Typography, ThemeProvider, Link, Box, Button, Grid } from "@mui/material";
+import { Container, Typography, Link } from "@mui/material";
 // import { theme } from "../../../utils/theme";
 import styles from "./style.module.css"
 import logo from "../../assets/logo2.png"

@@ -1,8 +1,15 @@
 import { ThemeProvider } from "@mui/material";
 import WelcomeScreen from "./components/templates/WelcomeScreen/WelcomeScreen";
-import { theme } from "./utils/theme";
+
 import Header from "./components/header/Header";
 import { useEffect, useState } from "react";
+import "./App.css";
+import React from "react";
+import Login from "./components/templates/login/LoginScreen";
+import Register from "./components/templates/register/RegisterScreen";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import theme from "./utils/Themes";
+
 
 function App() {
   const [backendData, setBackendData] = useState([{}])
@@ -20,15 +27,14 @@ function App() {
   return (
     <div className="App">
       <ThemeProvider theme={theme}>
-        <WelcomeScreen />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/Login" element={<Login />} />
+          <Route path="/Register" element={<Register />} />
+          <Route path="/WelcomeScreen" element={<WelcomeScreen />} />
+        </Routes>
+      </BrowserRouter>
       </ThemeProvider>
-      {/* {(typeof backendData.users === 'undefined') ? (
-        <p>Loading...</p>
-      ) : (
-        backendData.users.map((user, i) => (
-          <p key={i}>{user}</p>
-        ))
-      )} */}
     </div>
   );
 }

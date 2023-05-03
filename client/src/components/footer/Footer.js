@@ -4,7 +4,7 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import InstagramIcon from '@mui/icons-material/Instagram';
-import { theme } from "../../utils/theme";
+import  theme  from "../../utils/Themes";
 
 const Footer = () => {
     return (

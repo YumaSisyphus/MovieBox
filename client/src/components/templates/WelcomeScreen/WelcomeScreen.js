@@ -1,5 +1,4 @@
 import { Container, Typography, ThemeProvider, Link, Box, Button, Grid } from "@mui/material";
-import { theme } from "../../../utils/theme";
 import styles from "./style.module.css"
 import AdbIcon from '@mui/icons-material/Adb';
 import AppleIcon from '@mui/icons-material/Apple';
@@ -17,6 +16,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import TheaterComedyIcon from '@mui/icons-material/TheaterComedy';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import Babylon from '../../../assets/Babylon.jpg'
+import theme from "../../../utils/Themes";
 
 const WelcomeScreen = () => {
     return (

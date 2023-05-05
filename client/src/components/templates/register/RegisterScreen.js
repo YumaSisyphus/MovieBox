@@ -9,8 +9,9 @@ import {
   IconButton,
   Typography,
   useMediaQuery,
-  Box,
 } from "@mui/material";
+import Footer from "../../footer/Footer";
+import Header from "../../header/Header"
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
@@ -103,6 +104,7 @@ const Register = () => {
       }}
     >
       <ThemeProvider theme={theme}>
+        <Header/>
         <Container
           sx={{
             border: "2px solid black",
@@ -342,74 +344,9 @@ const Register = () => {
                 </Link>
               </BoxStyle>
             </Grid>
-            {/* <Grid
-              item
-              height={"100%"}
-              mt={"12%"}
-              md={8}
-              xs={0}
-              sx={{
-                border: "2px solid green",
-                display: "flex",
-                flexDirection: "row",
-                alignContent: "center",
-              }}
-            >
-              {isMatch ? (
-                <></>
-              ) : (
-                <BoxStyle>
-                  Lorem ipsum dolor sit am Lorem ipsum dolor sit am Lorem ipsum
-                  dolor sit am Lorem ipsum dolor sit am Lorem ipsum dolor sit am
-                  Lorem ipsum dolor sit am Lorem ipsum dolor sit am Lorem ipsum
-                  dolor sit am Lorem ipsum dolor sit am Lorem ipsum dolor sit am
-                  v Lorem ipsum dolor sit am Lorem ipsum dolor sit am Lorem
-                  ipsum dolor sit am
-                </BoxStyle>
-              )}
-            </Grid> */}
-          </Grid>
-          <Grid
-            item
-            height={"100%"}
-            mt={"12%"}
-            sx={{
-              border: "2px solid green",
-              display: "flex",
-              flexDirection: "row",
-              alignContent: "center",
-              justifyContent: "center",
-            }}
-          >
-            {isMatch ? (
-              <></>
-            ) : (
-              <BoxStyle>
-                Foote Footer Footer Footer Footer Footer Footer Footer Footer
-                Footer Footer Footer Footer Footer Footer Footer Footer Footer
-                Footer Footer Footer Footer Footer Footer Footer Footer Footer
-                Footer Footer Footer Footer Footer Footer Footer Footer Footer
-                Footer Footer Footer Footer Footer Footer Footer Footer Footer
-                Footer Footer Footer Footer Footer Footer Footer Footer Footer
-                Footer Footer Footer Footer Footer Footer Footer Footer Footer
-                Footer Footer Footer Footer Footer Footer Footer Footer Footer
-                Footer Footer Footer Footer Footer Footer Footer Footer Footer
-                Footer Footer Footer Footer Footer Footer Footer Footer Footer
-                Footer Footer Footer Footer Footer Footer Footer Footer Footer
-                Footer Footer Footer Footer Footer Footer Footer Footer Footer
-                Footer Footer Footer Footer Footer Footer Footer Footer Footer
-                Footer Footer Footer Footer Footer Footer Footer Footer Footer
-                Footer Footer Footer Footer Footer Footer Footer Footer Footer
-                Footer Footer Footer Footer Footer Footer Footer Footer Footer
-                Footer Footer Footer Footer Footer Footer Footer Footer Footer
-                Footer Footer Footer Footer Footer Footer Footer Footer Footer
-                Footer Footer Footer Footer Footer Footer Footer Footer Footer
-                Footer Footer Footer Footer Footer Footer Footer Footer Footer
-                Footer Footer Footer Footer Footer Footer Footer Footer Footer
-              </BoxStyle>
-            )}
           </Grid>
         </Container>
+        {isMatch ? <></> : <Footer/>}
       </ThemeProvider>
     </div>
   );

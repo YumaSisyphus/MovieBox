@@ -14,6 +14,7 @@ export const BoxStyle = styled(Box)(() => ({
   width: "90%",
   alignItems: "center",
   alignSelf: "center",
+  marginBottom:"10%",
   [theme.breakpoints.down("md")]: {
     marginTop: "45%",
   },

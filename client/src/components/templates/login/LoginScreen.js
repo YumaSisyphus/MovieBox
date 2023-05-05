@@ -10,6 +10,8 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
+import Footer from "../../footer/Footer";
+import Header from "../../header/Header";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
@@ -52,6 +54,7 @@ const Login = () => {
       }}
     >
       <ThemeProvider theme={theme}>
+        <Header />
         <Container
           sx={{
             border: "2px solid black",
@@ -80,7 +83,7 @@ const Login = () => {
                 width: "100%",
               }}
             >
-              <BoxStyle sx={{boxShadow: "0px 0px 15px rgba(0, 0, 0, 1)"}}>
+              <BoxStyle sx={{ boxShadow: "0px 0px 15px rgba(0, 0, 0, 1)" }}>
                 <TypographyStyle variant="h4">Sign in</TypographyStyle>
                 <TextField
                   sx={{ width: "80%" }}
@@ -196,47 +199,8 @@ const Login = () => {
               )}
             </Grid> */}
           </Grid>
-          <Grid
-            item
-            height={"100%"}
-            mt={"12%"}
-            sx={{
-              border: "2px solid green",
-              display: "flex",
-              flexDirection: "row",
-              alignContent: "center",
-              justifyContent: "center",
-            }}
-          >
-            {isMatch ? (
-              <></>
-            ) : (
-              <BoxStyle>
-                Footer Footer Footer Footer Footer Footer Footer Footer Footer
-                Footer Footer Footer Footer Footer Footer Footer Footer Footer
-                Footer Footer Footer Footer Footer Footer Footer Footer Footer
-                Footer Footer Footer Footer Footer Footer Footer Footer Footer
-                Footer Footer Footer Footer Footer Footer Footer Footer Footer
-                Footer Footer Footer Footer Footer Footer Footer Footer Footer
-                Footer Footer Footer Footer Footer Footer Footer Footer Footer
-                Footer Footer Footer Footer Footer Footer Footer Footer Footer
-                Footer Footer Footer Footer Footer Footer Footer Footer Footer
-                Footer Footer Footer Footer Footer Footer Footer Footer Footer
-                Footer Footer Footer Footer Footer Footer Footer Footer Footer
-                Footer Footer Footer Footer Footer Footer Footer Footer Footer
-                Footer Footer Footer Footer Footer Footer Footer Footer Footer
-                Footer Footer Footer Footer Footer Footer Footer Footer Footer
-                Footer Footer Footer Footer Footer Footer Footer Footer Footer
-                Footer Footer Footer Footer Footer Footer Footer Footer Footer
-                Footer Footer Footer Footer Footer Footer Footer Footer Footer
-                Footer Footer Footer Footer Footer Footer Footer Footer Footer
-                Footer Footer Footer Footer Footer Footer Footer Footer Footer
-                Footer Footer Footer Footer Footer Footer Footer Footer Footer
-                Footer Footer Footer Footer Footer Footer Footer Footer Footer
-              </BoxStyle>
-            )}
-          </Grid>
         </Container>
+        <Footer />
       </ThemeProvider>
     </div>
   );

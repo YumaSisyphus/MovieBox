@@ -1,8 +1,12 @@
-import { ThemeProvider } from "@mui/material";
+import { Switch, ThemeProvider } from "@mui/material";
+import { BrowserRouter, Route, Routes } from "react-router-dom"
+
 import WelcomeScreen from "./components/templates/WelcomeScreen/WelcomeScreen";
 import { theme } from "./utils/theme";
 import Header from "./components/header/Header";
 import { useEffect, useState } from "react";
+import Dashboard from "./components/templates/dashboard/Dashboard";
+import AddEdit from "./components/templates/Edit/AddEdit"
 
 function App() {
   const [backendData, setBackendData] = useState([{}])
@@ -18,18 +22,18 @@ function App() {
   }, [])
 
   return (
-    <div className="App">
-      <ThemeProvider theme={theme}>
-        <WelcomeScreen />
-      </ThemeProvider>
-      {/* {(typeof backendData.users === 'undefined') ? (
-        <p>Loading...</p>
-      ) : (
-        backendData.users.map((user, i) => (
-          <p key={i}>{user}</p>
-        ))
-      )} */}
-    </div>
+    <BrowserRouter>
+      <div className="App">
+        <ThemeProvider theme={theme}>
+          <Routes>
+            <Route exact path="/" Component={Dashboard} />
+            <Route path="/addEdit" Component={AddEdit} />
+            <Route path="/update/:id" Component={AddEdit} />
+          </Routes>
+
+        </ThemeProvider>
+      </div>
+    </BrowserRouter>
   );
 }
 

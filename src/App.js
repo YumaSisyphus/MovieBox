@@ -1,13 +1,14 @@
-import { ThemeProvider } from "@mui/material";
-import WelcomeScreen from "./components/templates/WelcomeScreen";
-import { theme } from "./utils/theme";
+import React from "react";
+import Navbar from "./components/navbar/Navbar";
+import ProfileContainer from "./profilecontainer/ProfileContainer";
+import Footer from "./footer/Footer";
 
 function App() {
   return (
-    <div className="App">
-    <ThemeProvider theme={theme}>
-      <WelcomeScreen/>
-    </ThemeProvider>
+    <div>
+      <Navbar />
+      <ProfileContainer />
+      <Footer />
     </div>
   );
 }

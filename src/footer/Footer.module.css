@@ -1,0 +1,32 @@
+.footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f5f5f5;
+    padding: 20px;
+  }
+  
+  .footerLinks {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+  }
+  
+  .footerLinks li {
+    margin: 0 10px;
+  }
+  
+  .footerLinks a {
+    text-decoration: none;
+    color: #333;
+    font-size: 14px;
+  }
+  
+  .footerLinks a:hover {
+    color: #777;
+  }
+  
+  .footerText {
+    font-size: 12px;
+    color: #888;
+  }  

@@ -385,7 +385,7 @@ const Register = () => {
               <></>
             ) : (
               <BoxStyle>
-                Footer Footer Footer Footer Footer Footer Footer Footer Footer
+                Foote Footer Footer Footer Footer Footer Footer Footer Footer
                 Footer Footer Footer Footer Footer Footer Footer Footer Footer
                 Footer Footer Footer Footer Footer Footer Footer Footer Footer
                 Footer Footer Footer Footer Footer Footer Footer Footer Footer

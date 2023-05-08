@@ -11,7 +11,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import Footer from "../../footer/Footer";
-import Header from "../../header/Header"
+import Header from "../../header/Header";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
@@ -104,10 +104,10 @@ const Register = () => {
       }}
     >
       <ThemeProvider theme={theme}>
-        <Header/>
+        <Header />
         <Container
           sx={{
-            border: "2px solid black",
+            // border: "2px solid black",
             height: "auto",
           }}
         >
@@ -115,7 +115,7 @@ const Register = () => {
             container
             spacing={12}
             sx={{
-              border: "2px solid blue",
+              // border: "2px solid blue",
               justifyContent: "center",
               width: "100%",
               height: "100",
@@ -277,7 +277,7 @@ const Register = () => {
                   }}
                   onSubmit={handleSubmit}
                 >
-                  <Typography>
+                  <Typography marginTop="3%" marginBottom="3%" style={{color:"white"}} >
                     Enter your birthday. You must be at last 16 years old!
                   </Typography>
                   <LocalizationProvider
@@ -346,7 +346,7 @@ const Register = () => {
             </Grid>
           </Grid>
         </Container>
-        {isMatch ? <></> : <Footer/>}
+        {isMatch ? <></> : <Footer />}
       </ThemeProvider>
     </div>
   );

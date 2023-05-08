@@ -57,14 +57,14 @@ const Login = () => {
         <Header />
         <Container
           sx={{
-            border: "2px solid black",
+            // border: "2px solid black",
           }}
         >
           <Grid
             container
             spacing={12}
             sx={{
-              border: "2px solid blue",
+              // border: "2px solid blue",
               justifyContent: "center",
               width: "100%",
               height: "100",

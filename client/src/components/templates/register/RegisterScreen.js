@@ -9,6 +9,7 @@ import {
   IconButton,
   Typography,
   useMediaQuery,
+  FormControlLabel,
 } from "@mui/material";
 import Footer from "../../footer/Footer";
 import Header from "../../header/Header";
@@ -63,13 +64,13 @@ const Register = () => {
   };
 
   const [state, setState] = useState(initalState);
-  const { username, email, password, birthday } = state;
+  const { username, email, password, birthday} = state;
   const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!username || !email || !password || !birthday) {
+    if (!username || !email || !password) {
       toast.error("please fill all the fields");
-    } else {
+    }  else {
       axios
         .post("http://localhost:5000/api/post", {
           username,
@@ -78,7 +79,12 @@ const Register = () => {
           birthday,
         })
         .then(() => {
-          setState({ username: "", email: "", password: "", birthday: "" });
+          setState({
+            username: "",
+            email: "",
+            password: "",
+            birthday: "",
+          });
         })
         .catch((err) => toast.error(err.response.data));
 
@@ -277,8 +283,27 @@ const Register = () => {
                   }}
                   onSubmit={handleSubmit}
                 >
-                  <Typography marginTop="3%" marginBottom="3%" style={{color:"white"}} >
-                    Enter your birthday. You must be at last 16 years old!
+                  <Typography
+                    marginTop="3%"
+                    marginBottom="3%"
+                    style={{ color: "white" }}
+                  >
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          name="ageReq"
+                          id="ageReq"
+                          sx={{
+                            color: theme.palette.light.main,
+                            "&.Mui-checked": {
+                              color: theme.palette.light.main,
+                            },
+                          }}
+                          disableRipple
+                        />
+                      }
+                      label="Enter your birthday. You must be at least 16 years old!"
+                    />
                   </Typography>
                   <LocalizationProvider
                     sx={{ borderColor: "#fff" }}

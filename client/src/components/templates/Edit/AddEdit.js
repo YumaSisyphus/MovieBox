@@ -105,7 +105,7 @@ export default function AddEdit() {
                     onChange={handleInputChange}
                 />
                 <input type='submit' value={id ? "Update" : "Save"} />
-                <Link to="/">
+                <Link to="/Dashboard">
                     <input type='button' value="Go Back" />
                 </Link>
             </form>

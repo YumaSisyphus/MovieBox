@@ -1,12 +1,12 @@
-import { Container, Typography, ThemeProvider, Link, Box, Button, Grid } from "@mui/material";
-import { theme } from "../../../utils/theme";
+import { Container, Typography, ThemeProvider, Box, Button, Grid } from "@mui/material";
+import { Link } from "react-router-dom";
 import styles from "./style.module.css"
 import AdbIcon from '@mui/icons-material/Adb';
 import AppleIcon from '@mui/icons-material/Apple';
 import logo from "../../../assets/logo2.png"
 import JohnWick from "../../../assets/JohnWick.jpg"
 import TheBatman from "../../../assets/TheBatman.jpg"
-import DecisionToLeave from "../../../assets/DecisionToLeave.jpg"
+// import DecisionToLeave from "../../../assets/DecisionToLeave.jpg"
 import Everything from "../../../assets/everything.jpg"
 import GrandBudapest from "../../../assets/GrandBudapest.jpg"
 import Footer from "../../footer/Footer";
@@ -17,6 +17,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import TheaterComedyIcon from '@mui/icons-material/TheaterComedy';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import Babylon from '../../../assets/Babylon.jpg'
+import theme, { Colors } from "../../../utils/Theme";
 
 const WelcomeScreen = () => {
     return (
@@ -57,8 +58,7 @@ const WelcomeScreen = () => {
                                 <div style={{ display: "flex", alignItems: "center", width: "50%", justifyContent: "space-evenly", paddingRight: "15%" }}>
                                     <li>
                                         <Link
-                                            underline="none"
-                                            href="/"
+                                            to={"/Register"}
                                         >
                                             <Typography
                                                 variant="body1"

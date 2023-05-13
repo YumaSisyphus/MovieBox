@@ -1,13 +1,14 @@
-import { Container, Typography, Link } from "@mui/material";
+import { Container, Typography } from "@mui/material";
 // import { theme } from "../../../utils/theme";
 import styles from "./style.module.css"
 import logo from "../../assets/logo2.png"
 // import ReactSearchBox from "react-search-box";
 import SearchIcon from '@mui/icons-material/Search';
+import { Link } from "react-router-dom";
 
 const Header = () => {
     return (
-        <div style={{ backgroundColor: "#0d2129" }}>
+        <div style={{ backgroundColor: "#212730" }}>
             <Container
                 maxWidth="lg"
             >
@@ -15,16 +16,14 @@ const Header = () => {
                     <div style={{ display: "flex", alignItems: "center" }}>
                         <li>
                             <Link
-                                underline="none"
-                                href="/"
+                                to={1}
                             >
                                 <img width={60} height={60} src={logo} alt="logo" />
                             </Link>
                         </li>
                         <li>
                             <Link
-                                underline="none"
-                                href="/"
+                                to={"/"}
                             >
                                 <Typography
                                     variant="h4"
@@ -39,8 +38,7 @@ const Header = () => {
                     <div style={{ display: "flex", alignItems: "center", width: "50%", justifyContent: "space-evenly", paddingRight: "15%" }}>
                         <li>
                             <Link
-                                underline="none"
-                                href="/"
+                                to={"/Profile"}
                             >
                                 <Typography
                                     variant="body1"
@@ -51,9 +49,7 @@ const Header = () => {
                             </Link>
                         </li>
                         <li>
-                            <Link
-                                underline="none"
-                                href="/">
+                            <Link to={"/MoviePage"}>
                                 <Typography
                                     variant="body1"
                                     className={styles.NavbarText}
@@ -64,8 +60,7 @@ const Header = () => {
                         </li>
                         <li>
                             <Link
-                                underline="none"
-                                href="/">
+                                to={"/MovieList"}>
                                 <Typography
                                     variant="body1"
                                     className={styles.NavbarText}

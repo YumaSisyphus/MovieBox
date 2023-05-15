@@ -8,6 +8,7 @@ const MoviePage = () => {
     return (
 
         <div className={styles.movie_page}>
+            <Header />
             <div className={styles.movie}>
                 <div className={styles.movie_background}> </div>
                 <div className={styles.container}>

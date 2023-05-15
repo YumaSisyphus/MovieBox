@@ -1,52 +1,46 @@
 .profileContainer {
     display: flex;
     flex-direction: column;
-    align-items: center;
     background-color: #f8f8f8;
     border-radius: 10px;
     padding: 40px;
-    margin: 40px auto;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
 }
 
 .profilePicture {
     border-radius: 50%;
-    width: 150px;
-    height: 150px;
+    width: 100px;
+    height: 100px;
     object-fit: cover;
+    margin-right: 2%;
 }
 
 .profileInfo {
     display: flex;
     flex-direction: column;
-    align-items: center;
 }
 
 .username {
-    font-size: 32px;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 20px;
+    font-size: 20px !important;
+    font-weight: bold !important;
+    color: #ebebeb;
 }
 
 .editButton {
-    background-color: #1da1f2;
-    color: #fff;
-    border: none;
-    border-radius: 20px;
-    font-size: 16px;
-    padding: 10px 20px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    background-color: #2A9D8F !important;
+    color: #fff !important;
+    border-radius: 5px;
+    font-size: 12px !important;
+    padding: 5px 10px !important;
+    transition: background-color 0.3s ease !important;
 }
 
 .editButton:hover {
-    background-color: #0c7bbf;
+    background-color: #0c7bbf !important;
 }
 
 .bio {
     font-size: 20px;
-    color: #666;
+    color: #b6b6b6;
     margin-bottom: 40px;
 }
 
@@ -62,7 +56,7 @@
 
 .statsTitle {
     font-size: 20px;
-    color: #333;
+    color: #b6b6b6;
     font-weight: bold;
     margin-bottom: 5px;
     font-family: "DM Sans", sans-serif;

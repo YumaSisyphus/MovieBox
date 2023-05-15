@@ -16,13 +16,15 @@ const Header = () => {
                     <div style={{ display: "flex", alignItems: "center" }}>
                         <li>
                             <Link
-                                to={1}
+                                className={styles.Links}
+                                to={"/"}
                             >
                                 <img width={60} height={60} src={logo} alt="logo" />
                             </Link>
                         </li>
                         <li>
                             <Link
+                                className={styles.Links}
                                 to={"/"}
                             >
                                 <Typography
@@ -38,6 +40,7 @@ const Header = () => {
                     <div style={{ display: "flex", alignItems: "center", width: "50%", justifyContent: "space-evenly", paddingRight: "15%" }}>
                         <li>
                             <Link
+                                className={styles.Links}
                                 to={"/Profile"}
                             >
                                 <Typography
@@ -49,7 +52,8 @@ const Header = () => {
                             </Link>
                         </li>
                         <li>
-                            <Link to={"/MoviePage"}>
+                            <Link
+                                className={styles.Links} to={"/MoviePage"}>
                                 <Typography
                                     variant="body1"
                                     className={styles.NavbarText}
@@ -60,6 +64,7 @@ const Header = () => {
                         </li>
                         <li>
                             <Link
+                                className={styles.Links}
                                 to={"/MovieList"}>
                                 <Typography
                                     variant="body1"
@@ -71,6 +76,7 @@ const Header = () => {
                         </li>
                         <li>
                             <Link
+                                className={styles.Links}
                                 underline="none"
                                 href="/">
                                 <Typography
@@ -83,6 +89,7 @@ const Header = () => {
                         </li>
                         <li>
                             <Link
+                                className={styles.Links}
                                 underline="none"
                                 href="/">
                                 <Typography

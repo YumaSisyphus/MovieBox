@@ -1,10 +1,12 @@
-import { Container, Typography, ThemeProvider, Link, Box, Button, Grid } from "@mui/material";
+import { Container, Typography, ThemeProvider, Box, Button, Grid } from "@mui/material";
+import { Link } from "react-router-dom";
 import styles from "./style.module.css"
 import AdbIcon from '@mui/icons-material/Adb';
 import AppleIcon from '@mui/icons-material/Apple';
 import logo from "../../../assets/logo2.png"
 import JohnWick from "../../../assets/JohnWick.jpg"
 import TheBatman from "../../../assets/TheBatman.jpg"
+// import DecisionToLeave from "../../../assets/DecisionToLeave.jpg"
 import Everything from "../../../assets/everything.jpg"
 import GrandBudapest from "../../../assets/GrandBudapest.jpg"
 import Footer from "../../footer/Footer";
@@ -15,9 +17,19 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import TheaterComedyIcon from '@mui/icons-material/TheaterComedy';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import Babylon from '../../../assets/Babylon.jpg'
+import { useEffect, useState } from "react";
 import theme from "../../../utils/Themes";
 
 const WelcomeScreen = () => {
+
+    const [backendData, setBackendData] = useState([{}])
+
+    useEffect(() => {
+        fetch("/api").then(
+            response => response.json()
+        ).then(data => setBackendData(data))
+    }, [])
+
     return (
         <div style={{ width: "100%", height: "100vh", backgroundColor: "#0c0c0f" }}>
             <ThemeProvider theme={theme}>
@@ -32,7 +44,10 @@ const WelcomeScreen = () => {
                                 <div style={{ display: "flex", alignItems: "center" }}>
                                     <li>
                                         <Link
-                                            underline="none"
+                                            to={"/"}
+                                            className={styles.Links}
+
+
                                             href="/"
                                         >
                                             <img width={60} height={60} src={logo} alt="logo" />
@@ -40,8 +55,8 @@ const WelcomeScreen = () => {
                                     </li>
                                     <li>
                                         <Link
-                                            underline="none"
-                                            href="/"
+                                            to={"/"}
+                                            className={styles.Links}
                                         >
                                             <Typography
                                                 variant="h4"
@@ -56,8 +71,8 @@ const WelcomeScreen = () => {
                                 <div style={{ display: "flex", alignItems: "center", width: "50%", justifyContent: "space-evenly", paddingRight: "15%" }}>
                                     <li>
                                         <Link
-                                            underline="none"
-                                            href="/"
+                                            className={styles.Links}
+                                            to={"/Login"}
                                         >
                                             <Typography
                                                 variant="body1"
@@ -69,8 +84,8 @@ const WelcomeScreen = () => {
                                     </li>
                                     <li>
                                         <Link
-                                            underline="none"
-                                            href="/">
+                                            to={"/Register"}
+                                            className={styles.Links}>
                                             <Typography
                                                 variant="body1"
                                                 className={styles.NavbarText}
@@ -81,8 +96,8 @@ const WelcomeScreen = () => {
                                     </li>
                                     <li>
                                         <Link
-                                            underline="none"
-                                            href="/">
+                                            to={"/MoviePage"}
+                                            className={styles.Links}>
                                             <Typography
                                                 variant="body1"
                                                 className={styles.NavbarText}
@@ -93,8 +108,8 @@ const WelcomeScreen = () => {
                                     </li>
                                     <li>
                                         <Link
-                                            underline="none"
-                                            href="/">
+                                            to={"/MovieList"}
+                                            className={styles.Links}>
                                             <Typography
                                                 variant="body1"
                                                 className={styles.NavbarText}
@@ -105,8 +120,9 @@ const WelcomeScreen = () => {
                                     </li>
                                     <li>
                                         <Link
-                                            underline="none"
-                                            href="/">
+                                            to={"/"}
+                                            className={styles.Links}
+                                        >
                                             <Typography
                                                 variant="body1"
                                                 className={styles.NavbarText}
@@ -117,8 +133,9 @@ const WelcomeScreen = () => {
                                     </li>
                                     <li>
                                         <Link
-                                            underline="none"
-                                            href="/">
+                                            to={"/"}
+                                            className={styles.Links}
+                                        >
                                             <Typography
                                                 variant="body1"
                                                 className={styles.NavbarText}
@@ -133,6 +150,9 @@ const WelcomeScreen = () => {
                     </div>
                     <Box
                         className={styles.Description}>
+                        {/* {backendData.users.map((user, i) => (
+                            <p key={i}>{user}</p>
+                        ))} */}
                         <Typography
                             className={styles.DescriptionText}
                         >
@@ -178,8 +198,9 @@ const WelcomeScreen = () => {
                             display="flex"
                             justifyContent="space-between">
                             <Link
-                                href="/"
-                                underline="none">
+                                to={"/"}
+                                className={styles.Links}
+                            >
                                 <Box
                                     width={150}
                                     height={200}
@@ -194,8 +215,9 @@ const WelcomeScreen = () => {
                                 </Box>
                             </Link>
                             <Link
-                                href="/"
-                                underline="none">
+                                to={"/"}
+                                className={styles.Links}
+                            >
                                 <Box
                                     width={150}
                                     height={200}
@@ -210,8 +232,9 @@ const WelcomeScreen = () => {
                                 </Box>
                             </Link>
                             <Link
-                                href="/"
-                                underline="none">
+                                to={"/"}
+                                className={styles.Links}
+                            >
                                 <Box
                                     width={150}
                                     height={200}
@@ -226,8 +249,9 @@ const WelcomeScreen = () => {
                                 </Box>
                             </Link>
                             <Link
-                                href="/"
-                                underline="none">
+                                to={"/"}
+                                className={styles.Links}
+                            >
                                 <Box
                                     width={150}
                                     height={200}
@@ -242,8 +266,9 @@ const WelcomeScreen = () => {
                                 </Box>
                             </Link>
                             <Link
-                                href="/"
-                                underline="none">
+                                to={"/"}
+                                className={styles.Links}
+                            >
                                 <Box
                                     width={150}
                                     height={200}
@@ -274,8 +299,11 @@ const WelcomeScreen = () => {
                             <Grid item
                                 lg={4}
                             >
-                                <Link href="/"
-                                    underline="none">
+                                <Link
+                                    to={"/"}
+                                    className={styles.Links}
+                                    href="/"
+                                >
                                     <Box
                                         className={styles.servicesBox}
                                     >
@@ -293,8 +321,11 @@ const WelcomeScreen = () => {
                             </Grid>
                             <Grid item
                                 lg={4}>
-                                <Link href="/"
-                                    underline="none">
+                                <Link
+                                    to={"/"}
+                                    className={styles.Links}
+                                    href="/"
+                                >
                                     <Box
                                         className={styles.servicesBox}>
                                         <Typography>
@@ -311,8 +342,10 @@ const WelcomeScreen = () => {
                             </Grid>
                             <Grid item
                                 lg={4}>
-                                <Link href="/"
-                                    underline="none">
+                                <Link
+                                    to={"/"}
+                                    className={styles.Links}
+                                >
                                     <Box
                                         className={styles.servicesBox}>
                                         <Typography>
@@ -329,8 +362,10 @@ const WelcomeScreen = () => {
                             </Grid>
                             <Grid item
                                 lg={4}>
-                                <Link href="/"
-                                    underline="none">
+                                <Link
+                                    to={"/"}
+                                    className={styles.Links}
+                                >
                                     <Box
                                         className={styles.servicesBox}>
                                         <Typography>
@@ -347,8 +382,10 @@ const WelcomeScreen = () => {
                             </Grid>
                             <Grid item
                                 lg={4}>
-                                <Link href="/"
-                                    underline="none">
+                                <Link
+                                    to={"/"}
+                                    className={styles.Links}
+                                >
                                     <Box
                                         className={styles.servicesBox}>
                                         <Typography>
@@ -365,8 +402,10 @@ const WelcomeScreen = () => {
                             </Grid>
                             <Grid item
                                 lg={4}>
-                                <Link href="/"
-                                    underline="none">
+                                <Link
+                                    to={"/"}
+                                    className={styles.Links}
+                                >
                                     <Box
                                         className={styles.servicesBox}>
                                         <Typography>

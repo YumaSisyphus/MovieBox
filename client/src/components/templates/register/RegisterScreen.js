@@ -17,8 +17,8 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { format } from "date-fns";
-import { Link as RouterLink, useNavigate, useParams } from "react-router-dom";
-import React, { useState, useEffect } from "react";
+import { Link as RouterLink, useNavigate} from "react-router-dom";
+import React, { useState} from "react";
 import { ThemeProvider } from "@mui/material/styles";
 import {
   BoxStyle,
@@ -28,11 +28,11 @@ import {
 import theme, { Colors } from "../../../utils/Themes";
 import { toast } from "react-toastify";
 import axios from "axios";
-const currentDate = new Date();
+const curentDate = new Date();
 const minDate = new Date(
-  currentDate.getFullYear() - 16,
-  currentDate.getMonth(),
-  currentDate.getDate()
+  curentDate.getFullYear() - 16,
+  curentDate.getMonth(),
+  curentDate.getDate()
 );
 const initalState = {
   username: "",
@@ -70,9 +70,21 @@ const Register = () => {
     e.preventDefault();
     if (!username || !email || !password) {
       toast.error("please fill all the fields");
-    }  else {
+    }
+    if(password.length < 8){
+      toast.error("password should be at least 8 characters long");
+    } if (password.length < 8) {
+      toast.error("Password should be at least 8 characters long");
+    } else if (!/[A-Z]/.test(password)) {
+      toast.error("Password should contain at least one uppercase letter");
+    } else if (!/[a-z]/.test(password)) {
+      toast.error("Password should contain at least one lowercase letter");
+    } else if (!/[0123456789]/.test(password)) {
+      toast.error("Password should contain at least one special character (!@#$%^&*)");
+    } 
+     else {
       axios
-        .post("http://localhost:5000/api/post", {
+        .post("http://localhost:5000/api/register", {
           username,
           email,
           password,
@@ -105,7 +117,7 @@ const Register = () => {
   return (
     <div
       style={{
-        backgroundImage: "linear-gradient(to bottom, #111111, #444444)",
+        backgroundImage: "linear-gradient(to top, #303036, #16161c)",
         height: "100%",
       }}
     >
@@ -168,13 +180,6 @@ const Register = () => {
                     }}
                     onChange={handleInput}
                   />
-                </form>
-                <form
-                  style={{
-                    width: "100%",
-                  }}
-                  onSubmit={handleSubmit}
-                >
                   <TextField
                     id="email"
                     name="email"
@@ -195,13 +200,7 @@ const Register = () => {
                     }}
                     onChange={handleInput}
                   />
-                </form>
-                <form
-                  style={{
-                    width: "100%",
-                  }}
-                  onSubmit={handleSubmit}
-                >
+                
                   <TextField
                     id="password"
                     name="password"
@@ -237,13 +236,7 @@ const Register = () => {
                     }}
                     onChange={handleInput}
                   />
-                </form>
-                <form
-                  style={{
-                    width: "100%",
-                  }}
-                  onSubmit={handleSubmit}
-                >
+               
                   <TextField
                     sx={{ width: "80%" }}
                     color="white"
@@ -276,13 +269,7 @@ const Register = () => {
                       ),
                     }}
                   />
-                </form>
-                <form
-                  style={{
-                    width: "100%",
-                  }}
-                  onSubmit={handleSubmit}
-                >
+                
                   <Typography
                     marginTop="3%"
                     marginBottom="3%"
@@ -347,11 +334,11 @@ const Register = () => {
                 <Button
                   onClick={handleSubmit}
                   style={{
-                    marginTop: "8%",
-                    marginBottom: "10%",
+                    marginTop: "5%",
+                    marginBottom: "6%",
                   }}
                   color="white"
-                  variant={clicked ? "outlined" : "contained"}
+                  variant="outlined" 
                   type="submit"
                 >
                   Sign up

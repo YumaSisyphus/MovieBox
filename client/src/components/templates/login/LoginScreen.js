@@ -39,18 +39,11 @@ const Login = () => {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const handleClickShowConfirmPassword = () => {
-    setShowConfirmPassword((prev) => !prev);
-  };
-  const handleMouseDownConfirmPassword = (event) => {
-    event.preventDefault();
-  };
   return (
     <div
       style={{
-        backgroundImage: "linear-gradient(to bottom, #111111, #444444)",
-        height: "100%",
+        backgroundImage: "linear-gradient(to top, #303036, #16161c)",
+
       }}
     >
       <ThemeProvider theme={theme}>
@@ -58,7 +51,9 @@ const Login = () => {
         <Container
           sx={{
             // border: "2px solid black",
+
           }}
+
         >
           <Grid
             container
@@ -67,7 +62,7 @@ const Login = () => {
               // border: "2px solid blue",
               justifyContent: "center",
               width: "100%",
-              height: "100",
+              height: "100%",
               margin: "0 0 0 0",
             }}
           >
@@ -151,8 +146,8 @@ const Login = () => {
                 <Button
                   onClick={handleClick}
                   style={{
-                    marginTop: "8%",
-                    marginBottom: "10%",
+                    marginTop: "5%",
+                    marginBottom: "6%",
                   }}
                   color="white"
                   variant={clicked ? "outlined" : "contained"}

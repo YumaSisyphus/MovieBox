@@ -11,10 +11,11 @@ export const BoxStyle = styled(Box)(() => ({
   borderRadius: "2.5%",
   display: "flex",
   flexDirection: "column",
-  width: "90%",
+  width: "100%",
   alignItems: "center",
   alignSelf: "center",
-  marginBottom: "15%",
+  marginTop:"-10%",
+  marginBottom:"22.3%",
   [theme.breakpoints.down("md")]: {
     marginTop: "45%",
   },
@@ -33,6 +34,7 @@ export const TypographyStyle = styled(Typography)(() => ({
   background: "#444",
   width: "100%",
   color: "white",
-}));
-
-
+  paddingTop: "2%",
+  paddingBottom: "2%",
+  boxShadow: "0px 0px 10px  rgba(0, 0, 0, 1)"
+  }));

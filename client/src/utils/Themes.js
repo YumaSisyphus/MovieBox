@@ -1,12 +1,13 @@
 import { createTheme } from "@mui/material/styles";
 export const Colors = {
   primary: "#5f2c3e",
-  secondary: "#d1adcc",
+  secondary: "#2A9D8F",
   success: "#4CAF50",
   info: "#00a2ff",
   danger: "#FF5722",
   warning: "#FFC107",
-  dark: "#0e1b20",
+  // Dark is background for header and footer
+  dark: "#212730",
   light: "#aaa",
   muted: "#abafb3",
   border: "#DDDFE1",
@@ -14,11 +15,11 @@ export const Colors = {
   shaft: "#333",
   dim_grey: "#696969",
   dove_grey: "#d5d5d5",
-  body_bg: "#f3f6f9",
+  // bg for everypage
+  body_bg: "#16161c",
   light_grey: "rgb(230,230,230)",
   white: "#fff",
   black: "#000",
-  
 };
 const theme = createTheme({
   palette: {

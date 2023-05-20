@@ -1,8 +1,4 @@
-import {
-  Box,
-  FormControlLabel,
-  Typography,
-} from "@mui/material";
+import { Box, FormControlLabel, Typography } from "@mui/material";
 import { styled } from "@mui/system";
 import theme, { Colors } from "../../../utils/Themes";
 
@@ -14,8 +10,7 @@ export const BoxStyle = styled(Box)(() => ({
   width: "100%",
   alignItems: "center",
   alignSelf: "center",
-  marginTop:"-10%",
-  marginBottom:"22.3%",
+  marginTop: "-10%",
   [theme.breakpoints.down("md")]: {
     marginTop: "45%",
   },
@@ -36,5 +31,5 @@ export const TypographyStyle = styled(Typography)(() => ({
   color: "white",
   paddingTop: "2%",
   paddingBottom: "2%",
-  boxShadow: "0px 0px 10px  rgba(0, 0, 0, 1)"
-  }));
+  boxShadow: "0px 0px 10px  rgba(0, 0, 0, 1)",
+}));

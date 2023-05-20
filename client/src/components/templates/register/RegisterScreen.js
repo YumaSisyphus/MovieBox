@@ -17,16 +17,18 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { format } from "date-fns";
-import { Link as RouterLink, useNavigate} from "react-router-dom";
-import React, { useState} from "react";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
 import { ThemeProvider } from "@mui/material/styles";
 import {
   BoxStyle,
   FormControlLabelStyle,
   TypographyStyle,
 } from "./RegisterScreenStyle";
+import BackGroundImage from "../../../assets/BackGroundRegister&LoginImage.jpg";
 import theme, { Colors } from "../../../utils/Themes";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 const curentDate = new Date();
 const minDate = new Date(
@@ -39,14 +41,15 @@ const initalState = {
   email: "",
   password: "",
   birthday: "",
+  confirmPassword: "",
 };
 
 const Register = () => {
-  const [clicked, setClicked] = useState(true);
+  const [clicked, setClicked] = useState(false);
   const [errorMessage, setError] = useState(null);
   const isMatch = useMediaQuery(theme.breakpoints.down("md"));
-  const handleClick = () => {
-    setClicked(!clicked);
+  const handleChange = (event) => {
+    setClicked(event.target.checked);
   };
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => {
@@ -64,45 +67,62 @@ const Register = () => {
   };
 
   const [state, setState] = useState(initalState);
-  const { username, email, password, birthday} = state;
+  const { username, email, password, birthday, confirmPassword } = state;
   const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!username || !email || !password) {
-      toast.error("please fill all the fields");
-    }
-    if(password.length < 8){
-      toast.error("password should be at least 8 characters long");
-    } if (password.length < 8) {
-      toast.error("Password should be at least 8 characters long");
-    } else if (!/[A-Z]/.test(password)) {
-      toast.error("Password should contain at least one uppercase letter");
-    } else if (!/[a-z]/.test(password)) {
-      toast.error("Password should contain at least one lowercase letter");
-    } else if (!/[0123456789]/.test(password)) {
-      toast.error("Password should contain at least one special character (!@#$%^&*)");
-    } 
-     else {
+      toast.error("Please fill all the fields");
+    } else if (username.length < 5) {
+      toast.error("Username must be at least 5 characters");
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      toast.error("Please check if you have written your email correctly");
+    } else if (
+      password.length < 8 ||
+      !/[A-Z]/.test(password) ||
+      !/[a-z]/.test(password) ||
+      !/[0123456789]/.test(password)
+    ) {
+      toast.error(
+        "Password should be at least 8 characters long, contain one uppercase letter, one lowercase letter and one special character"
+      );
+    } else if (password !== confirmPassword) {
+      toast.error("Please check if you've typed your password correctly");
+    } else if (clicked === false) {
+      toast.error("You must be at least 16 years old!");
+    } else {
       axios
-        .post("http://localhost:5000/api/register", {
-          username,
-          email,
-          password,
-          birthday,
-        })
-        .then(() => {
-          setState({
-            username: "",
-            email: "",
-            password: "",
-            birthday: "",
-          });
-        })
-        .catch((err) => toast.error(err.response.data));
-
-      setTimeout(() => {
-        navigate("/WelcomeScreen");
-      }, 500);
+        .get(
+          `http://localhost:5000/api/checkUserRegister?username=${username}&email=${email}`
+        )
+        .then((response) => {
+          const userExists = response.data.exists;
+          if (userExists) {
+            toast.error(
+              "User already exists. Please choose a different username or email."
+            );
+          } else {
+            axios
+              .post("http://localhost:5000/api/register", {
+                username,
+                email,
+                password,
+                birthday,
+              })
+              .then(() => {
+                setState({
+                  username: "",
+                  email: "",
+                  password: "",
+                  birthday: "",
+                });
+              })
+              .catch((err) => toast.error(err.response.data));
+            setTimeout(() => {
+              navigate("/");
+            }, 500);
+          }
+        });
     }
   };
   const handleInput = (e) => {
@@ -113,11 +133,12 @@ const Register = () => {
     const formattedDate = format(date, "dd/MM/yyyy");
     setState({ ...state, birthday: formattedDate });
   };
-  console.log(birthday);
   return (
     <div
       style={{
-        backgroundImage: "linear-gradient(to top, #303036, #16161c)",
+        backgroundImage: `linear-gradient(to top, rgba(48, 48, 54, 0.5), rgba(22, 22, 28, 0.5)), url(${BackGroundImage})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
         height: "100%",
       }}
     >
@@ -125,15 +146,14 @@ const Register = () => {
         <Header />
         <Container
           sx={{
-            // border: "2px solid black",
             height: "auto",
+            textAlign: "center",
           }}
         >
           <Grid
             container
             spacing={12}
             sx={{
-              // border: "2px solid blue",
               justifyContent: "center",
               width: "100%",
               height: "100",
@@ -145,7 +165,6 @@ const Register = () => {
               md={6}
               xs={12}
               sx={{
-                // border: "2px solid red",
                 display: "flex",
                 flexDirection: "column",
                 height: "100%",
@@ -200,7 +219,7 @@ const Register = () => {
                     }}
                     onChange={handleInput}
                   />
-                
+
                   <TextField
                     id="password"
                     name="password"
@@ -236,9 +255,11 @@ const Register = () => {
                     }}
                     onChange={handleInput}
                   />
-               
+
                   <TextField
                     sx={{ width: "80%" }}
+                    name="confirmPassword"
+                    id="confirmPassword"
                     color="white"
                     margin="normal"
                     label="Confirm Password"
@@ -268,8 +289,9 @@ const Register = () => {
                         </InputAdornment>
                       ),
                     }}
+                    onChange={handleInput}
                   />
-                
+
                   <Typography
                     marginTop="3%"
                     marginBottom="3%"
@@ -280,6 +302,8 @@ const Register = () => {
                         <Checkbox
                           name="ageReq"
                           id="ageReq"
+                          onChange={handleChange}
+                          checked={clicked}
                           sx={{
                             color: theme.palette.light.main,
                             "&.Mui-checked": {
@@ -289,8 +313,23 @@ const Register = () => {
                           disableRipple
                         />
                       }
-                      label="Enter your birthday. You must be at least 16 years old!"
+                      label={
+                        <Typography variant="body1">
+                          I'm at least 16 years old and accept the{" "}
+                          <Link
+                            marginBottom={"5%"}
+                            component={RouterLink}
+                            to={`/Terms`}
+                            color={Colors.white}
+                          >
+                            <strong>Terms of Use</strong>
+                          </Link>
+                        </Typography>
+                      }
                     />
+                  </Typography>
+                  <Typography sx={{ color: "gray", marginRight: "27%" }}>
+                    *Not Required
                   </Typography>
                   <LocalizationProvider
                     sx={{ borderColor: "#fff" }}
@@ -304,6 +343,7 @@ const Register = () => {
                         "& input": { color: "#fff" },
                         "& .MuiSvgIcon-root": { color: "#fff" },
                       }}
+                      disabled={!clicked}
                       format="dd/MM/yyyy"
                       maxDate={minDate}
                       onError={(newError) => setError(newError)}
@@ -338,7 +378,7 @@ const Register = () => {
                     marginBottom: "6%",
                   }}
                   color="white"
-                  variant="outlined" 
+                  variant="outlined"
                   type="submit"
                 >
                   Sign up
@@ -360,6 +400,7 @@ const Register = () => {
         </Container>
         {isMatch ? <></> : <Footer />}
       </ThemeProvider>
+      <ToastContainer theme="colored" />
     </div>
   );
 };

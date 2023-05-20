@@ -8,14 +8,11 @@ import {
   InputAdornment,
   IconButton,
   Typography,
-  useMediaQuery,
 } from "@mui/material";
 import Footer from "../../footer/Footer";
 import Header from "../../header/Header";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import { ThemeProvider } from "@mui/material/styles";
 import {
@@ -23,15 +20,17 @@ import {
   FormControlLabelStyle,
   TypographyStyle,
 } from "./LoginScreenStyle";
+import BackGroundImage from "../../../assets/BackGroundRegister&LoginImage.jpg";
 import theme, { Colors } from "../../../utils/Themes";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
+const initalState = {
+  usernameORemail: "",
+  password: "",
+};
 
 const Login = () => {
-  const [clicked, setClicked] = useState(true);
-  const [errorMessage, setError] = useState(null);
-  const isMatch = useMediaQuery(theme.breakpoints.down("md"));
-  const handleClick = () => {
-    setClicked(!clicked);
-  };
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => {
     setShowPassword((prev) => !prev);
@@ -39,27 +38,60 @@ const Login = () => {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
+  const [state, setState] = useState(initalState);
+  const { usernameORemail, password } = state;
+  const navigate = useNavigate();
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!usernameORemail || !password) {
+      toast.error("Please fill all the fields");
+    } else {
+      axios
+        .post("http://localhost:5000/api/login", {
+          usernameORemail,
+          password,
+        })
+        .then((response) => {
+          if (response.data.msg) {
+            toast.error(response.data.msg);
+          } else {
+            setState({
+              usernameORemail: "",
+              password: "",
+            });
+            setTimeout(() => {
+              navigate("/");
+            }, 500);
+          }
+        })
+        .catch((err) => toast.error(err.response.data));
+    }
+  };
+  const handleInput = (e) => {
+    const { name, value } = e.target;
+    setState({ ...state, [name]: value });
+  };
   return (
     <div
       style={{
-        backgroundImage: "linear-gradient(to top, #303036, #16161c)",
-
+        backgroundImage: `linear-gradient(to top, rgba(48, 48, 54, 0.5), rgba(22, 22, 28, 0.5)), url(${BackGroundImage})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        height: "100%",
       }}
     >
       <ThemeProvider theme={theme}>
         <Header />
         <Container
           sx={{
-            // border: "2px solid black",
-
+            textAlign: "center",
+            height: "75.3vh",
           }}
-
         >
           <Grid
             container
             spacing={12}
             sx={{
-              // border: "2px solid blue",
               justifyContent: "center",
               width: "100%",
               height: "100%",
@@ -71,7 +103,6 @@ const Login = () => {
               md={6}
               xs={12}
               sx={{
-                // border: "2px solid red",
                 display: "flex",
                 flexDirection: "column",
                 height: "100%",
@@ -80,55 +111,68 @@ const Login = () => {
             >
               <BoxStyle sx={{ boxShadow: "0px 0px 15px rgba(0, 0, 0, 1)" }}>
                 <TypographyStyle variant="h4">Sign in</TypographyStyle>
-                <TextField
-                  sx={{ width: "80%" }}
-                  color="white"
-                  margin="normal"
-                  label="Username"
-                  placeholder="Enter your username"
-                  type="text"
-                  variant="filled"
-                  InputLabelProps={{
-                    style: { color: "white" },
+                <form
+                  style={{
+                    width: "100%",
                   }}
-                  InputProps={{
-                    style: {
-                      color: "white",
-                    },
-                  }}
-                />
-                <TextField
-                  sx={{ width: "80%" }}
-                  color="white"
-                  margin="normal"
-                  label="Password"
-                  placeholder="Enter your password"
-                  variant="filled"
-                  InputLabelProps={{
-                    style: { color: "white" },
-                  }}
-                  type={showPassword ? "text" : "password"}
-                  InputProps={{
-                    style: {
-                      color: "white",
-                    },
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton
-                          onClick={handleClickShowPassword}
-                          onMouseDown={handleMouseDownPassword}
-                          edge="end"
-                        >
-                          {showPassword ? (
-                            <VisibilityOff color="white" />
-                          ) : (
-                            <Visibility color="white" />
-                          )}
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  }}
-                />
+                  onSubmit={handleSubmit}
+                >
+                  <TextField
+                    name="usernameORemail"
+                    id="usernameORemail"
+                    sx={{ width: "80%" }}
+                    color="white"
+                    margin="normal"
+                    label="Username or Email"
+                    placeholder="Enter your username or email"
+                    type="text"
+                    variant="filled"
+                    InputLabelProps={{
+                      style: { color: "white" },
+                    }}
+                    InputProps={{
+                      style: {
+                        color: "white",
+                      },
+                    }}
+                    onChange={handleInput}
+                  />
+                  <TextField
+                    name="password"
+                    id="password"
+                    sx={{ width: "80%" }}
+                    color="white"
+                    margin="normal"
+                    label="Password"
+                    placeholder="Enter your password"
+                    variant="filled"
+                    InputLabelProps={{
+                      style: { color: "white" },
+                    }}
+                    type={showPassword ? "text" : "password"}
+                    InputProps={{
+                      style: {
+                        color: "white",
+                      },
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            onClick={handleClickShowPassword}
+                            onMouseDown={handleMouseDownPassword}
+                            edge="end"
+                          >
+                            {showPassword ? (
+                              <VisibilityOff color="white" />
+                            ) : (
+                              <Visibility color="white" />
+                            )}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                    onChange={handleInput}
+                  />
+                </form>
                 <FormControlLabelStyle
                   control={
                     <Checkbox
@@ -144,15 +188,15 @@ const Login = () => {
                   label="Remember me"
                 />
                 <Button
-                  onClick={handleClick}
+                  onClick={handleSubmit}
                   style={{
                     marginTop: "5%",
                     marginBottom: "6%",
                   }}
                   color="white"
-                  variant={clicked ? "outlined" : "contained"}
+                  variant="outlined"
                 >
-                  Sign up
+                  Sign in
                 </Button>
                 <Typography color={Colors.white}>
                   Don't have an account?
@@ -167,36 +211,11 @@ const Login = () => {
                 </Link>
               </BoxStyle>
             </Grid>
-            {/* <Grid
-              item
-              height={"100%"}
-              mt={"12%"}
-              md={8}
-              xs={0}
-              sx={{
-                border: "2px solid green",
-                display: "flex",
-                flexDirection: "row",
-                alignContent: "center",
-              }}
-            >
-              {isMatch ? (
-                <></>
-              ) : (
-                <BoxStyle>
-                  Lorem ipsum dolor sit am Lorem ipsum dolor sit am Lorem ipsum
-                  dolor sit am Lorem ipsum dolor sit am Lorem ipsum dolor sit am
-                  Lorem ipsum dolor sit am Lorem ipsum dolor sit am Lorem ipsum
-                  dolor sit am Lorem ipsum dolor sit am Lorem ipsum dolor sit am
-                  v Lorem ipsum dolor sit am Lorem ipsum dolor sit am Lorem
-                  ipsum dolor sit am
-                </BoxStyle>
-              )}
-            </Grid> */}
           </Grid>
         </Container>
         <Footer />
       </ThemeProvider>
+      <ToastContainer theme="colored" />
     </div>
   );
 };

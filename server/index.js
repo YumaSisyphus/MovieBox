@@ -3,6 +3,7 @@ const app = express();
 const mysql = require("mysql2");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+// const path = require("path");
 
 const db = mysql.createPool({
   host: "localhost",
@@ -11,12 +12,12 @@ const db = mysql.createPool({
   database: "moviebox",
 });
 
+app.listen(5000, () => {
+  console.log("server started on port 5000");
+});
 app.use(cors());
-
 app.use(express.json());
-
 app.use(bodyParser.urlencoded({ extended: true }));
-
 
 app.get("/api/users", (req, res) => {
   const sqlGet = "SELECT * FROM users";
@@ -28,6 +29,12 @@ app.get("/api/users", (req, res) => {
     }
   });
 });
+
+/*    
+    Endpoint: Register
+    Method: POST
+    Parameters: username, email, password, birthday (birthday can be null)
+*/
 
 app.post("/api/register", (req, res) => {
   const { username, email, password, birthday } = req.body;
@@ -47,23 +54,56 @@ app.post("/api/register", (req, res) => {
   });
   res.status(200).json({ msg: "User created" });
 });
-/* 
-    Endpoint: Add Movie
-    Method: POST
-    Parameters: username, password
+
+/*    
+    Endpoint: Check if user exists in Register
+    Method: GET
+    Parameters: username, email
 */
-app.post("/api/login", (req, res) => {
-  const { username, password } = req.body;
-  const sqlInsert = "SELECT * FROM users WHERE Username = ? AND Password = ?;";
-  db.query(sqlInsert, [username, password], (err, result) => {
+
+app.get("/api/checkUserRegister", (req, res) => {
+  const { username, email } = req.query;
+  const sqlGet = "SELECT * FROM users WHERE username = ? OR email = ?";
+  db.query(sqlGet, [username, email], (err, results) => {
     if (err) {
-      console.log(err);
-      res.status(400).json({ msg: "Username or Password is incorrect" });
+      console.error(err);
+      res
+        .status(500)
+        .json({ error: "An error occurred while checking the username" });
     } else {
-      res.status(200).json({ msg: "Login successful" });
+      const exists = results.length > 0;
+      res.json({ exists });
     }
   });
 });
+
+/* 
+    Endpoint: Log in
+    Method: POST
+    Parameters: username or email, password
+*/
+app.post("/api/login", (req, res) => {
+  const { usernameORemail, password } = req.body;
+  const sqlInsert =
+    "SELECT * FROM users WHERE (username = ? OR email=?) AND password = ?;";
+  db.query(
+    sqlInsert,
+    [usernameORemail, usernameORemail, password],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+        req.setEncoding({ err: err });
+      } else {
+        if (result.length > 0) {
+          res.send(result);
+        } else {
+          res.send({ msg: "Wrong username/email or password" });
+        }
+      }
+    }
+  );
+});
+
 /* 
     Endpoint: Add Movie
     Method: POST
@@ -110,12 +150,8 @@ app.post("/api/addmovie", (req, res) => {
 //     }
 // });
 
-app.use(express.static(__dirname));
+// app.use(express.static(__dirname));
 
-app.get("/*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
-});
-
-app.listen(5000, () => {
-  console.log("server started on port 5000");
-});
+// app.get("/*", (req, res) => {
+//   res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
+// });

@@ -120,6 +120,112 @@ app.post("/api/addmovie", (req, res) => {
   });
   res.status(200).json({ msg: "Movie added" });
 });
+
+app.post("/api/postActor", (req, res) => {
+  const {actorId}= req.body;
+  const sqlInsert = "INSERT INTO actors (firstName, lastName, actorPic, gender, description, dateOfBirth) VALUES ( ?, ?, ?, ?, ?, ?);";
+  db.query(sqlInsert, [firstName, lastName, actorPic, gender, description, dateOfBirth], (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(400).json({ msg: "Actor already exists" });
+    }
+  });
+  res.status(200).json({ msg: "Actor added" });
+});
+
+app.get("/api/getActor", (req, res) => {
+  const { firstName, lastName, actorPic, gender, description, dateOfBirth }= req.body;
+  const sqlGet= "SELECT * FROM actors WHERE ActorId=?";
+  db.query(sqlGet, [firstName, lastName, actorPic, gender, description, dateOfBirth], (err, results) => {
+    if (err) {
+      console.error(err);
+      res.status(500).json({ error: "An error occurred while checking the username" });
+    } else {
+      res.status(200).json({ msg: "Actor pulled successfully", results });
+    }
+  });
+});
+
+app.get("/api/getMovie", (req, res) => {
+  const { movieName, movieRating, movieReview } = req.body;
+  const sqlGet = "SELECT * FROM movie_reviews WHERE movieName = ?;";
+  db.query(sqlGet, [movieName, movieRating, movieReview], (err, results) => {
+    if (err) {
+      console.error(err);
+      res.status(500).json({ error: "An error occurred." });
+    } else {
+      res.status(200).json({ msg: "Movie pulled successfully", results });
+    }
+  });
+});
+
+app.get("/api/getMovie", (req, res) => {
+  const { movieName, movieRating, movieReview } = req.body;
+  const sqlGet = "SELECT * FROM movie_reviews WHERE movieName = ?;";
+  db.query(sqlGet, [movieName, movieRating, movieReview], (err, results) => {
+    if (err) {
+      console.error(err);
+      res.status(500).json({ error: "An error occurred." });
+    } else {
+      res.status(200).json({ msg: "Movie pulled successfully", results });
+    }
+  });
+});
+
+app.get("/api/getAllMovies", (req, res) => {
+  const sqlGet = "SELECT * FROM movie_reviews;";
+  db.query(sqlGet, (err, results) => {
+    if (err) {
+      console.error(err);
+      res.status(500).json({ error: "An error occurred." });
+    } else {
+      res.status(200).json({ msg: "Movies pulled successfully", results });
+    }
+  });
+});
+
+app.get("/api/numOfMoviesByActor", (req, res) => {
+  const { actorId } = req.query;
+  const sqlGet = "SELECT COUNT(*) FROM movie_reviews WHERE actorId = ?;";
+  db.query(sqlGet, [actorId], (err, results) => {
+    if (err) {
+      console.error(err);
+      res.status(500).json({ error: "An error occurred." });
+    } else {
+      res.status(200).json({ msg: "Number of movies pulled successfully", results });
+    }
+  });
+});
+
+
+app.get("/api/getAllActors", (req, res) => {
+  const sqlGet = "SELECT * FROM actors;";
+  db.query(sqlGet, (err, results) => {
+    if (err) {
+      console.error(err);
+      res.status(500).json({ error: "An error occurred." });
+    } else {
+      res.status(200).json({ msg: "Actors pulled successfully", results });
+    }
+  });
+});
+
+app.get("/api/getMovieActors", (req, res) => {
+  const { movieId } = req.query;
+  const sqlGet = "SELECT * FROM actors WHERE actorId IN (SELECT actorId FROM movie_actors WHERE movieId = ?);";
+  db.query(sqlGet, [movieId], (err, results) => {
+    if (err) {
+      console.error(err);
+      res.status(500).json({ error: "An error occurred." });
+    } else {
+      res.status(200).json({ msg: "Actors pulled successfully", results });
+    }
+  });
+});
+
+
+
+
 /////////
 
 // app.get("/", (req, res) => {

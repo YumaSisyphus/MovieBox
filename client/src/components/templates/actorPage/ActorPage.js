@@ -28,8 +28,8 @@ const ActorPage = () => {
           sx={{
             marginTop: "1%",
             border: "2px solid red",
-            width: "80%",
           }}
+          maxWidth="md"
         >
           <div style={{ display: "flex", flexDirection: "row", width: "100%" }}>
             <div

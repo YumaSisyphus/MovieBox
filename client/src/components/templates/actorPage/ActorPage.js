@@ -55,7 +55,7 @@ const ActorPage = () => {
                   // maxWidth: { xs: 350, md: 250 },
                 }}
                 alt="Chriss Pratt"
-                src="images/actors/ChrisPratt.jpg"// nuk po bon me thirr foton pej DBs kurqysh, fotoja osht edhe te C:\Users\Admin\Lab1\moviebox\client\src\assets\actors\ChrisPratt.jpg
+                src="images/actors/ChrisPratt.jpg"//nuk po bon me thirr foton pej DBs kurqysh, fotoja osht edhe te C:\Users\Admin\Lab1\moviebox\client\src\assets\actors\ChrisPratt.jpg
               ></Box>
               <Typography
                 style={{

@@ -157,18 +157,6 @@ app.get("/api/getActor", (req, res) => {
   });
 });
 
-app.get("/api/getMovie", (req, res) => {
-  const { movieName, movieRating, movieReview } = req.body;
-  const sqlGet = "SELECT * FROM movie_reviews WHERE movieName = ?;";
-  db.query(sqlGet, [movieName, movieRating, movieReview], (err, results) => {
-    if (err) {
-      console.error(err);
-      res.status(500).json({ error: "An error occurred." });
-    } else {
-      res.status(200).json({ msg: "Movie pulled successfully", results });
-    }
-  });
-});
 
 app.get("/api/getMovie", (req, res) => {
   const { movieName, movieRating, movieReview } = req.body;
@@ -223,11 +211,12 @@ app.get("/api/getAllActors", (req, res) => {
 
 app.get("/api/getMovieActors", (req, res) => {
   const { movieId } = req.query;
-  const sqlGet = "SELECT * FROM actors WHERE actorId IN (SELECT actorId FROM movie_actors WHERE movieId = ?);";
+  const sqlGet = "SELECT * FROM actors WHERE actorId IN (SELECT actorId FROM movies_actors WHERE movieId = ?);";
   db.query(sqlGet, [movieId], (err, results) => {
+    console.log(results);
     if (err) {
       console.error(err);
-      res.status(500).json({ error: "An error occurred." });
+      res.status(500).json({ err: "An error occurred." });
     } else {
       res.status(200).json({ msg: "Actors pulled successfully", results });
     }

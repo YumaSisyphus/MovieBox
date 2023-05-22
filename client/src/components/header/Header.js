@@ -7,7 +7,7 @@ import SearchIcon from "@mui/icons-material/Search";
 
 const Header = () => {
   return (
-    <div style={{ backgroundColor: "#0d2129" }}>
+    <div style={{ backgroundColor: "#212730" }}>
       <Container maxWidth="lg">
         <ul className={styles.Navbar}>
           <div style={{ display: "flex", alignItems: "center" }}>

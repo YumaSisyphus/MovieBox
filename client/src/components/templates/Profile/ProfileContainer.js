@@ -58,7 +58,7 @@ function ProfileContainer() {
                         </Box>
 
                     </Box>
-                    <Typography className={styles.bio} mt={2}>A cinephile that loves exploring the world of movies.</Typography>
+                    <Typography className={styles.bio} mt={2} width={600}>Lights, camera, action! Join me on this cinematic journey as we dive into a world of unforgettable stories, thrilling adventures, and mesmerizing moments. Get ready to escape reality and immerse yourself in the magic of the silver screen.</Typography>
 
                     <Box mt={5}>
 

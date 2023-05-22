@@ -7,11 +7,8 @@ import ChrisPratt from "../../../assets/actors/ChrisPratt.jpg";
 import Header from "../../header/Header";
 import Footer from "../../footer/Footer";
 import theme from "../../../utils/Themes";
-import { useLocation } from "react-router-dom";
 
 const ActorPage = () => {
-  const location = useLocation();
-  const actor = location.state.actor;
   const [showMovies, setShowMovies] = useState(false);
   const handleInput = (e) => {
     setShowMovies(!showMovies);
@@ -31,8 +28,8 @@ const ActorPage = () => {
           sx={{
             marginTop: "1%",
             border: "2px solid red",
+            width: "80%",
           }}
-          maxWidth="md"
         >
           <div style={{ display: "flex", flexDirection: "row", width: "100%" }}>
             <div
@@ -47,7 +44,7 @@ const ActorPage = () => {
             >
               <Box
                 component="img"
-                style={{
+                sx={{
                   borderRadius: "5%",
                   width: "100%",
                   border: "2px solid blue",
@@ -55,7 +52,7 @@ const ActorPage = () => {
                   // maxWidth: { xs: 350, md: 250 },
                 }}
                 alt="Chriss Pratt"
-                src="images/actors/ChrisPratt.jpg"//nuk po bon me thirr foton pej DBs kurqysh, fotoja osht edhe te C:\Users\Admin\Lab1\moviebox\client\src\assets\actors\ChrisPratt.jpg
+                src={ChrisPratt}
               ></Box>
               <Typography
                 style={{
@@ -64,12 +61,7 @@ const ActorPage = () => {
                   color: "white",
                 }}
               >
-                {actor.FirstName} {actor.LastName} (
-                {new Date(actor.DateOfBirth).toLocaleDateString()}
-                {actor.DateOfDeath
-                  ? ` - ${new Date(actor.DateOfDeath).toLocaleDateString()}`
-                  : ""}
-                )
+                Chris Pratt (21.06.1979)
               </Typography>
             </div>
             <div
@@ -99,7 +91,28 @@ const ActorPage = () => {
                   marginBottom: "2%",
                 }}
               >
-                {actor.Description}
+                Christopher Michael Pratt (born 21 June 1979) is an American
+                actor, known for starring in both television and action films.
+                He rose to prominence for his television roles, particularly in
+                the NBC sitcom Parks and Recreation (2009–2015), for which he
+                received critical acclaim and was nominated for the Critics'
+                Choice Television Award for Best Supporting Actor in a Comedy
+                Series in 2013. He also starred earlier in his career as Bright
+                Abbott in The WB drama series Everwood (2002–2006) and had roles
+                in Wanted (2008), Jennifer's Body (2009), Moneyball (2011), The
+                Five-Year Engagement (2012), Zero Dark Thirty (2013), Delivery
+                Man (2013), and Her (2013). Pratt achieved leading man status in
+                2014, starring in two critically and commercially successful
+                films: The Lego Movie as Emmet Brickowski, and Marvel Studios'
+                Guardians of the Galaxy as Star-Lord. He starred in Jurassic
+                World (2015) and Jurassic World: Fallen Kingdom (2018), and he
+                reprised his Marvel role in Guardians of the Galaxy Vol. 2
+                (2017), Avengers: Infinity War (2018), Avengers: Endgame (2019),
+                and the planned Guardians of the Galaxy Vol. 3. Meanwhile, in
+                2016 he was part of an ensemble cast in The Magnificent Seven
+                and the male lead in Passengers. Description above is from the
+                Wikipedia article Chris Pratt, licensed under CC-BY-SA, full
+                list of contributors on Wikipedia.
               </Typography>
             </div>
           </div>

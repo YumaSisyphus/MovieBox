@@ -7,6 +7,7 @@ import Register from "./components/templates/register/RegisterScreen";
 import ProfileContainer from "./components/templates/Profile/ProfileContainer";
 import TermsOfUse from "./components/legal/TermsOfUse";
 import ActorPage from "./components/templates/actorPage/ActorPage";
+import MoviePage from "./components/templates/moviePage/movie";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import theme from "./utils/Themes";
 
@@ -22,6 +23,7 @@ function App() {
             <Route path="/Profile" Component={ProfileContainer} />
             <Route path="/Terms" Component={TermsOfUse} />
             <Route path="/ActorPage" Component={ActorPage} />
+            <Route path="/MoviePage" Component={MoviePage} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>

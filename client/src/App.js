@@ -10,6 +10,8 @@ import ActorPage from "./components/templates/actorPage/ActorPage";
 import MoviePage from "./components/templates/moviePage/movie";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import theme from "./utils/Themes";
+import Dashboard from "./components/dashboard/Dashboard";
+import AddEdit from "./components/Edit/AddEdit";
 
 function App() {
   return (
@@ -23,6 +25,9 @@ function App() {
             <Route path="/Profile" Component={ProfileContainer} />
             <Route path="/Terms" Component={TermsOfUse} />
             <Route path="/ActorPage" Component={ActorPage} />
+            <Route path="/Dashboard" Component={Dashboard} />
+            <Route path="/Edit" Component={AddEdit} />
+            <Route path="/update/:id" Component={AddEdit} />
             <Route path="/MoviePage" Component={MoviePage} />
           </Routes>
         </BrowserRouter>

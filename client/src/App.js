@@ -21,16 +21,17 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" Component={WelcomeScreen} />
-            <Route path="/Login" Component={Login} />
-            <Route path="/Register" Component={Register} />
-            <Route path="/Profile" Component={ProfileContainer} />
-            <Route path="/Terms" Component={TermsOfUse} />
-            <Route path="/ActorPage" Component={ActorPage} />
-            <Route path="/Dashboard" Component={Dashboard} />
-            <Route path="/Edit" Component={AddEdit} />
+            <Route path="/login" Component={Login} />
+            <Route path="/register" Component={Register} />
+            <Route path="/profile/:id" Component={ProfileContainer} />
+            <Route path="/terms" Component={TermsOfUse} />
+            <Route path="/actorPage" Component={ActorPage} />
+            <Route path="/dashboard" Component={Dashboard} />
+            <Route path="/edit" Component={AddEdit} />
             <Route path="/update/:id" Component={AddEdit} />
-            <Route path="/MoviePage" Component={MoviePage} />
-            <Route path="/Home" Component={HomePage} />
+            <Route path="/moviePage" Component={MoviePage} />
+            <Route path="/home" Component={HomePage} />
+            <Route path="/editProfile" Component={HomePage} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>

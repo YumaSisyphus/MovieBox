@@ -9,8 +9,6 @@
     position: inherit;
     text-align: center;
     line-height: 1 !important;
-    /* -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent; */
     background-position: center;
     mix-blend-mode: luminosity;
 }
@@ -23,4 +21,16 @@
 
 .MovieBorder:hover {
     border: 3px solid #2A9D8F !important;
+}
+
+.avatarTrailer {
+    transition: .4s;
+}
+
+.avatarTrailer:hover {
+    filter: brightness(100%);
+}
+
+.avatarTrailerText:hover .avatarTrailer {
+    filter: brightness(100%);
 }

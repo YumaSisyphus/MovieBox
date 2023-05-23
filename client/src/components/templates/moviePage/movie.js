@@ -29,6 +29,7 @@ const MoviePage = () => {
   };
   return (
     <div className={styles.movie_page}>
+      <Header />
       <div className={styles.movie}>
         <div className={styles.movie_background}> </div>
         <div className={styles.container}>
@@ -136,7 +137,8 @@ const MoviePage = () => {
         </div>
       </div>
 
-      <div className={styles.ticket}>Buy a Ticket</div>
+      <div className={styles.ticket}>Get Tickets</div>
+      <Footer />
     </div>
   );
 };

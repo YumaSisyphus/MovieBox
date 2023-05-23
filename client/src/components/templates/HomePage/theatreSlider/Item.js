@@ -36,8 +36,7 @@ function Item(props) {
                         to="/">
                         <button
                             className={styles.button1}
-                        >
-                            Buy Tickets Now
+                        >Get Your Tickets Here
                         </button>
                     </Link>
                 </div>

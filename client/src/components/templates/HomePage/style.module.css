@@ -9,9 +9,10 @@
     position: inherit;
     text-align: center;
     line-height: 1 !important;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    /* -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; */
     background-position: center;
+    mix-blend-mode: luminosity;
 }
 
 .MovieBorder {

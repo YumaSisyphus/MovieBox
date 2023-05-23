@@ -17,16 +17,16 @@ function Item(props) {
                     className={styles.sliderShadow}>
                 </div>
 
-                <div
+                {/* <div
                     className={styles.container2}
-                >
+                > */}
 
-                    <h2
-                        className={styles.title}
-                    >
-                        {props.item.title}
-                    </h2>
-                </div>
+                <h2
+                    className={styles.title}
+                >
+                    {props.item.title}
+                </h2>
+                {/* </div> */}
             </div>
         </Paper>
     );

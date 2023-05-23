@@ -4,7 +4,7 @@ import styles from "./Carousel.module.css"
 import Item from "./Item";
 import Hive from "../../../../assets/HIVE.png"
 import BeauAfraid from "../../../../assets/movies/BeauAfraid.jpg"
-import Midsommar from "../../../../assets/movies/Midsommar.png"
+import FastX from "../../../../assets/movies/FastX.jpg"
 
 function Slider() {
   var items = [
@@ -16,12 +16,12 @@ function Slider() {
     {
       id: 2,
       image: BeauAfraid,
-      title: "Grab Some Snacks",
+      title: "Watch In Cinemas Now",
     },
     {
       id: 3,
-      image: Midsommar,
-      title: "Have Some Drinks",
+      image: FastX,
+      title: "Watch In Cinemas Now",
     }
   ];
 

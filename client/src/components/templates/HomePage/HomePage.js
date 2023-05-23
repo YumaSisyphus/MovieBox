@@ -34,9 +34,6 @@ const HomePage = () => {
                     }}>
                 </Box>
                 <Typography
-                    sx={{
-                        backgroundImage: `url(${AvatarTexture})`
-                    }}
                     ml={100}
                     pt={15}
                     pr={20}
@@ -169,11 +166,11 @@ const HomePage = () => {
 
                 <Box mt={10}>
                     <Typography
-                        color="#ebebeb"
+                        color="#b8b6b6"
                         mb={2}
-                        fontSize="30px"
+                        fontSize="24px"
                         textAlign="center">
-                        Check These Theatres Out
+                        Dive into Sensational Cinemas
                     </Typography>
                     <SliderTheatre />
                 </Box>

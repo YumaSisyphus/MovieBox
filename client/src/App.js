@@ -23,7 +23,7 @@ function App() {
             <Route path="/" Component={WelcomeScreen} />
             <Route path="/login" Component={Login} />
             <Route path="/register" Component={Register} />
-            <Route path="/profile/:id" Component={ProfileContainer} />
+            <Route path="/profile" Component={ProfileContainer} />
             <Route path="/terms" Component={TermsOfUse} />
             <Route path="/actorPage" Component={ActorPage} />
             <Route path="/dashboard" Component={Dashboard} />

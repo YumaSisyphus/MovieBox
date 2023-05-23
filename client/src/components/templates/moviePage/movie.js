@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import styles from "./style.module.css";
 import movie from "../../../assets/movies/JohnWick4Thumbnail.jpg";
 import { useNavigate, useLocation } from "react-router-dom";
+import Header from "../../header/Header";
+import Footer from "../../footer/Footer";
 
 const MoviePage = () => {
   const location = useLocation();

@@ -374,8 +374,7 @@ const Register = () => {
                 <Button
                   onClick={handleSubmit}
                   style={{
-                    marginTop: "5%",
-                    marginBottom: "6%",
+                    marginBottom: "3%",
                   }}
                   color="white"
                   variant="outlined"

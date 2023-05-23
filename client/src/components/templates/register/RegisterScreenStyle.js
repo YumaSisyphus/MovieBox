@@ -23,7 +23,7 @@ export const BoxStyle = styled(Box)(() => ({
 }));
 
 export const FormControlLabelStyle = styled(FormControlLabel)(() => ({
-  marginTop: "5%",
+  marginTop: "2%",
   alignItems: "center",
   color: Colors.white,
   [theme.breakpoints.down("md")]: {},

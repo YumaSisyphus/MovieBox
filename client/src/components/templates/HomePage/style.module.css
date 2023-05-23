@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@900&display=swap');
+
+.AvatarQuote {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 90px !important;
+    color: #ebebeb;
+    z-index: 10;
+    position: inherit;
+    text-align: center;
+    line-height: 1 !important;
+    /* -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; */
+    background-position: center;
+    mix-blend-mode: luminosity;
+}
+
+.MovieBorder {
+    transition: all .4s;
+    border: 3px solid transparent;
+    position: relative;
+}
+
+.MovieBorder:hover {
+    border: 3px solid #2A9D8F !important;
+}

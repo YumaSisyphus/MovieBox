@@ -12,6 +12,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import theme from "./utils/Themes";
 import Dashboard from "./components/dashboard/Dashboard";
 import AddEdit from "./components/Edit/AddEdit";
+import HomePage from "./components/templates/HomePage/HomePage";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
             <Route path="/Edit" Component={AddEdit} />
             <Route path="/update/:id" Component={AddEdit} />
             <Route path="/MoviePage" Component={MoviePage} />
+            <Route path="/Home" Component={HomePage} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>

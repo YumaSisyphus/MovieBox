@@ -48,7 +48,7 @@ const Header = () => {
               </Link>
             </li>
             <li>
-              <Link underline="none" href="/">
+              <Link underline="none" href="/actorPage">
                 <Typography variant="body1" className={styles.NavbarText}>
                   Lists
                 </Typography>

@@ -55,8 +55,8 @@ const ActorPage = () => {
           sx={{
             marginTop: "1%",
             border: "2px solid red",
+            width: "80%",
           }}
-          maxWidth="md"
         >
           <div style={{ display: "flex", flexDirection: "row", width: "100%" }}>
             <div
@@ -87,12 +87,7 @@ const ActorPage = () => {
                   color: "white",
                 }}
               >
-                {actor.FirstName} {actor.LastName} (
-                {new Date(actor.DateOfBirth).toLocaleDateString()}
-                {actor.DateOfDeath
-                  ? ` - ${new Date(actor.DateOfDeath).toLocaleDateString()}`
-                  : ""}
-                )
+                Chris Pratt (21.06.1979)
               </Typography>
             </div>
             <div

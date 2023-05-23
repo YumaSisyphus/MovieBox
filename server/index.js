@@ -3,6 +3,7 @@ const app = express();
 const mysql = require("mysql2");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const bcrypt = require("bcrypt");
 // const path = require("path");
 
 const db = mysql.createConnection({
@@ -46,21 +47,30 @@ app.get("/api/users", (req, res) => {
 
 app.post("/api/register", (req, res) => {
   const { username, email, password, birthday } = req.body;
-  let sqlInsert;
-  if (!birthday) {
-    sqlInsert =
-      "INSERT INTO users (Username, Email, Password, Birthday, DateCreated) VALUES (?, ?, ?, NULL, NOW());";
-  } else {
-    sqlInsert =
-      "INSERT INTO users (Username, Email, Password, Birthday, DateCreated) VALUES (?, ?, ?, STR_TO_DATE(?, '%d/%m/%Y'), NOW());";
-  }
-  db.query(sqlInsert, [username, email, password, birthday], (err, result) => {
+  bcrypt.hash(password, 10, (err, hash) => {
     if (err) {
-      console.log(err);
-      res.status(400).json({ msg: "Username or Email already exists" });
+      res
+        .status(401)
+        .json({ msg: "An error occurred during password encryption" });
+    } else {
+      let sqlInsert;
+      if (!birthday) {
+        sqlInsert =
+          "INSERT INTO users (Username, Email, Password, Birthday, DateCreated) VALUES (?, ?, ?, NULL, NOW());";
+      } else {
+        sqlInsert =
+          "INSERT INTO users (Username, Email, Password, Birthday, DateCreated) VALUES (?, ?, ?, STR_TO_DATE(?, '%d/%m/%Y'), NOW());";
+      }
+      db.query(sqlInsert, [username, email, hash, birthday], (err, result) => {
+        if (err) {
+          console.log(err);
+          res.status(400).json({ msg: "Username or Email already exists" });
+        } else {
+          res.status(200).json({ msg: "User created" });
+        }
+      });
     }
   });
-  res.status(200).json({ msg: "User created" });
 });
 
 /*    
@@ -90,26 +100,32 @@ app.get("/api/checkUserRegister", (req, res) => {
     Method: POST
     Parameters: username or email, password
 */
+
 app.post("/api/login", (req, res) => {
   const { usernameORemail, password } = req.body;
-  const sqlInsert =
-    "SELECT * FROM users WHERE (username = ? OR email=?) AND password = ?;";
-  db.query(
-    sqlInsert,
-    [usernameORemail, usernameORemail, password],
-    (err, result) => {
-      if (err) {
-        console.log(err);
-        req.setEncoding({ err: err });
+  const sqlSelect = "SELECT * FROM users WHERE username = ? OR email = ?;";
+  db.query(sqlSelect, [usernameORemail, usernameORemail], (err, result) => {
+    if (err) {
+      console.log(err);
+      res.send({ msg: "An error occurred during login" });
+    } else {
+      if (result.length > 0) {
+        const user = result[0];
+        bcrypt.compare(password, user.Password, (err, isMatch) => {
+          if (err) {
+            console.log(err);
+            res.send({ msg: "An error occurred during login" });
+          } else if (isMatch) {
+            res.send(result);
+          } else {
+            res.send({ msg: "Wrong username/email or password" });
+          }
+        });
       } else {
-        if (result.length > 0) {
-          res.send(result);
-        } else {
-          res.send({ msg: "Wrong username/email or password" });
-        }
+        res.send({ msg: "Wrong username/email or password" });
       }
     }
-  );
+  });
 });
 
 /* 
@@ -247,6 +263,8 @@ app.get("/api/getActorMovies", (req, res) => {
     }
   });
 });
+
+
 
 app.get("/api/get", (req, res) => {
   const sqlGet = "SELECT * FROM users;";

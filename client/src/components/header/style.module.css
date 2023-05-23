@@ -1,0 +1,31 @@
+.Navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    list-style: none;
+    margin-top: 0;
+    z-index: 1;
+    padding-top: 5px;
+    transition: .4s;
+    padding-left: 14%;
+    padding-bottom: 5px;
+    margin-bottom: 0px;
+    margin-bottom: 0;
+}
+
+.NavbarText {
+    color: #ebebeb;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    letter-spacing: 1px !important;
+}
+
+.NavbarText:hover {
+    color: #ffffff;
+}
+
+.NavbarHeader {
+    color: #ebebeb;
+    font-weight: 800 !important;
+    letter-spacing: 1px;
+}

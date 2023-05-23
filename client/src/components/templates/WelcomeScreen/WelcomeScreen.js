@@ -24,11 +24,7 @@ const WelcomeScreen = () => {
 
     const [backendData, setBackendData] = useState([{}])
 
-    useEffect(() => {
-        fetch("/api").then(
-            response => response.json()
-        ).then(data => setBackendData(data))
-    }, [])
+
 
     return (
         <div style={{ width: "100%", height: "100vh", backgroundColor: "#0c0c0f" }}>

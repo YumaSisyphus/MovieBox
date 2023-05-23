@@ -9,7 +9,7 @@ import {
   IconButton,
   Typography,
 } from "@mui/material";
-import  Cookies  from "universal-cookie";
+import Cookies from "universal-cookie";
 import Footer from "../../footer/Footer";
 import Header from "../../header/Header";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
@@ -64,7 +64,7 @@ const Login = () => {
               password: "",
             });
             setTimeout(() => {
-              navigate("/");
+              navigate("/home");
             }, 500);
           }
         })

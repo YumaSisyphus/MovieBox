@@ -130,7 +130,7 @@ const ActorPage = () => {
                 onClick={handleInputShowFullDescription}
                 disableRipple
                 disableFocusRipple
-                style={{ marginBottom: "2%", marginTop: "0%" }}
+                style={{ marginBottom: "2%", marginTop: "0\%" }}
               >
                 <Typography
                   style={{

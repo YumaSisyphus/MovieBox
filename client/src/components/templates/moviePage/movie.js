@@ -1,16 +1,19 @@
 import { useEffect, useState } from "react";
 import styles from "./style.module.css";
-import movie from "../../../assets/movies/movie.jpg";
-import { useNavigate } from "react-router-dom";
+import movie from "../../../assets/movies/JohnWick4Thumbnail.jpg";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const MoviePage = () => {
+  const location = useLocation();
+  const actor_movie = location.state?.movie;
+  console.log(actor_movie);
   const [activeList, setActiveList] = useState("cast");
   const [actors, setActors] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
-    // Function to fetch actors from the backend
     const fetchActors = async () => {
-      const movieId = 1; // Replace with the actual movieId
+      const movieId = actor_movie?.MovieId || 1;
+      console.log(movieId);
       const response = await fetch(`/api/getMovieActors?movieId=${movieId}`);
       const data = await response.json();
       if (response.ok) {

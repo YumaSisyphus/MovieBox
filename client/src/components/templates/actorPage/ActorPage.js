@@ -1,21 +1,45 @@
 import { Box, Container, IconButton, Typography } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import styles from "./style.module.css";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import { ThemeProvider } from "@mui/material/styles";
-import React, { useState } from "react";
-import ChrisPratt from "../../../assets/actors/ChrisPratt.jpg";
+import React, { useState, useEffect } from "react";
 import Header from "../../header/Header";
 import Footer from "../../footer/Footer";
 import theme from "../../../utils/Themes";
-import { useLocation } from "react-router-dom";
+import GrandBudapest from "../../../assets/GrandBudapest.jpg";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const ActorPage = () => {
   const location = useLocation();
   const actor = location.state.actor;
+  const [showFullDescription, setShowFullDescription] = useState(false);
   const [showMovies, setShowMovies] = useState(false);
-  const handleInput = (e) => {
+  const [movies, setMovies] = useState([]);
+  const navigate = useNavigate();
+  useEffect(() => {
+    const fetchMovies = async () => {
+      const actorId = actor.ActorId;
+      const response = await fetch(`/api/getActorMovies?actorId=${actorId}`);
+      const data = await response.json();
+      if (response.ok) {
+        setMovies(data.results);
+      } else {
+        console.error(data.error);
+      }
+    };
+    fetchMovies();
+  }, []);
+  const sendMovieInfo = (movie) => {
+    navigate("/MoviePage", { state: { movie } });
+  };
+  const handleInputShowMovies = (e) => {
     setShowMovies(!showMovies);
   };
+  const handleInputShowFullDescription = (e) => {
+    setShowFullDescription(!showFullDescription);
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <Header />
@@ -37,8 +61,8 @@ const ActorPage = () => {
           <div style={{ display: "flex", flexDirection: "row", width: "100%" }}>
             <div
               style={{
-                marginTop: "2%",
-                marginRight: "15%",
+                marginTop: "3%",
+                marginRight: "10%",
                 width: "25%",
                 display: "flex",
                 flexDirection: "column",
@@ -48,15 +72,14 @@ const ActorPage = () => {
               <Box
                 component="img"
                 style={{
-                  borderRadius: "5%",
                   width: "100%",
                   border: "2px solid blue",
                   // maxHeight: { xs: 203, md: 167 },
                   // maxWidth: { xs: 350, md: 250 },
                 }}
-                alt="Chriss Pratt"
-                src={`images/actors/${actor.ActorPic}`}//nuk po bon me thirr foton pej DBs kurqysh, fotoja osht edhe te C:\Users\Admin\Lab1\moviebox\client\src\assets\actors\ChrisPratt.jpg
-              ></Box>
+                alt={actor.FirstName + " " + actor.LastName}
+                src={`images/actors/${actor.ActorPic}`}
+              />
               <Typography
                 style={{
                   marginTop: "5%",
@@ -76,7 +99,7 @@ const ActorPage = () => {
               style={{
                 display: "flex",
                 flexDirection: "column",
-                width: "60%",
+                width: "65%",
                 marginTop: "2%",
               }}
             >
@@ -99,270 +122,286 @@ const ActorPage = () => {
                   marginBottom: "2%",
                 }}
               >
-                {actor.Description}
+                {showFullDescription
+                  ? actor.Description
+                  : `${actor.Description.slice(0, 1000)}...`}
               </Typography>
+              <IconButton
+                onClick={handleInputShowFullDescription}
+                disableRipple
+                disableFocusRipple
+                style={{ marginBottom: "2%", marginTop: "0%" }}
+              >
+                <Typography
+                  style={{
+                    fontFamily: "TiemposTextWeb-Regular,Georgia,serif",
+                    color: "white",
+                  }}
+                >
+                  See the rest
+                </Typography>
+                {showFullDescription ? (
+                  <ArrowDropDownIcon color="white" />
+                ) : (
+                  <ArrowDropUpIcon color="white" />
+                )}
+              </IconButton>
             </div>
           </div>
+          <Typography
+            variant="h5"
+            style={{
+              fontFamily: "TiemposTextWeb-Regular,Georgia,serif",
+              color: "white",
+              marginBottom: "-2%",
+            }}
+          >
+            Movies they've stared in:
+          </Typography>
           <div
             style={{
               marginTop: "5%",
+              marginBottom: "5%",
               display: "flex",
               flexDirection: "row",
-              justifyContent: "space-between",
+              alignContent: "left",
+              gap: "8.7%",
               border: "2px solid green",
             }}
           >
-            <Box
-              component="img"
-              sx={{
-                borderRadius: "5%",
-                width: "20%",
-                border: "2px solid blue",
-                // maxHeight: { xs: 203, md: 167 },
-                // maxWidth: { xs: 350, md: 250 },
-              }}
-              alt="Chriss Pratt"
-              src={ChrisPratt}
-            />
-            <Box
-              component="img"
-              sx={{
-                borderRadius: "5%",
-                width: "20%",
-                border: "2px solid blue",
-                // maxHeight: { xs: 203, md: 167 },
-                // maxWidth: { xs: 350, md: 250 },
-              }}
-              alt="Chriss Pratt"
-              src={ChrisPratt}
-            />
-            <Box
-              component="img"
-              sx={{
-                borderRadius: "5%",
-                width: "20%",
-                border: "2px solid blue",
-                // maxHeight: { xs: 203, md: 167 },
-                // maxWidth: { xs: 350, md: 250 },
-              }}
-              alt="Chriss Pratt"
-              src={ChrisPratt}
-            />
-            <Box
-              component="img"
-              sx={{
-                borderRadius: "5%",
-                width: "20%",
-                border: "2px solid blue",
-                // maxHeight: { xs: 203, md: 167 },
-                // maxWidth: { xs: 350, md: 250 },
-              }}
-              alt="Chriss Pratt"
-              src={ChrisPratt}
-            />
+            {movies.map((movie) => {
+              return (
+                <Box
+                  width={150}
+                  height={200}
+                  className={styles.MovieBorder}
+                  sx={{
+                    backgroundImage: `url(${require(`../../../assets/movies/${movie.Thumbnail}`)})`,
+                    backgroundSize: "cover",
+                    backgroundRepeat: "no-repeat",
+                    backgroundPosition: "right",
+                  }}
+                  borderRadius="5px"
+                  key={movie.MovieId}
+                  onClick={() => {
+                    sendMovieInfo(movie);
+                  }}
+                />
+              );
+            })}
           </div>
-          <IconButton
-            onClick={handleInput}
-            disableRipple
-            disableFocusRipple
-            style={{ marginBottom: "2%", marginTop: "2%" }}
-          >
-            <Typography
-              style={{
-                fontFamily: "TiemposTextWeb-Regular,Georgia,serif",
-                color: "white",
-              }}
-            >
-              Load more movies
-            </Typography>
-            {showMovies ? (
-              <ArrowDropDownIcon color="white" />
-            ) : (
-              <ArrowDropUpIcon color="white" />
-            )}
-          </IconButton>
-          {showMovies ? (
+          {movies.length <= 4 ? (
             <></>
           ) : (
-            <div style={{ marginTop: "-5%" }}>
-              {" "}
-              <div
-                style={{
-                  marginTop: "5%",
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  border: "2px solid green",
-                }}
+            <>
+              <IconButton
+                onClick={handleInputShowMovies}
+                disableRipple
+                disableFocusRipple
+                style={{ marginBottom: "2%", marginTop: "2%" }}
               >
-                <Box
-                  component="img"
-                  sx={{
-                    borderRadius: "5%",
-                    width: "20%",
-                    border: "2px solid blue",
-                    // maxHeight: { xs: 203, md: 167 },
-                    // maxWidth: { xs: 350, md: 250 },
+                <Typography
+                  style={{
+                    fontFamily: "TiemposTextWeb-Regular,Georgia,serif",
+                    color: "white",
                   }}
-                  alt="Chriss Pratt"
-                  src={ChrisPratt}
-                />
-                <Box
-                  component="img"
-                  sx={{
-                    borderRadius: "5%",
-                    width: "20%",
-                    border: "2px solid blue",
-                    // maxHeight: { xs: 203, md: 167 },
-                    // maxWidth: { xs: 350, md: 250 },
-                  }}
-                  alt="Chriss Pratt"
-                  src={ChrisPratt}
-                />
-                <Box
-                  component="img"
-                  sx={{
-                    borderRadius: "5%",
-                    width: "20%",
-                    border: "2px solid blue",
-                    // maxHeight: { xs: 203, md: 167 },
-                    // maxWidth: { xs: 350, md: 250 },
-                  }}
-                  alt="Chriss Pratt"
-                  src={ChrisPratt}
-                />
-                <Box
-                  component="img"
-                  sx={{
-                    borderRadius: "5%",
-                    width: "20%",
-                    border: "2px solid blue",
-                    // maxHeight: { xs: 203, md: 167 },
-                    // maxWidth: { xs: 350, md: 250 },
-                  }}
-                  alt="Chriss Pratt"
-                  src={ChrisPratt}
-                />
-              </div>
-              <div
-                style={{
-                  marginTop: "5%",
-                  marginBottom: "5%",
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  border: "2px solid green",
-                }}
-              >
-                <Box
-                  component="img"
-                  sx={{
-                    borderRadius: "5%",
-                    width: "20%",
-                    border: "2px solid blue",
-                    // maxHeight: { xs: 203, md: 167 },
-                    // maxWidth: { xs: 350, md: 250 },
-                  }}
-                  alt="Chriss Pratt"
-                  src={ChrisPratt}
-                />
-                <Box
-                  component="img"
-                  sx={{
-                    borderRadius: "5%",
-                    width: "20%",
-                    border: "2px solid blue",
-                    // maxHeight: { xs: 203, md: 167 },
-                    // maxWidth: { xs: 350, md: 250 },
-                  }}
-                  alt="Chriss Pratt"
-                  src={ChrisPratt}
-                />
-                <Box
-                  component="img"
-                  sx={{
-                    borderRadius: "5%",
-                    width: "20%",
-                    border: "2px solid blue",
-                    // maxHeight: { xs: 203, md: 167 },
-                    // maxWidth: { xs: 350, md: 250 },
-                  }}
-                  alt="Chriss Pratt"
-                  src={ChrisPratt}
-                />
-                <Box
-                  component="img"
-                  sx={{
-                    borderRadius: "5%",
-                    width: "20%",
-                    border: "2px solid blue",
-                    // maxHeight: { xs: 203, md: 167 },
-                    // maxWidth: { xs: 350, md: 250 },
-                  }}
-                  alt="Chriss Pratt"
-                  src={ChrisPratt}
-                />
-              </div>
-              <div
-                style={{
-                  marginTop: "5%",
-                  marginBottom: "5%",
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  border: "2px solid green",
-                }}
-              >
-                <Box
-                  component="img"
-                  sx={{
-                    borderRadius: "5%",
-                    width: "20%",
-                    border: "2px solid blue",
-                    // maxHeight: { xs: 203, md: 167 },
-                    // maxWidth: { xs: 350, md: 250 },
-                  }}
-                  alt="Chriss Pratt"
-                  src={ChrisPratt}
-                />
-                <Box
-                  component="img"
-                  sx={{
-                    borderRadius: "5%",
-                    width: "20%",
-                    border: "2px solid blue",
-                    // maxHeight: { xs: 203, md: 167 },
-                    // maxWidth: { xs: 350, md: 250 },
-                  }}
-                  alt="Chriss Pratt"
-                  src={ChrisPratt}
-                />
-                <Box
-                  component="img"
-                  sx={{
-                    borderRadius: "5%",
-                    width: "20%",
-                    border: "2px solid blue",
-                    // maxHeight: { xs: 203, md: 167 },
-                    // maxWidth: { xs: 350, md: 250 },
-                  }}
-                  alt="Chriss Pratt"
-                  src={ChrisPratt}
-                />
-                <Box
-                  component="img"
-                  sx={{
-                    borderRadius: "5%",
-                    width: "20%",
-                    border: "2px solid blue",
-                    // maxHeight: { xs: 203, md: 167 },
-                    // maxWidth: { xs: 350, md: 250 },
-                  }}
-                  alt="Chriss Pratt"
-                  src={ChrisPratt}
-                />
-              </div>
-            </div>
+                >
+                  Load more movies
+                </Typography>
+                {showMovies ? (
+                  <ArrowDropDownIcon color="white" />
+                ) : (
+                  <ArrowDropUpIcon color="white" />
+                )}
+              </IconButton>
+              {showMovies ? (
+                <></>
+              ) : (
+                <div style={{ marginTop: "-5%" }}>
+                  {" "}
+                  <div
+                    style={{
+                      marginTop: "5%",
+                      marginBottom: "5%",
+                      display: "flex",
+                      flexDirection: "row",
+                      alignContent: "left",
+                      gap: "8.7%",
+                      border: "2px solid green",
+                    }}
+                  >
+                    <Box
+                      width={150}
+                      height={200}
+                      className={styles.MovieBorder}
+                      sx={{
+                        backgroundImage: `url(${GrandBudapest})`,
+                        backgroundSize: "cover",
+                        backgroundRepeat: "no-repeat",
+                        backgroundPosition: "right",
+                      }}
+                      borderRadius="5px"
+                    />
+                    <Box
+                      width={150}
+                      height={200}
+                      className={styles.MovieBorder}
+                      sx={{
+                        backgroundImage: `url(${GrandBudapest})`,
+                        backgroundSize: "cover",
+                        backgroundRepeat: "no-repeat",
+                        backgroundPosition: "right",
+                      }}
+                      borderRadius="5px"
+                    />
+                    <Box
+                      width={150}
+                      height={200}
+                      className={styles.MovieBorder}
+                      sx={{
+                        backgroundImage: `url(${GrandBudapest})`,
+                        backgroundSize: "cover",
+                        backgroundRepeat: "no-repeat",
+                        backgroundPosition: "right",
+                      }}
+                      borderRadius="5px"
+                    />
+                    <Box
+                      width={150}
+                      height={200}
+                      className={styles.MovieBorder}
+                      sx={{
+                        backgroundImage: `url(${GrandBudapest})`,
+                        backgroundSize: "cover",
+                        backgroundRepeat: "no-repeat",
+                        backgroundPosition: "right",
+                      }}
+                      borderRadius="5px"
+                    />
+                  </div>
+                  <div
+                    style={{
+                      marginTop: "5%",
+                      marginBottom: "5%",
+                      display: "flex",
+                      flexDirection: "row",
+                      alignContent: "left",
+                      gap: "8.7%",
+                      border: "2px solid green",
+                    }}
+                  >
+                    <Box
+                      width={150}
+                      height={200}
+                      className={styles.MovieBorder}
+                      sx={{
+                        backgroundImage: `url(${GrandBudapest})`,
+                        backgroundSize: "cover",
+                        backgroundRepeat: "no-repeat",
+                        backgroundPosition: "right",
+                      }}
+                      borderRadius="5px"
+                    />
+                    <Box
+                      width={150}
+                      height={200}
+                      className={styles.MovieBorder}
+                      sx={{
+                        backgroundImage: `url(${GrandBudapest})`,
+                        backgroundSize: "cover",
+                        backgroundRepeat: "no-repeat",
+                        backgroundPosition: "right",
+                      }}
+                      borderRadius="5px"
+                    />
+                    <Box
+                      width={150}
+                      height={200}
+                      className={styles.MovieBorder}
+                      sx={{
+                        backgroundImage: `url(${GrandBudapest})`,
+                        backgroundSize: "cover",
+                        backgroundRepeat: "no-repeat",
+                        backgroundPosition: "right",
+                      }}
+                      borderRadius="5px"
+                    />
+                    <Box
+                      width={150}
+                      height={200}
+                      className={styles.MovieBorder}
+                      sx={{
+                        backgroundImage: `url(${GrandBudapest})`,
+                        backgroundSize: "cover",
+                        backgroundRepeat: "no-repeat",
+                        backgroundPosition: "right",
+                      }}
+                      borderRadius="5px"
+                    />
+                  </div>
+                  <div
+                    style={{
+                      marginTop: "5%",
+                      marginBottom: "5%",
+                      display: "flex",
+                      flexDirection: "row",
+                      alignContent: "left",
+                      gap: "8.7%",
+                      border: "2px solid green",
+                    }}
+                  >
+                    <Box
+                      width={150}
+                      height={200}
+                      className={styles.MovieBorder}
+                      sx={{
+                        backgroundImage: `url(${GrandBudapest})`,
+                        backgroundSize: "cover",
+                        backgroundRepeat: "no-repeat",
+                        backgroundPosition: "right",
+                      }}
+                      borderRadius="5px"
+                    />
+                    <Box
+                      width={150}
+                      height={200}
+                      className={styles.MovieBorder}
+                      sx={{
+                        backgroundImage: `url(${GrandBudapest})`,
+                        backgroundSize: "cover",
+                        backgroundRepeat: "no-repeat",
+                        backgroundPosition: "right",
+                      }}
+                      borderRadius="5px"
+                    />
+                    <Box
+                      width={150}
+                      height={200}
+                      className={styles.MovieBorder}
+                      sx={{
+                        backgroundImage: `url(${GrandBudapest})`,
+                        backgroundSize: "cover",
+                        backgroundRepeat: "no-repeat",
+                        backgroundPosition: "right",
+                      }}
+                      borderRadius="5px"
+                    />
+                    <Box
+                      width={150}
+                      height={200}
+                      className={styles.MovieBorder}
+                      sx={{
+                        backgroundImage: `url(${GrandBudapest})`,
+                        backgroundSize: "cover",
+                        backgroundRepeat: "no-repeat",
+                        backgroundPosition: "right",
+                      }}
+                      borderRadius="5px"
+                    />
+                  </div>
+                </div>
+              )}
+            </>
           )}
         </Container>
       </div>

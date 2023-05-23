@@ -12,16 +12,13 @@ const db = mysql.createConnection({
   database: "moviebox",
 });
 
-
-
 db.connect((err) => {
   if (err) {
-    console.error('Error connecting to MySQL server:', err);
+    console.error("Error connecting to MySQL server:", err);
   } else {
-    console.log('Connected to MySQL server.');
+    console.log("Connected to MySQL server.");
   }
 });
-
 
 app.listen(5000, () => {
   console.log("server started on port 5000");
@@ -134,29 +131,40 @@ app.post("/api/addmovie", (req, res) => {
 
 app.post("/api/postActor", (req, res) => {
   const { actorId } = req.body;
-  const sqlInsert = "INSERT INTO actors (firstName, lastName, actorPic, gender, description, dateOfBirth) VALUES ( ?, ?, ?, ?, ?, ?);";
-  db.query(sqlInsert, [firstName, lastName, actorPic, gender, description, dateOfBirth], (err, result) => {
-    if (err) {
-      console.log(err);
-      res.status(400).json({ msg: "Actor already exists" });
+  const sqlInsert =
+    "INSERT INTO actors (firstName, lastName, actorPic, gender, description, dateOfBirth) VALUES ( ?, ?, ?, ?, ?, ?);";
+  db.query(
+    sqlInsert,
+    [firstName, lastName, actorPic, gender, description, dateOfBirth],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+        res.status(400).json({ msg: "Actor already exists" });
+      }
     }
-  });
+  );
   res.status(200).json({ msg: "Actor added" });
 });
 
 app.get("/api/getActor", (req, res) => {
-  const { firstName, lastName, actorPic, gender, description, dateOfBirth } = req.body;
+  const { firstName, lastName, actorPic, gender, description, dateOfBirth } =
+    req.body;
   const sqlGet = "SELECT * FROM actors WHERE ActorId=?";
-  db.query(sqlGet, [firstName, lastName, actorPic, gender, description, dateOfBirth], (err, results) => {
-    if (err) {
-      console.error(err);
-      res.status(500).json({ error: "An error occurred while checking the username" });
-    } else {
-      res.status(200).json({ msg: "Actor pulled successfully", results });
+  db.query(
+    sqlGet,
+    [firstName, lastName, actorPic, gender, description, dateOfBirth],
+    (err, results) => {
+      if (err) {
+        console.error(err);
+        res
+          .status(500)
+          .json({ error: "An error occurred while checking the username" });
+      } else {
+        res.status(200).json({ msg: "Actor pulled successfully", results });
+      }
     }
-  });
+  );
 });
-
 
 app.get("/api/getMovie", (req, res) => {
   const { movieName, movieRating, movieReview } = req.body;
@@ -191,11 +199,12 @@ app.get("/api/numOfMoviesByActor", (req, res) => {
       console.error(err);
       res.status(500).json({ error: "An error occurred." });
     } else {
-      res.status(200).json({ msg: "Number of movies pulled successfully", results });
+      res
+        .status(200)
+        .json({ msg: "Number of movies pulled successfully", results });
     }
   });
 });
-
 
 app.get("/api/getAllActors", (req, res) => {
   const sqlGet = "SELECT * FROM actors;";
@@ -211,7 +220,8 @@ app.get("/api/getAllActors", (req, res) => {
 
 app.get("/api/getMovieActors", (req, res) => {
   const { movieId } = req.query;
-  const sqlGet = "SELECT * FROM actors WHERE actorId IN (SELECT actorId FROM movies_actors WHERE movieId = ?);";
+  const sqlGet =
+    "SELECT * FROM actors WHERE actorId IN (SELECT actorId FROM movies_actors WHERE movieId = ?);";
   db.query(sqlGet, [movieId], (err, results) => {
     console.log(results);
     if (err) {
@@ -223,56 +233,72 @@ app.get("/api/getMovieActors", (req, res) => {
   });
 });
 
+app.get("/api/getActorMovies", (req, res) => {
+  const { actorId } = req.query;
+  const sqlGet =
+    "SELECT * FROM movies WHERE movieId IN (SELECT movieId FROM movies_actors WHERE actorId = ?);";
+  db.query(sqlGet, [actorId], (err, results) => {
+    console.log(results);
+    if (err) {
+      console.error(err);
+      res.status(500).json({ err: "An error occurred." });
+    } else {
+      res.status(200).json({ msg: "Movies pulled successfully", results });
+    }
+  });
+});
 
 app.get("/api/get", (req, res) => {
-  const sqlGet = "SELECT * FROM users;"
+  const sqlGet = "SELECT * FROM users;";
   db.query(sqlGet, (error, result) => {
-    res.send(result)
-  })
-})
+    res.send(result);
+  });
+});
 
 app.delete("/api/remove/:id", (req, res) => {
-  const { id } = req.params
-  const sqlRemove = "DELETE FROM users WHERE UserID=?;"
+  const { id } = req.params;
+  const sqlRemove = "DELETE FROM users WHERE UserID=?;";
   db.query(sqlRemove, [id], (error, result) => {
     if (error) {
-      console.log(error)
+      console.log(error);
     }
-  })
-})
+  });
+});
 
 app.get("/api/get/:id", (req, res) => {
-  const { id } = req.params
-  const sqlGet = "SELECT * FROM users WHERE UserID = ?;"
+  const { id } = req.params;
+  const sqlGet = "SELECT * FROM users WHERE UserID = ?;";
   db.query(sqlGet, id, (error, result) => {
     if (error) {
-      console.log(error)
+      console.log(error);
     }
-    res.send(result)
-  })
-})
+    res.send(result);
+  });
+});
 
 app.put("/api/update/:id", (req, res) => {
-  const { id } = req.params
-  const { name, email, password } = req.body
-  const sqlUpdate = "UPDATE users SET Username = ?, Email = ?, Password = ? WHERE UserID = ?;"
+  const { id } = req.params;
+  const { name, email, password } = req.body;
+  const sqlUpdate =
+    "UPDATE users SET Username = ?, Email = ?, Password = ? WHERE UserID = ?;";
   db.query(sqlUpdate, [name, email, password, id], (error, result) => {
     if (error) {
-      console.log(error)
+      console.log(error);
     }
-    res.send(result)
-  })
-})
+    res.send(result);
+  });
+});
 
 app.post("/api/post", (req, res) => {
-  const { name, email, password } = req.body
-  const sqlInsert = "INSERT INTO users (Username, Email, Password, Bio, ProfilePic) VALUES (?, ?, ?, 'bio', 'profile.png');"
+  const { name, email, password } = req.body;
+  const sqlInsert =
+    "INSERT INTO users (Username, Email, Password, Bio, ProfilePic) VALUES (?, ?, ?, 'bio', 'profile.png');";
   db.query(sqlInsert, [name, email, password], (error, result) => {
     if (error) {
-      console.log(error)
+      console.log(error);
     }
-  })
-})
+  });
+});
 
 app.post("/api/post", (req, res) => {
   const { username, email, password, birthday } = req.body;

@@ -1,7 +1,7 @@
 import { Container, Box, Typography } from "@mui/material"
 import Header from "../../header/Header"
 import Avatar from '../../../assets/Avatar.jpg'
-import AvatarTexture from '../../../assets/AvatarTexture.jpg'
+import AvatarTrailer from '../../../assets/movies/AvatarTrailer.jpeg'
 import styles from "./style.module.css"
 import Everything from '../../../assets/EverythingEverywhere.jpg'
 import GoodWill from '../../../assets/GoodWillHuntingCover.png'
@@ -12,11 +12,12 @@ import Footer from "../../footer/Footer"
 import BrendanFraser from "../../../assets/actors/BrendanFraser.jpg"
 import Slider from "./slider/Carousel"
 import SliderTheatre from "./theatreSlider/Carousel"
+import PlayCircleOutlineRoundedIcon from '@mui/icons-material/PlayCircleOutlineRounded';
 
 const HomePage = () => {
 
     return (
-        <div style={{ backgroundColor: "#16161c" }}>
+        <div style={{ backgroundImage: `linear-gradient(to top, rgba(26, 26, 36), rgba(22, 22, 28))` }}>
             <Header />
 
             <Box width="100%" height="80vh" sx={{ position: "relative" }}>
@@ -49,6 +50,36 @@ const HomePage = () => {
                     color="#ebebeb">
                     NOW IN CINEMAS
                 </Typography>
+                <Link
+                    to={"/Home"}
+                    style={{
+                        width: "200px",
+                        height: "140px",
+                        borderRadius: "7px",
+                        position: "absolute",
+                        top: "53%",
+                        left: "5%",
+                        textDecoration: "none"
+                    }}>
+                    <Typography zIndex="10" color="#b8b6b6" variant="body2" ml={6}>Trailer Out Now</Typography>
+                    <Box
+                        width="100%"
+                        height="100%"
+                        borderRadius="7px"
+                        className={styles.avatarTrailer}
+                        sx={{
+                            backgroundImage: `url(${AvatarTrailer})`,
+                            backgroundSize: "cover",
+                            backgroundRepeat: "no-repeat",
+                            backgroundPosition: "top",
+                            zIndex: 0,
+                            filter: "brightness(50%)",
+                        }}>
+
+                    </Box>
+
+                </Link>
+
             </Box>
 
             <Container maxWidth="md">
@@ -166,7 +197,7 @@ const HomePage = () => {
 
                 <Box mt={10}>
                     <Typography
-                        color="#b8b6b6"
+                        color="#8f8f8f"
                         mb={2}
                         fontSize="24px"
                         textAlign="center">
@@ -182,7 +213,7 @@ const HomePage = () => {
 
             </Box>
             <Footer />
-        </div>
+        </div >
     )
 }
 

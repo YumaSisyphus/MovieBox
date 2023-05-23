@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import styles from "./style.module.css";
 import movie from "../../../assets/movies/movie.jpg";
 import { useNavigate } from "react-router-dom";
+import Footer from "../../footer/Footer";
+import Header from "../../header/Header";
+import { Container } from "@mui/material";
 
 const MoviePage = () => {
   const [activeList, setActiveList] = useState("cast");
@@ -26,6 +29,7 @@ const MoviePage = () => {
   };
   return (
     <div className={styles.movie_page}>
+      <Header />
       <div className={styles.movie}>
         <div className={styles.movie_background}> </div>
         <div className={styles.container}>
@@ -133,7 +137,8 @@ const MoviePage = () => {
         </div>
       </div>
 
-      <div className={styles.ticket}>Buy a Ticket</div>
+      <div className={styles.ticket}>Get Tickets</div>
+      <Footer />
     </div>
   );
 };

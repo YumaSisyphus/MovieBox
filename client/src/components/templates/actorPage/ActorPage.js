@@ -21,7 +21,7 @@ const ActorPage = () => {
           display: "flex",
           flexDirection: "row",
           height: "100%",
-          backgroundImage: `linear-gradient(to top, rgba(48, 48, 54), rgba(22, 22, 28))`,
+          backgroundImage: `linear-gradient(to top, rgba(26, 26, 36), rgba(22, 22, 28))`
         }}
       >
         <Container

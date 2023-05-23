@@ -4,6 +4,7 @@ import styles from "./style.module.css";
 import logo from "../../assets/logo2.png";
 // import ReactSearchBox from "react-search-box";
 import SearchIcon from "@mui/icons-material/Search";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const Header = () => {
   return (
@@ -34,14 +35,21 @@ const Header = () => {
             }}
           >
             <li>
-              <Link underline="none" href="/Profile">
+              <Link underline="none" href="/Home">
                 <Typography variant="body1" className={styles.NavbarText}>
-                  Profile
+                  Home
                 </Typography>
               </Link>
             </li>
             <li>
-              <Link underline="none" href="/">
+              <Link underline="none" href="/Profile">
+                <Typography variant="body1" className={styles.NavbarText} display="flex" style={{ marginTop: "1px" }}>
+                  <AccountCircleIcon sx={{ marginTop: "-2px" }} />Profile
+                </Typography>
+              </Link>
+            </li>
+            <li>
+              <Link underline="none" href="/MoviePage">
                 <Typography variant="body1" className={styles.NavbarText}>
                   Films
                 </Typography>

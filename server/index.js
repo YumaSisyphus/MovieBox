@@ -264,6 +264,8 @@ app.get("/api/getActorMovies", (req, res) => {
   });
 });
 
+
+
 app.get("/api/get", (req, res) => {
   const sqlGet = "SELECT * FROM users;";
   db.query(sqlGet, (error, result) => {

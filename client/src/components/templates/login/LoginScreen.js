@@ -9,6 +9,7 @@ import {
   IconButton,
   Typography,
 } from "@mui/material";
+import  Cookies  from "universal-cookie";
 import Footer from "../../footer/Footer";
 import Header from "../../header/Header";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
@@ -32,15 +33,17 @@ const initalState = {
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [state, setState] = useState(initalState);
+  const { usernameORemail, password } = state;
+  const navigate = useNavigate();
+  const cookies = new Cookies();
   const handleClickShowPassword = () => {
     setShowPassword((prev) => !prev);
   };
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-  const [state, setState] = useState(initalState);
-  const { usernameORemail, password } = state;
-  const navigate = useNavigate();
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!usernameORemail || !password) {
@@ -55,6 +58,7 @@ const Login = () => {
           if (response.data.msg) {
             toast.error(response.data.msg);
           } else {
+            cookies.set("token", response.data, { path: "/" });
             setState({
               usernameORemail: "",
               password: "",

@@ -13,6 +13,7 @@ import theme from "./utils/Themes";
 import Dashboard from "./components/dashboard/Dashboard";
 import AddEdit from "./components/Edit/AddEdit";
 import HomePage from "./components/templates/HomePage/HomePage";
+import PrivateRoutes from "./utils/PrivateRoutes";
 
 function App() {
   return (
@@ -20,18 +21,20 @@ function App() {
       <ThemeProvider theme={theme}>
         <BrowserRouter>
           <Routes>
+            <Route element={<PrivateRoutes />}>
+              <Route path="/profile" Component={ProfileContainer} />
+              <Route path="/terms" Component={TermsOfUse} />
+              <Route path="/actorPage" Component={ActorPage} />
+              <Route path="/dashboard" Component={Dashboard} />
+              <Route path="/edit" Component={AddEdit} />
+              <Route path="/update/:id" Component={AddEdit} />
+              <Route path="/moviePage" Component={MoviePage} />
+              <Route path="/home" Component={HomePage} />
+              <Route path="/editProfile" Component={HomePage} />
+            </Route>
             <Route path="/" Component={WelcomeScreen} />
             <Route path="/login" Component={Login} />
             <Route path="/register" Component={Register} />
-            <Route path="/profile" Component={ProfileContainer} />
-            <Route path="/terms" Component={TermsOfUse} />
-            <Route path="/actorPage" Component={ActorPage} />
-            <Route path="/dashboard" Component={Dashboard} />
-            <Route path="/edit" Component={AddEdit} />
-            <Route path="/update/:id" Component={AddEdit} />
-            <Route path="/moviePage" Component={MoviePage} />
-            <Route path="/home" Component={HomePage} />
-            <Route path="/editProfile" Component={HomePage} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>

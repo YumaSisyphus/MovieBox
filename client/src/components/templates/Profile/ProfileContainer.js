@@ -31,7 +31,6 @@ function ProfileContainer() {
     let { id } = useParams();
     const cookies = new Cookies();
     const token = cookies.get("token");
-    console.log(token);
     const { Username, Bio } = token[0];
     return (
         <ThemeProvider theme={theme}>

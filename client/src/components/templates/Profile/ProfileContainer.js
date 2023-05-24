@@ -32,8 +32,9 @@ function ProfileContainer() {
     let { id } = useParams();
     const cookies = new Cookies();
     const token = cookies.get("token");
-    const { Username, Bio } = token[0];
+    const { Username, Bio, ProfilePic } = token[0];
     const [movies, setMovies] = useState([]);
+    console.log(ProfilePic)
 
     useEffect(() => {
         const fetchMovies = async () => {
@@ -63,7 +64,7 @@ function ProfileContainer() {
                         <Box display={"flex"}>
                             <Box display={"flex"} flex={1}>
                                 <img
-                                    src={ErblinUser}
+                                    src={ProfilePic}
                                     alt="Profile picture"
                                     className={styles.profilePicture}
                                 />
@@ -257,7 +258,6 @@ function ProfileContainer() {
                         </Box>
                     </Box>
                 </Container>
-
                 <Footer />
             </div>
         </ThemeProvider>

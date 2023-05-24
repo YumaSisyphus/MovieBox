@@ -111,19 +111,20 @@ const Register = () => {
                 password,
                 birthday,
               })
-              .then(() => {
-                cookies.set("token", response.data, { path: "/" });
+              .then((response) => {
+                cookies.set("token", response.data.result, { path: "/" });
+                console.log(response.data)
                 setState({
                   username: "",
                   email: "",
                   password: "",
                   birthday: "",
                 });
+                setTimeout(() => {
+                  navigate("/home");
+                }, 500);
               })
               .catch((err) => toast.error(err.response.data));
-            setTimeout(() => {
-              navigate("/");
-            }, 500);
           }
         });
     }

@@ -196,7 +196,7 @@ function ProfileContainer() {
                             <hr style={{ border: "1px solid #8f8f8f" }} />
 
                             <Box display="flex" mt={2}>
-                                {movies.slice(0, 4).map((movie) => (
+                                {movies?.slice(0, 4).map((movie) => (
                                     <Link
                                         key={movie.movieId}
                                         to="/"

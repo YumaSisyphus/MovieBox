@@ -66,7 +66,8 @@ app.post("/api/register", (req, res) => {
           console.log(err);
           res.status(400).json({ msg: "Username or Email already exists" });
         } else {
-          res.status(200).json({ msg: "User created" });
+          
+          res.status(200).json({ msg: "User created", result });
         }
       });
     }
@@ -81,16 +82,19 @@ app.post("/api/register", (req, res) => {
 
 app.get("/api/checkUserRegister", (req, res) => {
   const { username, email } = req.query;
+  console.log({ username: username, email: email });
   const sqlGet = "SELECT * FROM users WHERE username = ? OR email = ?";
   db.query(sqlGet, [username, email], (err, results) => {
+    const exists = results.length > 0;
     if (err) {
       console.error(err);
       res
         .status(500)
         .json({ error: "An error occurred while checking the username" });
-    } else {
-      const exists = results.length > 0;
+    } else if (exists) {
       res.json({ exists });
+    } else {
+      res.json(false);
     }
   });
 });
@@ -264,8 +268,6 @@ app.get("/api/getActorMovies", (req, res) => {
   });
 });
 
-
-
 app.get("/api/get", (req, res) => {
   const sqlGet = "SELECT * FROM users;";
   db.query(sqlGet, (error, result) => {
@@ -329,13 +331,12 @@ app.post("/api/post", (req, res) => {
   });
 });
 
-
-app.get('/api/movies', (req, res) => {
-  const query = 'SELECT MovieId, Thumbnail FROM movies';
+app.get("/api/movies", (req, res) => {
+  const query = "SELECT MovieId, Thumbnail FROM movies";
   db.query(query, (error, results) => {
     if (error) {
-      console.error('Error fetching movies:', error);
-      res.status(500).json({ error: 'Internal server error' });
+      console.error("Error fetching movies:", error);
+      res.status(500).json({ error: "Internal server error" });
     } else {
       const movies = results.map((result) => ({
         movieId: result.MovieId,

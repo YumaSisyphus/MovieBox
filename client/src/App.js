@@ -33,7 +33,6 @@ function App() {
             <Route path="/register" Component={Register} />
             <Route element={<PrivateRoutes />}>
               <Route path="/profile" Component={ProfileContainer} />
-              <Route path="/terms" Component={TermsOfUse} />
               <Route path="/actorPage" Component={ActorPage} />
               <Route path="/dashboard" Component={Dashboard} />
               <Route path="/edit" Component={AddEdit} />

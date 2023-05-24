@@ -1,0 +1,94 @@
+[
+    {
+        "id": 1,
+        "name": "Movie 1",
+        "movies": [
+            {
+                "id": 1,
+                "name": "Chungking Express",
+                "hours": 1,
+                "minutes": 37,
+                "rating": 4,
+                "numberOfReviews": 462,
+                "price": 20,
+                "image": "https://media.discordapp.net/attachments/900375826758008852/1093528772193562705/ChungkingExpress.jpg?width=1179&height=663"
+            },
+            {
+                "id": 2,
+                "name": "Enemy",
+                "hours": 1,
+                "minutes": 35,
+                "rating": 3.5,
+                "numberOfReviews": 641,
+                "price": 15,
+                "image": "https://media.discordapp.net/attachments/900375826758008852/1093528772436820099/Enemy.jpg?width=1179&height=663"
+            },
+            {
+                "id": 3,
+                "name": "Everything Everywhere All At Once",
+                "hours": 2,
+                "minutes": 19,
+                "rating": 4.5,
+                "numberOfReviews": 683,
+                "price": 30,
+                "image": "https://media.discordapp.net/attachments/900375826758008852/1093528772713648198/EverythingEverywhere.jpg?width=1179&height=663"
+            },
+            {
+                "id": 4,
+                "name": "Hive",
+                "hours": 1,
+                "minutes": 24,
+                "rating": 4.5,
+                "numberOfReviews": 230,
+                "price": 10,
+                "image": "https://media.discordapp.net/attachments/900375826758008852/1093528772973703290/HIVE.png?width=1179&height=663"
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "name": "Movie 2",
+        "movies": [
+            {
+                "id": 5,
+                "name": "Parasite",
+                "hours": 2,
+                "minutes": 12,
+                "rating": 5,
+                "numberOfReviews": 1070,
+                "price": 35,
+                "image": "https://media.discordapp.net/attachments/900375826758008852/1093528773535727646/Parasite.jpg?width=1179&height=663"
+            },
+            {
+                "id": 6,
+                "name": "SEVEN",
+                "hours": 2,
+                "minutes": 8,
+                "rating": 4.5,
+                "numberOfReviews": 623,
+                "price": 25,
+                "image": "https://media.discordapp.net/attachments/900375826758008852/1093528773913219114/Seven.jpg?width=1179&height=663"
+            },
+            {
+                "id": 7,
+                "name": "Hereditary",
+                "hours": 2,
+                "minutes": 7,
+                "rating": 4.5,
+                "numberOfReviews": 840,
+                "price": 40,
+                "image": "https://cdn.discordapp.com/attachments/900375826758008852/1093529182815924234/Hereditary.jpg"
+            },
+            {
+                "id": 8,
+                "name": "Superbad",
+                "hours": 1,
+                "minutes": 54,
+                "rating": 4,
+                "numberOfReviews": 369,
+                "price": 32,
+                "image": "https://cdn.discordapp.com/attachments/900375826758008852/1093529423338291250/Superbad.jpg"
+            }
+        ]
+    }
+]

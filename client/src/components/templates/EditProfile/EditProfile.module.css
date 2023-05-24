@@ -1,0 +1,20 @@
+.changePic {
+    text-decoration: none;
+}
+
+.changePicbutton {
+    background-color: #ebebeb;
+    padding: 5px 10px;
+    border-radius: 10px;
+}
+
+.SaveButton {
+    background-color: #ebebeb;
+    padding: 5px 30px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.SaveText {
+    font-size: 14px !important;
+}

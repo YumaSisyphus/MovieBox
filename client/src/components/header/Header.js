@@ -8,6 +8,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useNavigate } from "react-router";
 import Cookies from "universal-cookie";
+import Search from "../SearchBox/Search";
 
 const Header = () => {
   const history = useNavigate();
@@ -91,22 +92,6 @@ const Header = () => {
                 </Typography>
               </Link>
             </li>
-            {/* <li>
-                            <ReactSearchBox
-                                placeholder="Search..."
-                                leftIcon={<SearchIcon />}
-                                data={[
-                                    {
-                                        key: "enemy",
-                                        value: "Enemy"
-                                    },
-                                    {
-                                        key: "Hive",
-                                        value: "Hive"
-                                    },
-                                ]}
-                            />
-                        </li> */}
           </div>
         </ul> : <ul className={styles.Navbar}>
           <div style={{ display: "flex", alignItems: "center" }}>

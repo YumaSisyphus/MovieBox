@@ -18,7 +18,7 @@ export const Colors = {
   // bg for everypage
   body_bg: "#16161c",
   light_grey: "rgb(230,230,230)",
-  white: "#fff",
+  white: "#ebebeb",
   black: "#000",
 };
 const theme = createTheme({

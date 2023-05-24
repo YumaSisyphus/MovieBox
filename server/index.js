@@ -328,3 +328,20 @@ app.post("/api/post", (req, res) => {
     }
   });
 });
+
+
+app.get('/api/movies', (req, res) => {
+  const query = 'SELECT MovieId, Thumbnail FROM movies';
+  db.query(query, (error, results) => {
+    if (error) {
+      console.error('Error fetching movies:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    } else {
+      const movies = results.map((result) => ({
+        movieId: result.MovieId,
+        thumbnail: result.Thumbnail,
+      }));
+      res.json(movies);
+    }
+  });
+});

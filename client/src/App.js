@@ -14,13 +14,23 @@ import Dashboard from "./components/dashboard/Dashboard";
 import AddEdit from "./components/Edit/AddEdit";
 import HomePage from "./components/templates/HomePage/HomePage";
 import PrivateRoutes from "./utils/PrivateRoutes";
+import EditProfile from "./components/templates/EditProfile/EditProfile";
+import Cookies from "universal-cookie";
 
 function App() {
+  const cookies = new Cookies();
+  const token = cookies.get('token');
+
+
   return (
     <div className="App">
       <ThemeProvider theme={theme}>
         <BrowserRouter>
           <Routes>
+            <Route path={"/"} Component={token ? HomePage : WelcomeScreen} />
+            <Route path="/login" Component={Login} >
+            </Route>
+            <Route path="/register" Component={Register} />
             <Route element={<PrivateRoutes />}>
               <Route path="/profile" Component={ProfileContainer} />
               <Route path="/terms" Component={TermsOfUse} />
@@ -30,11 +40,9 @@ function App() {
               <Route path="/update/:id" Component={AddEdit} />
               <Route path="/moviePage" Component={MoviePage} />
               <Route path="/home" Component={HomePage} />
-              <Route path="/editProfile" Component={HomePage} />
+              <Route path="/editProfile" Component={EditProfile} />
             </Route>
-            <Route path="/" Component={WelcomeScreen} />
-            <Route path="/login" Component={Login} />
-            <Route path="/register" Component={Register} />
+
           </Routes>
         </BrowserRouter>
       </ThemeProvider>

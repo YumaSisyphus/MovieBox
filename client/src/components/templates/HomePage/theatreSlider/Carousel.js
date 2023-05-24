@@ -5,6 +5,7 @@ import Item from "./Item";
 import NetflixCinema from "../../../../assets/Theatres/NetflixCinema.jpeg"
 import Amc from "../../../../assets/Theatres/Amc.jpeg"
 import Chicago from "../../../../assets/Theatres/Chicago.jpg"
+import NewBeverlyCinema from "../../../../assets/Theatres/NewBeverlyCinema.webp"
 
 function SliderTheatre() {
   var items = [
@@ -22,8 +23,8 @@ function SliderTheatre() {
     },
     {
       id: 3,
-      image: Chicago,
-      title: "Chicago",
+      image: NewBeverlyCinema,
+      title: "New Beverly Cinema",
       quote: "Step Into the Enchanting World of Cinema Where Films Illuminate the Silver Screen."
     },
   ];

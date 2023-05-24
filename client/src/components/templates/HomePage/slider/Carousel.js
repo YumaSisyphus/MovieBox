@@ -2,7 +2,7 @@ import React from "react";
 import Carousel from "react-material-ui-carousel";
 import styles from "./Carousel.module.css"
 import Item from "./Item";
-import Hive from "../../../../assets/HIVE.png"
+import Hive from "../../../../assets/movies/HiveCover.png"
 import BeauAfraid from "../../../../assets/movies/BeauAfraid.jpg"
 import FastX from "../../../../assets/movies/FastX.jpg"
 

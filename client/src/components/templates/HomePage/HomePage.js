@@ -1,10 +1,10 @@
 import { Container, Box, Typography } from "@mui/material"
 import Header from "../../header/Header"
-import Avatar from '../../../assets/Avatar.jpg'
+import Avatar from '../../../assets/movies/AvatarCover.jpg'
 import AvatarTrailer from '../../../assets/movies/AvatarTrailer.jpeg'
 import styles from "./style.module.css"
-import Everything from '../../../assets/EverythingEverywhere.jpg'
-import GoodWill from '../../../assets/GoodWillHuntingCover.png'
+import Parasite from '../../../assets/movies/SevenThumbnail.jpg'
+import GoodWill from '../../../assets/movies/GoodWillHuntingCover.jpg'
 import DeadPoets from '../../../assets/DeadPoetsSocietyCover.jpg'
 import GrandBudapest from '../../../assets/GrandBudapest.jpg'
 import { Link } from "react-router-dom"
@@ -101,7 +101,7 @@ const HomePage = () => {
                                 className={styles.MovieBorder}
                                 sx={{
                                     borderRadius: "5px",
-                                    backgroundImage: `url(${Everything})`,
+                                    backgroundImage: `url(${Parasite})`,
                                     backgroundSize: "cover",
                                     backgroundRepeat: "no-repeat",
                                     backgroundPosition: "center"

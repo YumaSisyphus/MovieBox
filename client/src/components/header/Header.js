@@ -50,7 +50,7 @@ const Header = () => {
             }}
           >
             <li>
-              <Link to="/Home" className={styles.Links}>
+              <Link to="/home" className={styles.Links}>
                 <Typography variant="body1" className={styles.NavbarText1}>
                   Home
                 </Typography>

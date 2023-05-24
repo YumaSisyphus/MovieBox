@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./ProfileContainer.module.css";
 import Header from "../../header/Header";
 import {
@@ -10,18 +10,19 @@ import {
 } from "@mui/material";
 import Footer from "../../footer/Footer";
 import { Link, useParams } from "react-router-dom";
-import JohnWick from "../../../assets/JohnWick.jpg";
+import JohnWick4 from "../../../assets/movies/JohnWick4Thumbnail.jpg";
 import Everything from "../../../assets/EverythingEverywhere.jpg";
 import GoodWill from "../../../assets/GoodWillHuntingCover.png";
 import DeadPoets from "../../../assets/DeadPoetsSocietyCover.jpg";
-import GrandBudapest from "../../../assets/GrandBudapest.jpg";
 import Parasite from "../../../assets/Parasite.jpg";
-import LinearProgress, {
-    LinearProgressProps,
-} from "@mui/material/LinearProgress";
+// import Avatar from "../../../assets/movies/AvatarThumbnail.jpg"
+import LinearProgress, { } from "@mui/material/LinearProgress";
 import theme from "../../../utils/Themes";
 import ErblinUser from "../../../assets/Profile/Erblin.jpg";
 import Cookies from "universal-cookie";
+import axios from "axios";
+import Hive from "../../../assets/movies/HiveThumbnail.jpg"
+
 
 function ProfileContainer() {
     const progress1 = 80;
@@ -32,6 +33,23 @@ function ProfileContainer() {
     const cookies = new Cookies();
     const token = cookies.get("token");
     const { Username, Bio } = token[0];
+    const [movies, setMovies] = useState([]);
+
+    useEffect(() => {
+        const fetchMovies = async () => {
+            try {
+                const response = await axios.get('/api/movies');
+                setMovies(response.data);
+            } catch (error) {
+                console.error('Error fetching movies:', error);
+            }
+        };
+
+        fetchMovies();
+    }, []);
+
+
+
     return (
         <ThemeProvider theme={theme}>
             <div
@@ -63,9 +81,9 @@ function ProfileContainer() {
                                         {Username}
                                     </Typography>
 
-                                    <Button className={styles.editButton} size="small">
+                                    <Link className={styles.editButton} to="/editProfile" >
                                         Edit Profile
-                                    </Button>
+                                    </Link>
                                 </Box>
                             </Box>
 
@@ -99,10 +117,11 @@ function ProfileContainer() {
                             </Box>
                         </Box>
                         <Typography className={styles.bio} mt={2} width={600}>
-                            Lights, camera, action! Join me on this cinematic journey as we
+                            {/* Lights, camera, action! Join me on this cinematic journey as we
                             dive into a world of unforgettable stories, thrilling adventures,
                             and mesmerizing moments. Get ready to escape reality and immerse
-                            yourself in the magic of the silver screen.
+                            yourself in the magic of the silver screen. */}
+                            {Bio}
                         </Typography>
 
                         <Box mt={10}>
@@ -177,76 +196,26 @@ function ProfileContainer() {
                             <hr style={{ border: "1px solid #8f8f8f" }} />
 
                             <Box display="flex" mt={2}>
-                                <Link
-                                    to="/"
-                                    style={{ width: "170px", height: "220px", marginRight: "7%" }}
-                                >
-                                    <Box
-                                        width="100%"
-                                        height="100%"
-                                        className={styles.MovieBorder}
-                                        sx={{
-                                            borderRadius: "5px",
-                                            backgroundImage: `url(${Everything})`,
-                                            backgroundSize: "cover",
-                                            backgroundRepeat: "no-repeat",
-                                            backgroundPosition: "center",
-                                        }}
-                                    ></Box>
-                                </Link>
-
-                                <Link
-                                    to="/"
-                                    style={{ width: "170px", height: "220px", marginRight: "7%" }}
-                                >
-                                    <Box
-                                        width="100%"
-                                        height="100%"
-                                        mr={5}
-                                        className={styles.MovieBorder}
-                                        sx={{
-                                            borderRadius: "5px",
-                                            backgroundImage: `url(${GoodWill})`,
-                                            backgroundSize: "cover",
-                                            backgroundRepeat: "no-repeat",
-                                            backgroundPosition: "center",
-                                        }}
-                                    ></Box>
-                                </Link>
-
-                                <Link
-                                    to="/"
-                                    style={{ width: "170px", height: "220px", marginRight: "7%" }}
-                                >
-                                    <Box
-                                        width="100%"
-                                        height="100%"
-                                        mr={5}
-                                        className={styles.MovieBorder}
-                                        sx={{
-                                            borderRadius: "5px",
-                                            backgroundImage: `url(${DeadPoets})`,
-                                            backgroundSize: "cover",
-                                            backgroundRepeat: "no-repeat",
-                                            backgroundPosition: "center",
-                                        }}
-                                    ></Box>
-                                </Link>
-
-                                <Link to="/" style={{ width: "170px", height: "220px" }}>
-                                    <Box
-                                        width="100%"
-                                        height="100%"
-                                        className={styles.MovieBorder}
-                                        sx={{
-                                            borderRadius: "5px",
-                                            backgroundImage: `url(${GrandBudapest})`,
-                                            backgroundSize: "cover",
-                                            backgroundRepeat: "no-repeat",
-                                            backgroundPosition: "center",
-                                        }}
-                                    ></Box>
-                                </Link>
+                                {movies.slice(0, 4).map((movie) => (
+                                    <Link
+                                        key={movie.movieId}
+                                        to="/"
+                                        style={{ width: "168px", height: "220px", marginRight: "7%" }}
+                                    >
+                                        <Box
+                                            width="168px"
+                                            height="220px"
+                                            className={styles.MovieBorder}
+                                            sx={{
+                                                borderRadius: "5px",
+                                                backgroundImage: `url(${movie.thumbnail})`,
+                                                backgroundSize: "cover",
+                                                backgroundRepeat: "no-repeat",
+                                                backgroundPosition: "center",
+                                            }}
+                                        ></Box>
+                                    </Link>
+                                ))}
                             </Box>
                         </Box>
                         <Box mt={5}>
@@ -264,76 +233,26 @@ function ProfileContainer() {
                             <hr style={{ border: "1px solid #8f8f8f" }} />
 
                             <Box display="flex" mt={2}>
-                                <Link
-                                    to="/"
-                                    style={{ width: "170px", height: "220px", marginRight: "7%" }}
-                                >
-                                    <Box
-                                        width="100%"
-                                        height="100%"
-                                        className={styles.MovieBorder}
-                                        sx={{
-                                            borderRadius: "5px",
-                                            backgroundImage: `url(${JohnWick})`,
-                                            backgroundSize: "cover",
-                                            backgroundRepeat: "no-repeat",
-                                            backgroundPosition: "center",
-                                        }}
-                                    ></Box>
-                                </Link>
-
-                                <Link
-                                    to="/"
-                                    style={{ width: "170px", height: "220px", marginRight: "7%" }}
-                                >
-                                    <Box
-                                        width="100%"
-                                        height="100%"
-                                        mr={5}
-                                        className={styles.MovieBorder}
-                                        sx={{
-                                            borderRadius: "5px",
-                                            backgroundImage: `url(${Parasite})`,
-                                            backgroundSize: "cover",
-                                            backgroundRepeat: "no-repeat",
-                                            backgroundPosition: "center",
-                                        }}
-                                    ></Box>
-                                </Link>
-
-                                <Link
-                                    to="/"
-                                    style={{ width: "170px", height: "220px", marginRight: "7%" }}
-                                >
-                                    <Box
-                                        width="100%"
-                                        height="100%"
-                                        mr={5}
-                                        className={styles.MovieBorder}
-                                        sx={{
-                                            borderRadius: "5px",
-                                            backgroundImage: `url(${JohnWick})`,
-                                            backgroundSize: "cover",
-                                            backgroundRepeat: "no-repeat",
-                                            backgroundPosition: "center",
-                                        }}
-                                    ></Box>
-                                </Link>
-
-                                <Link to="/" style={{ width: "170px", height: "220px" }}>
-                                    <Box
-                                        width="100%"
-                                        height="100%"
-                                        className={styles.MovieBorder}
-                                        sx={{
-                                            borderRadius: "5px",
-                                            backgroundImage: `url(${JohnWick})`,
-                                            backgroundSize: "cover",
-                                            backgroundRepeat: "no-repeat",
-                                            backgroundPosition: "center",
-                                        }}
-                                    ></Box>
-                                </Link>
+                                {movies.slice(4, 8).map((movie) => (
+                                    <Link
+                                        key={movie.movieId}
+                                        to="/"
+                                        style={{ width: "168px", height: "220px", marginRight: "7%" }}
+                                    >
+                                        <Box
+                                            width="168px"
+                                            height="220px"
+                                            className={styles.MovieBorder}
+                                            sx={{
+                                                borderRadius: "5px",
+                                                backgroundImage: `url(${movie.thumbnail})`,
+                                                backgroundSize: "cover",
+                                                backgroundRepeat: "no-repeat",
+                                                backgroundPosition: "center",
+                                            }}
+                                        ></Box>
+                                    </Link>
+                                ))}
                             </Box>
                         </Box>
                     </Box>

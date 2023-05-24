@@ -14,7 +14,7 @@ import logo from "../../../assets/logo2.png";
 import JohnWick from "../../../assets/JohnWick.jpg";
 import TheBatman from "../../../assets/TheBatman.jpg";
 // import DecisionToLeave from "../../../assets/DecisionToLeave.jpg"
-import Everything from "../../../assets/everything.jpg";
+import Everything from "../../../assets/movies/EverythingEverywhereThumbnail.jpg";
 import GrandBudapest from "../../../assets/GrandBudapest.jpg";
 import Footer from "../../footer/Footer";
 import BookOnlineIcon from "@mui/icons-material/BookOnline";

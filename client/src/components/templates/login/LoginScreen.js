@@ -58,7 +58,9 @@ const Login = () => {
           if (response.data.msg) {
             toast.error(response.data.msg);
           } else {
-            cookies.set("token", response.data, { path: "/" });
+            cookies.set("token", response.data, {
+              path: "/",
+            });
             setState({
               usernameORemail: "",
               password: "",
@@ -104,14 +106,15 @@ const Login = () => {
           >
             <Grid
               item
-              mt={"0%"}
               md={6}
               xs={8}
               sx={{
                 display: "flex",
                 flexDirection: "column",
+                justifyContent: "center",
                 height: "100%",
                 width: "100%",
+                padding: "0 0 !important",
               }}
             >
               <BoxStyle sx={{ boxShadow: "0px 0px 15px rgba(0, 0, 0, 1)" }}>

@@ -66,8 +66,7 @@ app.post("/api/register", (req, res) => {
           console.log(err);
           res.status(400).json({ msg: "Username or Email already exists" });
         } else {
-          
-          res.status(200).json({ msg: "User created", result });
+          res.status(200).json({ msg: "User created" });
         }
       });
     }
@@ -82,19 +81,16 @@ app.post("/api/register", (req, res) => {
 
 app.get("/api/checkUserRegister", (req, res) => {
   const { username, email } = req.query;
-  console.log({ username: username, email: email });
   const sqlGet = "SELECT * FROM users WHERE username = ? OR email = ?";
   db.query(sqlGet, [username, email], (err, results) => {
-    const exists = results.length > 0;
     if (err) {
       console.error(err);
       res
         .status(500)
         .json({ error: "An error occurred while checking the username" });
-    } else if (exists) {
-      res.json({ exists });
     } else {
-      res.json(false);
+      const exists = results.length > 0;
+      res.json({ exists, user: results[0] });
     }
   });
 });
@@ -127,6 +123,96 @@ app.post("/api/login", (req, res) => {
         });
       } else {
         res.send({ msg: "Wrong username/email or password" });
+      }
+    }
+  });
+});
+
+app.post("/api/editPassword", (req, res) => {
+  const { userId, password } = req.body;
+  const sqlSelect = "SELECT * FROM users WHERE UserID =?;";
+  db.query(sqlSelect, [userId], (err, result) => {
+    if (err) {
+      console.log(err);
+      res.send({ msg: "An error occurred while changin password" });
+    } else {
+      if (result.length > 0) {
+        const user = result;
+        bcrypt.compare(password, user.Password, (err, isMatch) => {
+          if (err) {
+            console.log(err);
+            res.send({ msg: "An error occurred while changing the password" });
+          } else if (isMatch) {
+            bcrypt.hash(password, 10, (err, hash) => {
+              if (err) {
+                res.status(401).json({
+                  msg: "An error occurred during password encryption",
+                });
+              } else {
+                const sqlUpdate =
+                  "UPDATE users SET Password = ? WHERE UserID = ?;";
+                db.query(sqlUpdate, [hash], (err, result) => {
+                  if (err) {
+                    console.log(err);
+                    res
+                      .status(400)
+                      .json({ msg: "Username or Email already exists" });
+                  } else {
+                    res.status(200).json({ msg: "User created" });
+                  }
+                });
+              }
+            });
+          } else {
+            res.send({ msg: "Wrong password" });
+          }
+        });
+      } else {
+        res.send({ msg: "Wrong password" });
+      }
+    }
+  });
+});
+
+app.post("/api/editProfile", (req, res) => {
+  const { userId, profilePic, username, bio } = req.query;
+  const sqlSelect = "SELECT * FROM users WHERE  UserID = ?;";
+  db.query(sqlSelect, [userId], (err, result) => {
+    if (err) {
+      console.log(err);
+      res
+        .status(400)
+        .json({ msg: "An error occured while changing your profile" });
+    } else {
+      if (profilePic !== null || profilePic !== result.ProfilePic) {
+        const sqlUpdate = "UPDATE users SET ProfilePic = ? WHERE UserID = ?";
+        db.query(sqlUpdate, [profilePic, userId], (err, result) => {
+          if (err) {
+            res
+              .status(400)
+              .json({ msg: "An error occured while changing your avatar" });
+          }
+        });
+      }
+      if (username !== null || username !== result.Username) {
+        const sqlUpdate = "UPDATE users SET Username = ? WHERE UserID = ?";
+        db.query(sqlUpdate, [username, userId], (err, result) => {
+          if (err) {
+            res
+              .status(400)
+              .json({ msg: "An error occured while changing your username" });
+          }
+        });
+      }
+      if (bio !== null || bio !== result.Bio) {
+        const sqlUpdate = "UPDATE users SET Bio = ? WHERE UserID = ?";
+        db.query(sqlUpdate, [bio, userId], (err, result) => {
+          if (err) {
+            res
+              .status(400)
+              .json({ msg: "An error occured while changing your Bio" });
+          }
+        });
       }
     }
   });
@@ -276,9 +362,9 @@ app.get("/api/get", (req, res) => {
 });
 
 app.delete("/api/remove/:id", (req, res) => {
-  const { id } = req.params;
+  const { userid } = req.params;
   const sqlRemove = "DELETE FROM users WHERE UserID=?;";
-  db.query(sqlRemove, [id], (error, result) => {
+  db.query(sqlRemove, [userid], (error, result) => {
     if (error) {
       console.log(error);
     }

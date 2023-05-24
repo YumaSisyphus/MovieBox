@@ -11,7 +11,6 @@ import {
   useMediaQuery,
   FormControlLabel,
 } from "@mui/material";
-import Cookies from "universal-cookie";
 import Footer from "../../footer/Footer";
 import Header from "../../header/Header";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
@@ -51,7 +50,6 @@ const Register = () => {
   const [state, setState] = useState(initalState);
   const { username, email, password, birthday, confirmPassword } = state;
   const navigate = useNavigate();
-  const cookies = new Cookies();
   const isMatch = useMediaQuery(theme.breakpoints.down("md"));
   const handleChange = (event) => {
     setClicked(event.target.checked);
@@ -112,7 +110,6 @@ const Register = () => {
                 birthday,
               })
               .then((response) => {
-                cookies.set("token", response.data.result, { path: "/" });
                 console.log(response.data)
                 setState({
                   username: "",
@@ -121,7 +118,7 @@ const Register = () => {
                   birthday: "",
                 });
                 setTimeout(() => {
-                  navigate("/home");
+                  navigate("/login");
                 }, 500);
               })
               .catch((err) => toast.error(err.response.data));

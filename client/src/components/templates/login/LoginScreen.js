@@ -103,9 +103,10 @@ const Login = () => {
             }}
           >
             <Grid
-              mt={"12%"}
+              item
+              mt={"0%"}
               md={6}
-              xs={12}
+              xs={8}
               sx={{
                 display: "flex",
                 flexDirection: "column",

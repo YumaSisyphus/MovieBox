@@ -151,7 +151,7 @@ const ActorPage = () => {
               marginBottom: "-2%",
             }}
           >
-            Movies they've stared in:
+            Movies they've starred in:
           </Typography>
           <div
             style={{

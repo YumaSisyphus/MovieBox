@@ -15,7 +15,6 @@ const MoviePage = () => {
   useEffect(() => {
     const fetchActors = async () => {
       const movieId = actor_movie?.MovieId || 1;
-      console.log(movieId);
       const response = await fetch(`/api/getMovieActors?movieId=${movieId}`);
       const data = await response.json();
       if (response.ok) {

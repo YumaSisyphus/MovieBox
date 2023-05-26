@@ -9,6 +9,7 @@ import {
   TextField,
   InputAdornment,
   Button,
+  Modal,
 } from "@mui/material";
 import styles from "./EditProfile.module.css";
 import Cookies from "universal-cookie";
@@ -20,6 +21,29 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect, useState } from "react";
 
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "25%",
+  height: "25%",
+  bgcolor: "#15181c",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
+const avatars = [
+  "bear.png",
+  "cat.png",
+  "dog.png",
+  "koala.png",
+  "panda.png",
+  "rabbit.png",
+  "sea-lion.png",
+  "user.png",
+];
+
 const EditProfile = () => {
   const cookies = new Cookies();
   const token = cookies.get("token");
@@ -28,6 +52,9 @@ const EditProfile = () => {
   const [username, setUsername] = useState("");
   const [bio, setBio] = useState("");
   const [profilePic, setProfilePic] = useState("");
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -42,8 +69,6 @@ const EditProfile = () => {
     };
     fetchUser();
   }, []);
-  console.log(username);
-  console.log(bio);
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
   };
@@ -95,15 +120,46 @@ const EditProfile = () => {
                 }}
               ></Box>
 
-              <Link to="/" className={styles.changePic}>
-                <Typography
-                  color={Colors.black}
-                  className={styles.changePicbutton}
-                  ml={2}
-                >
-                  Change
-                </Typography>
-              </Link>
+              <Button onClick={handleOpen}>Open modal</Button>
+              <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+              >
+                <Box display="flex" flexDirection="column" justifyContent="center" sx={style}>
+                  <Box display="flex" justifyContent="space-between"  >
+                  {avatars.slice(0, 4).map((avatarItem) => (
+                    <Box
+                      name="profilepic"
+                      id="profilepic"
+                      width={100}
+                      height={100}
+                      borderRadius={50}
+                      sx={{
+                        backgroundImage: `url(images/profile/${avatarItem})`,
+                        backgroundSize: "cover",
+                      }}
+                    />
+                  ))}
+                  </Box>
+                  <Box display="flex" justifyContent="space-between" >
+                  {avatars.slice(4, ).map((avatarItem) => (
+                    <Box
+                      name="profilepic"
+                      id="profilepic"
+                      width={100}
+                      height={100}
+                      borderRadius={50}
+                      sx={{
+                        backgroundImage: `url(images/profile/${avatarItem})`,
+                        backgroundSize: "cover",
+                      }}
+                    />
+                  ))}
+                </Box>
+                </Box>
+              </Modal>
             </Box>
 
             <Box mt={5}>

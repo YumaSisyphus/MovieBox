@@ -128,8 +128,9 @@ app.post("/api/login", (req, res) => {
   });
 });
 
-app.post("/api/editPassword", (req, res) => {
-  const { userId, password } = req.body;
+app.put("/api/editPassword/:id", (req, res) => {
+  const userId = req.params.id;
+  const { password } = req.body;
   const sqlSelect = "SELECT * FROM users WHERE UserID =?;";
   db.query(sqlSelect, [userId], (err, result) => {
     if (err) {
@@ -174,47 +175,38 @@ app.post("/api/editPassword", (req, res) => {
   });
 });
 
-app.post("/api/editProfile", (req, res) => {
-  const { userId, profilePic, username, bio } = req.query;
-  const sqlSelect = "SELECT * FROM users WHERE  UserID = ?;";
+app.put("/api/editProfile/:id", (req, res) => {
+  const userId = req.params.id;
+  const { profilePic, username, bio } = req.body;
+
+  const sqlSelect = "SELECT * FROM users WHERE UserID = ?";
   db.query(sqlSelect, [userId], (err, result) => {
     if (err) {
-      console.log(err);
-      res
-        .status(400)
-        .json({ msg: "An error occured while changing your profile" });
-    } else {
-      if (profilePic !== null || profilePic !== result.ProfilePic) {
-        const sqlUpdate = "UPDATE users SET ProfilePic = ? WHERE UserID = ?";
-        db.query(sqlUpdate, [profilePic, userId], (err, result) => {
-          if (err) {
-            res
-              .status(400)
-              .json({ msg: "An error occured while changing your avatar" });
-          }
-        });
-      }
-      if (username !== null || username !== result.Username) {
-        const sqlUpdate = "UPDATE users SET Username = ? WHERE UserID = ?";
-        db.query(sqlUpdate, [username, userId], (err, result) => {
-          if (err) {
-            res
-              .status(400)
-              .json({ msg: "An error occured while changing your username" });
-          }
-        });
-      }
-      if (bio !== null || bio !== result.Bio) {
-        const sqlUpdate = "UPDATE users SET Bio = ? WHERE UserID = ?";
-        db.query(sqlUpdate, [bio, userId], (err, result) => {
-          if (err) {
-            res
-              .status(400)
-              .json({ msg: "An error occured while changing your Bio" });
-          }
-        });
-      }
+      console.error("Error selecting user:", err);
+      return res.status(500).json({ error: "An error occurred while retrieving user data" });
     }
+
+    if (result.length === 0) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const updateUser = (field, value, message) => {
+      if (value !== null && value !== result[0][field]) {
+        const sqlUpdate = `UPDATE users SET ${field} = ? WHERE UserID = ?`;
+        db.query(sqlUpdate, [value, userId], (err, result) => {
+          if (err) {
+            console.error(`Error updating ${field}:`, err);
+            return res.status(500).json({ error: `An error occurred while changing ${message}` });
+          }
+        });
+      }
+    };
+
+    updateUser("ProfilePic", profilePic, "your profile picture");
+    updateUser("Username", username, "your username");
+    updateUser("Bio", bio, "your bio");
+
+    res.status(200).json({ message: "Profile updated successfully" });
   });
 });
 
@@ -371,14 +363,16 @@ app.delete("/api/remove/:id", (req, res) => {
   });
 });
 
-app.get("/api/get/:id", (req, res) => {
+app.get("/api/getUser/:id", (req, res) => {
   const { id } = req.params;
   const sqlGet = "SELECT * FROM users WHERE UserID = ?;";
   db.query(sqlGet, id, (error, result) => {
     if (error) {
       console.log(error);
+      res.status(500).send({ error: "Error retrieving user data" });
+    } else {
+      res.send(result[0]);
     }
-    res.send(result);
   });
 });
 

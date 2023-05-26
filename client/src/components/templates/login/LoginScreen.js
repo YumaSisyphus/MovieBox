@@ -66,7 +66,7 @@ const Login = () => {
               password: "",
             });
             setTimeout(() => {
-              navigate("/home");
+              navigate("/");
             }, 500);
           }
         })

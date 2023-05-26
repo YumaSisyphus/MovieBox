@@ -21,7 +21,7 @@ function App() {
       <ThemeProvider theme={theme}>
         <BrowserRouter>
           <Routes>
-            <Route path={"/"} Component={WelcomeScreen} />
+            <Route path={"/welcome"} Component={WelcomeScreen} />
             <Route path="/login" Component={Login}></Route>
             <Route path="/register" Component={Register} />
             <Route path="/terms" Component={TermsOfUse}/>
@@ -32,7 +32,7 @@ function App() {
               <Route path="/edit" Component={AddEdit} />
               <Route path="/update/:id" Component={AddEdit} />
               <Route path="/moviePage" Component={MoviePage} />
-              <Route path="/home" Component={HomePage} />
+              <Route path="/" Component={HomePage} />
               <Route path="/editProfile" Component={EditProfile} />
             </Route>
           </Routes>

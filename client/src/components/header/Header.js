@@ -29,12 +29,12 @@ const Header = () => {
         {token ? <ul className={styles.Navbar1}>
           <div style={{ display: "flex", alignItems: "center" }}>
             <li>
-              <Link to={token ? "/home" : "/"} className={styles.Links}>
+              <Link to={token ? "/" : "/welcome"} className={styles.Links}>
                 <img width={60} height={60} src={logo} alt="logo" />
               </Link>
             </li>
             <li>
-              <Link to={token ? "/home" : "/"} className={styles.Links}>
+              <Link to={token ? "/" : "/welcome"} className={styles.Links}>
                 <Typography variant="h4" className={styles.NavbarHeader1} ml={1}>
                   MovieBox
                 </Typography>
@@ -51,7 +51,7 @@ const Header = () => {
             }}
           >
             <li>
-              <Link to="/home" className={styles.Links}>
+              <Link to="/" className={styles.Links}>
                 <Typography variant="body1" className={styles.NavbarText1}>
                   Home
                 </Typography>

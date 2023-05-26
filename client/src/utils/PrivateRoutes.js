@@ -5,7 +5,7 @@ const PrivateRoutes = () => {
     const cookies = new Cookies();
     const check = cookies.get('token');
   let auth = { check };
-  return auth.check ? <Outlet /> : <Navigate to="/login" />;
+  return auth.check ? <Outlet /> : <Navigate to="/welcome" />;
 };
 
 export default PrivateRoutes;

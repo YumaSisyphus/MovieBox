@@ -13,7 +13,6 @@ import {
 import styles from "./EditProfile.module.css";
 import Cookies from "universal-cookie";
 import { Link } from "react-router-dom";
-// import axios from "axios";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import DescriptionIcon from "@mui/icons-material/Description";
 import axios from "axios";
@@ -21,52 +20,52 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect, useState } from "react";
 
-// const initalState = {
-//   username: "",
-//   bio: "",
-//   profilepic: "",
-// };
-
 const EditProfile = () => {
-  // const [state, setState] = useState(initalState);
-  // const { username, bio, profilepic } = state;
   const cookies = new Cookies();
   const token = cookies.get("token");
   const { UserID } = token[0];
-  const handleSubmit = (e) => {
-    // e.preventDefault();
-    // axios
-    //   .post("http://localhost:5000/api/editProfile", {
-    //     userId: UserID,
-    //     profilePic: state.profilepic,
-    //     username: state.username,
-    //     bio: state.bio,
-    //   })
-    //   .then((response) => {
-    //     if (response.data.msg) {
-    //       toast.error(response.data.msg);
-    //     } else {
-    //       setState(initalState);
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //     toast.error("An error occurred while saving changes");
-    //   });
-  };
   const [user, setUser] = useState([]);
-
+  const [username, setUsername] = useState("");
+  const [bio, setBio] = useState("");
+  const [profilePic, setProfilePic] = useState("");
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const response = await axios.get(`/api/getUser/${UserID}`);
         setUser(response.data);
+        setUsername(response.data.Username);
+        setBio(response.data.Bio);
+        setProfilePic(response.data.ProfilePic);
       } catch (error) {
         console.error("Error fetching user:", error);
       }
     };
     fetchUser();
   }, []);
+  console.log(username);
+  console.log(bio);
+  const handleUsernameChange = (event) => {
+    setUsername(event.target.value);
+  };
+
+  const handleBioChange = (event) => {
+    setBio(event.target.value);
+  };
+
+  const handleSaveChanges = async () => {
+    try {
+      await axios.put(`/api/editProfile/${UserID}`, {
+        username,
+        bio,
+        profilePic,
+      });
+      toast.success("Profile updated successfully");
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      toast.error("An error occurred while updating your profile");
+    }
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <div>
@@ -91,7 +90,7 @@ const EditProfile = () => {
                 height={100}
                 borderRadius={50}
                 sx={{
-                  backgroundImage: `url(images/profile/${user.ProfilePic})`,
+                  backgroundImage: `url(images/profile/${profilePic})`,
                   backgroundSize: "cover",
                 }}
               ></Box>
@@ -111,10 +110,10 @@ const EditProfile = () => {
               <TextField
                 id="username"
                 name="username"
-                onChange={handleSubmit}
                 label="Username"
                 variant="filled"
-                defaultValue={user.Username}
+                multiline
+                defaultValue={username}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start"></InputAdornment>
@@ -125,6 +124,7 @@ const EditProfile = () => {
                     width: "400px",
                   },
                 }}
+                onChange={handleUsernameChange}
               />
             </Box>
 
@@ -132,12 +132,11 @@ const EditProfile = () => {
               <TextField
                 id="bio"
                 name="bio"
-                onChange={handleSubmit}
                 label="Bio"
                 variant="filled"
                 multiline
                 rows={6}
-                defaultValue={user.Bio}
+                defaultValue={bio}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start"></InputAdornment>
@@ -148,11 +147,12 @@ const EditProfile = () => {
                     width: "400px",
                   },
                 }}
+                onChange={handleBioChange}
               />
             </Box>
 
             <Box mt={5}>
-              <Button onClick={handleSubmit} className={styles.SaveButton}>
+              <Button className={styles.SaveButton} onClick={handleSaveChanges}>
                 <Typography
                   color={Colors.black}
                   className={styles.SaveText}

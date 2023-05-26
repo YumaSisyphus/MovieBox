@@ -138,7 +138,7 @@ app.put("/api/editPassword/:id", (req, res) => {
       res.send({ msg: "An error occurred while changin password" });
     } else {
       if (result.length > 0) {
-        const user = result;
+        const user = result[0];
         bcrypt.compare(password, user.Password, (err, isMatch) => {
           if (err) {
             console.log(err);
@@ -152,7 +152,7 @@ app.put("/api/editPassword/:id", (req, res) => {
               } else {
                 const sqlUpdate =
                   "UPDATE users SET Password = ? WHERE UserID = ?;";
-                db.query(sqlUpdate, [hash], (err, result) => {
+                db.query(sqlUpdate, [hash, userId], (err, result) => {
                   if (err) {
                     console.log(err);
                     res
@@ -183,9 +183,10 @@ app.put("/api/editProfile/:id", (req, res) => {
   db.query(sqlSelect, [userId], (err, result) => {
     if (err) {
       console.error("Error selecting user:", err);
-      return res.status(500).json({ error: "An error occurred while retrieving user data" });
+      return res
+        .status(500)
+        .json({ error: "An error occurred while retrieving user data" });
     }
-
     if (result.length === 0) {
       return res.status(404).json({ error: "User not found" });
     }
@@ -196,7 +197,9 @@ app.put("/api/editProfile/:id", (req, res) => {
         db.query(sqlUpdate, [value, userId], (err, result) => {
           if (err) {
             console.error(`Error updating ${field}:`, err);
-            return res.status(500).json({ error: `An error occurred while changing ${message}` });
+            return res
+              .status(500)
+              .json({ error: `An error occurred while changing ${message}` });
           }
         });
       }

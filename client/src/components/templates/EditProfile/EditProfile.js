@@ -11,6 +11,7 @@ import {
   Button,
   Modal,
 } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 import styles from "./EditProfile.module.css";
 import Cookies from "universal-cookie";
 import { Link } from "react-router-dom";
@@ -27,7 +28,7 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: "25%",
-  height: "25%",
+  height: "30%",
   bgcolor: "#15181c",
   border: "2px solid #000",
   boxShadow: 24,
@@ -41,7 +42,7 @@ const avatars = [
   "panda.png",
   "rabbit.png",
   "sea-lion.png",
-  "user.png",
+  "giraffe.png",
 ];
 
 const EditProfile = () => {
@@ -75,6 +76,10 @@ const EditProfile = () => {
 
   const handleBioChange = (event) => {
     setBio(event.target.value);
+  };
+
+  const handleProfilePicChange = (avatarItem) => {
+    setProfilePic(avatarItem);
   };
 
   const handleSaveChanges = async () => {
@@ -127,37 +132,75 @@ const EditProfile = () => {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
               >
-                <Box display="flex" flexDirection="column" justifyContent="center" sx={style}>
-                  <Box display="flex" justifyContent="space-between"  >
-                  {avatars.slice(0, 4).map((avatarItem) => (
-                    <Box
-                      name="profilepic"
-                      id="profilepic"
-                      width={100}
-                      height={100}
-                      borderRadius={50}
-                      sx={{
-                        backgroundImage: `url(images/profile/${avatarItem})`,
-                        backgroundSize: "cover",
-                      }}
-                    />
-                  ))}
+                <Box
+                  display="flex"
+                  flexDirection="column"
+                  justifyContent="space-between"
+                  sx={style}
+                >
+                  <Button
+                    onClick={handleClose}
+                    style={{
+                      display: "flex",
+                      alignSelf: "flex-end",
+                      color: "white",
+                      marginTop: "-6%",
+                      marginRight: "-9%",
+                    }}
+                  >
+                    <CloseIcon />
+                  </Button>
+                  <Box display="flex" justifyContent="space-between">
+                    {avatars.slice(0, 4).map((avatarItem) => (
+                      <Box
+                        component="img"
+                        name="profilepic"
+                        id="profilepic"
+                        width={100}
+                        height={100}
+                        borderRadius={50}
+                        src={`images/profile/${avatarItem}`}
+                        alt={`${avatarItem}`}
+                        sx={{
+                          border: "3px solid transparent",
+                          transition:
+                            "border-color 0.4s, height 0.4s, width 0.4s",
+                          "&:hover": {
+                            height: 110,
+                            width: 110,
+                            borderColor: "#2A9D8F",
+                          },
+                        }}
+                        onClick={() => handleProfilePicChange(avatarItem)}
+                      />
+                    ))}
                   </Box>
-                  <Box display="flex" justifyContent="space-between" >
-                  {avatars.slice(4, ).map((avatarItem) => (
-                    <Box
-                      name="profilepic"
-                      id="profilepic"
-                      width={100}
-                      height={100}
-                      borderRadius={50}
-                      sx={{
-                        backgroundImage: `url(images/profile/${avatarItem})`,
-                        backgroundSize: "cover",
-                      }}
-                    />
-                  ))}
-                </Box>
+                  <Box display="flex" justifyContent="space-between">
+                    {avatars.slice(4).map((avatarItem) => (
+                      <Box
+                        component="img"
+                        name="profilepic"
+                        id="profilepic"
+                        width={100}
+                        height={100}
+                        borderRadius={50}
+                        src={`images/profile/${avatarItem}`}
+                        alt={`${avatarItem}`}
+                        sx={{
+                          border: "3px solid transparent",
+                          transition:
+                            "border-color 0.4s, height 0.4s, width 0.4s",
+                          "&:hover": {
+                            height: 110,
+                            width: 110,
+                            borderColor: "#2A9D8F",
+                          },
+                        }}
+                        onClick={() => handleProfilePicChange(avatarItem)}
+                      />
+                    ))}
+                  </Box>
+                  <Box display="flex"></Box>
                 </Box>
               </Modal>
             </Box>

@@ -129,13 +129,13 @@ app.post("/api/login", (req, res) => {
 });
 
 app.put("/api/editPassword/:id", (req, res) => {
-  const userId = req.params.id;
-  const { password } = req.body;
+  const id = req.params.id;
+  const { password, newPassword } = req.body;
   const sqlSelect = "SELECT * FROM users WHERE UserID =?;";
-  db.query(sqlSelect, [userId], (err, result) => {
+  db.query(sqlSelect, [id], (err, result) => {
     if (err) {
       console.log(err);
-      res.send({ msg: "An error occurred while changin password" });
+      res.send({ msg: "An error occurred while changing password" });
     } else {
       if (result.length > 0) {
         const user = result[0];
@@ -144,7 +144,7 @@ app.put("/api/editPassword/:id", (req, res) => {
             console.log(err);
             res.send({ msg: "An error occurred while changing the password" });
           } else if (isMatch) {
-            bcrypt.hash(password, 10, (err, hash) => {
+            bcrypt.hash(newPassword, 10, (err, hash) => {
               if (err) {
                 res.status(401).json({
                   msg: "An error occurred during password encryption",
@@ -152,14 +152,16 @@ app.put("/api/editPassword/:id", (req, res) => {
               } else {
                 const sqlUpdate =
                   "UPDATE users SET Password = ? WHERE UserID = ?;";
-                db.query(sqlUpdate, [hash, userId], (err, result) => {
+                db.query(sqlUpdate, [hash, id], (err, result) => {
                   if (err) {
                     console.log(err);
                     res
                       .status(400)
                       .json({ msg: "Username or Email already exists" });
                   } else {
-                    res.status(200).json({ msg: "User created" });
+                    res
+                      .status(200)
+                      .json({ msg: "Password changed successfully" });
                   }
                 });
               }
@@ -177,8 +179,7 @@ app.put("/api/editPassword/:id", (req, res) => {
 
 app.put("/api/editProfile/:id", (req, res) => {
   const userId = req.params.id;
-  const { profilePic, username, bio } = req.body;
-
+  const { profilePic, username, email, bio } = req.body;
   const sqlSelect = "SELECT * FROM users WHERE UserID = ?";
   db.query(sqlSelect, [userId], (err, result) => {
     if (err) {
@@ -190,7 +191,6 @@ app.put("/api/editProfile/:id", (req, res) => {
     if (result.length === 0) {
       return res.status(404).json({ error: "User not found" });
     }
-
     const updateUser = (field, value, message) => {
       if (value !== null && value !== result[0][field]) {
         const sqlUpdate = `UPDATE users SET ${field} = ? WHERE UserID = ?`;
@@ -204,15 +204,73 @@ app.put("/api/editProfile/:id", (req, res) => {
         });
       }
     };
-
     updateUser("ProfilePic", profilePic, "your profile picture");
     updateUser("Username", username, "your username");
     updateUser("Bio", bio, "your bio");
-
+    updateUser("Email", email, "your email");
     res.status(200).json({ message: "Profile updated successfully" });
   });
 });
 
+app.get("/api/checkUsernameEdit/:username", (req, res) => {
+  const { username } = req.params;
+  const sqlSelect = "SELECT * FROM users WHERE Username = ?";
+  db.query(sqlSelect, [username], (err, result) => {
+    if (err) {
+      console.error("Error checking username:", err);
+      return res
+        .status(500)
+        .json({ error: "An error occurred while checking the username" });
+    }
+
+    const exists = result.length > 0;
+    res.status(200).json({ exists });
+  });
+});
+
+app.get("/api/checkUsernameEditID/:id", (req, res) => {
+  const { id } = req.params;
+  const sqlSelect = "SELECT * FROM users WHERE UserID = ?";
+  db.query(sqlSelect, [id], (err, result) => {
+    if (err) {
+      console.error("Error checking userId:", err);
+      return res
+        .status(500)
+        .json({ error: "An error occurred while checking the userId" });
+    }
+    res.status(200).json(result[0].Username);
+  });
+});
+
+app.get("/api/checkEmailEdit/:email", (req, res) => {
+  const { email } = req.params;
+  const sqlSelect = "SELECT * FROM users WHERE Email = ?";
+  db.query(sqlSelect, [email], (err, result) => {
+    if (err) {
+      console.error("Error checking email:", err);
+      return res
+        .status(500)
+        .json({ error: "An error occurred while checking the email" });
+    }
+
+    const exists = result.length > 0;
+    res.status(200).json({ exists });
+  });
+});
+
+app.get("/api/checkEmailEditID/:id", (req, res) => {
+  const { id } = req.params;
+  const sqlSelect = "SELECT * FROM users WHERE UserID = ?";
+  db.query(sqlSelect, [id], (err, result) => {
+    if (err) {
+      console.error("Error checking email:", err);
+      return res
+        .status(500)
+        .json({ error: "An error occurred while checking the email" });
+    }
+    res.status(200).json(result[0].Email);
+  });
+});
 /* 
     Endpoint: Add Movie
     Method: POST

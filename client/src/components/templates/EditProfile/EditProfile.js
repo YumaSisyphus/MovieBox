@@ -29,8 +29,6 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: "25%",
-  height: "30%",
   bgcolor: "#15181c",
   border: "2px solid #000",
   boxShadow: 24,
@@ -114,9 +112,11 @@ const EditProfile = () => {
   };
   const handleProfilePicChange = (avatarItem) => {
     setProfilePic(avatarItem);
+    setOpen(false);
   };
   const handleProfilePicDelete = ()=>{
     setProfilePic("user.png");
+    setOpen(false);
   }
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
@@ -207,17 +207,17 @@ const EditProfile = () => {
   return (
     <ThemeProvider theme={theme}>
       <Header />
+      <Container maxWidth="md">
+
       <div
         style={{
           display: "flex",
           flexDirection: "row",
-          justifyContent: "center",
-          alignItems: "center",
           gap: "5%",
         }}
       >
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <Container maxWidth="md" sx={{ border: "2px solid red" }}>
+          <Container maxWidth="md" >
             <Box
               mt={5}
               mb={5}
@@ -247,7 +247,8 @@ const EditProfile = () => {
                   }}
                 ></Box>
 
-                <Button onClick={handleOpen}>Change avatar</Button>
+                <Button onClick={handleOpen} 
+                className={styles.changeButton}>Change Avatar</Button>
                 <Modal
                   open={open}
                   onClose={handleClose}
@@ -284,6 +285,7 @@ const EditProfile = () => {
                           src={`images/profile/${avatarItem}`}
                           alt={`${avatarItem}`}
                           sx={{
+                            cursor: "pointer",
                             border: "3px solid transparent",
                             transition:
                               "border-color 0.4s, height 0.4s, width 0.4s",
@@ -309,6 +311,7 @@ const EditProfile = () => {
                           src={`images/profile/${avatarItem}`}
                           alt={`${avatarItem}`}
                           sx={{
+                            cursor: "pointer",
                             border: "3px solid transparent",
                             transition:
                               "border-color 0.4s, height 0.4s, width 0.4s",
@@ -343,11 +346,13 @@ const EditProfile = () => {
                   name="username"
                   label="Username"
                   variant="filled"
-                  multiline
                   defaultValue={username}
+                  value={username}
                   InputProps={{
                     startAdornment: (
-                      <InputAdornment position="start"></InputAdornment>
+                      <InputAdornment position="start">
+                        <DriveFileRenameOutlineIcon/>
+                      </InputAdornment>
                     ),
                     style: {
                       backgroundColor: "#ebebeb",
@@ -365,11 +370,13 @@ const EditProfile = () => {
                   name="email"
                   label="Email"
                   variant="filled"
-                  multiline
+                  value={email}
                   defaultValue={email}
                   InputProps={{
                     startAdornment: (
-                      <InputAdornment position="start"></InputAdornment>
+                      <InputAdornment position="start">
+                            <DriveFileRenameOutlineIcon/>
+                      </InputAdornment>
                     ),
                     style: {
                       backgroundColor: "#ebebeb",
@@ -408,29 +415,28 @@ const EditProfile = () => {
                 <Button
                   className={styles.SaveButton}
                   onClick={handleSaveChanges}
+                  sx={{
+                    marginRight: "20px",
+                  }}
                 >
                   <Typography
                     color={Colors.white}
                     className={styles.SaveText}
-                    ml={2}
                   >
                     Save Changes
                   </Typography>
                 </Button>
-                <Box mt={5}>
-                  <Button
+                <Button
                     className={styles.SaveButton}
                     onClick={handleShowChangePassword}
                   >
                     <Typography
                       color={Colors.white}
                       className={styles.SaveText}
-                      ml={2}
                     >
                       Change Password
                     </Typography>
                   </Button>
-                </Box>
               </Box>
             </Box>
           </Container>
@@ -441,9 +447,12 @@ const EditProfile = () => {
             flexDirection: "column",
           }}
         >
-          <Container maxWidth="md" sx={{ border: "2px solid red" }}>
-            <Box mt={5} mb={5} ml={2}>
+          <Container maxWidth="md" >
+            <Box mt={45.5} mb={5} ml={2}>
               <Box mt={5}>
+              <Typography color={Colors.white} variant="h6" mb={2}>
+                Privacy
+              </Typography>
                 <TextField
                   id="password"
                   name="password"
@@ -555,6 +564,8 @@ const EditProfile = () => {
           </Container>
         </div>
       </div>
+      </Container>
+
       <Footer />
       <ToastContainer theme="colored" />
     </ThemeProvider>

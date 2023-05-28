@@ -13,7 +13,6 @@ import AppleIcon from "@mui/icons-material/Apple";
 import logo from "../../../assets/logo2.png";
 import JohnWick from "../../../assets/JohnWick.jpg";
 import TheBatman from "../../../assets/TheBatman.jpg";
-// import DecisionToLeave from "../../../assets/DecisionToLeave.jpg"
 import Everything from "../../../assets/movies/EverythingEverywhereThumbnail.jpg";
 import GrandBudapest from "../../../assets/GrandBudapest.jpg";
 import Footer from "../../footer/Footer";
@@ -108,9 +107,6 @@ const WelcomeScreen = () => {
             </Container>
           </div>
           <Box className={styles.Description}>
-            {/* {backendData.users.map((user, i) => (
-                            <p key={i}>{user}</p>
-                        ))} */}
             <Typography className={styles.DescriptionText}>
               Track films you’ve watched.
             </Typography>

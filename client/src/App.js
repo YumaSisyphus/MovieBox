@@ -15,6 +15,11 @@ import AddEdit from "./components/Edit/AddEdit";
 import HomePage from "./components/templates/HomePage/HomePage";
 import PrivateRoutes from "./utils/PrivateRoutes";
 import EditProfile from "./components/templates/EditProfile/EditProfile";
+import UserFilms from "./components/templates/UserFilms/UserFilms";
+import MovieListHome from "./components/templates/MovieList/MovieListHome";
+import MovieList from "./components/templates/MovieList/MovieList";
+
+
 function App() {
   return (
     <div className="App">
@@ -27,6 +32,9 @@ function App() {
             <Route path="/terms" Component={TermsOfUse}/>
             <Route element={<PrivateRoutes />}>
               <Route path="/profile" Component={ProfileContainer} />
+              <Route path="/usermovie" Component={UserFilms} />
+              <Route path="/films" Component={MovieListHome} />
+              <Route path="/filmslist" Component={MovieList} />
               <Route path="/actorPage" Component={ActorPage} />
               <Route path="/dashboard" Component={Dashboard} />
               <Route path="/edit" Component={AddEdit} />

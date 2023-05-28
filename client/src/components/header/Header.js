@@ -1,14 +1,10 @@
 import { Container, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
-// import { theme } from "../../../utils/theme";
 import styles from "./style.module.css";
 import logo from "../../assets/logo2.png";
-// import ReactSearchBox from "react-search-box";
-import SearchIcon from "@mui/icons-material/Search";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useNavigate } from "react-router";
 import Cookies from "universal-cookie";
-import Search from "../SearchBox/Search";
 
 const Header = () => {
   const history = useNavigate();
@@ -195,6 +191,7 @@ const Header = () => {
                 </Typography>
               </Link>
             </li>
+            
           </div>
         </ul>}
 

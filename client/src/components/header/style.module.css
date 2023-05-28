@@ -30,6 +30,10 @@
     letter-spacing: 1px;
 }
 
+.logo{
+    width: 20px;
+    height: 20px;
+}
 
 .Navbar {
     display: flex;

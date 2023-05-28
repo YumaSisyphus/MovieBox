@@ -472,6 +472,8 @@ app.post("/api/post", (req, res) => {
   });
 });
 
+// Get Movie id and thumbnail from all the movies
+
 app.get("/api/movies", (req, res) => {
   const query = "SELECT MovieId, Thumbnail FROM movies";
   db.query(query, (error, results) => {
@@ -487,3 +489,112 @@ app.get("/api/movies", (req, res) => {
     }
   });
 });
+
+app.get("/api/movieswatched/:id", (req, res) => {
+  const { id } = req.params;
+  const query = "SELECT COUNT(MovieID) AS MoviesWatched FROM rate_watched WHERE Watched = 1 AND UserID = ?;"
+  db.query(query, [id], (error, results) => {
+    if (error) {
+      console.error("Error fetching movies watched:", error);
+      res.status(500).json({ error: "Internal server error" });
+    } else {
+      res.status(200).json(results[0].MoviesWatched);
+    }
+  })
+});
+
+app.get("/api/watchlist/:id", (req, res) => {
+  const { id } = req.params;
+  const query = "SELECT COUNT(MovieID) AS Watchlist FROM watchlist WHERE UserID = ?;"
+  db.query(query, [id], (error, results) => {
+    if (error) {
+      console.error("Error fetching movies watched:", error);
+      res.status(500).json({ error: "Internal server error" });
+    } else {
+      res.status(200).json(results[0].Watchlist);
+    }
+  })
+});
+
+app.get("/api/lists/:id", (req, res) => {
+  const { id } = req.params;
+  const query = "SELECT COUNT(ListID) AS Lists FROM lists WHERE UserID = ?;"
+  db.query(query, [id], (error, results) => {
+    if (error) {
+      console.error("Error fetching movies watched:", error);
+      res.status(500).json({ error: "Internal server error" });
+    } else {
+      res.status(200).json(results[0].Lists);
+    }
+  })
+});
+
+
+app.get("/api/genres/:id", (req, res) => {
+  const { id } = req.params;
+  const query = "SELECT g.Genre, r.UserID FROM genre g JOIN movies m ON g.MoviesID = m.MovieID JOIN rate_watched r ON m.MovieID = r.MovieID WHERE r.UserID = ?;";
+  db.query(query, [id], (error, results) => {
+    if (error) {
+      console.error("Error fetching movies watched:", error);
+      res.status(500).json({ error: "Internal server error" });
+    } else {
+      res.status(200).json(results);
+    }
+  })
+});
+
+
+app.get("/api/favorite/:id", (req, res) => {
+  const { id } = req.params;
+  const query = "SELECT m.Thumbnail FROM movies m JOIN rate_watched r ON m.MovieID = r.MovieID WHERE r.Favorite = 1 AND r.UserID = ?;";
+  db.query(query, [id], (error, results) => {
+    if (error) {
+      console.error("Error fetching movies:", error);
+      res.status(500).json({ error: "Internal server error" });
+    } else {
+      const movies = results.map((result) => ({
+        movieId: result.MovieId,
+        thumbnail: result.Thumbnail,
+      }));
+      res.json(movies);
+    }
+  });
+});
+
+app.get("/api/movieswatchedThumbnails/:id", (req, res) => {
+  const { id } = req.params;
+  const query = "SELECT rw.MovieID, m.Thumbnail, rw.UserID FROM rate_watched rw JOIN movies m ON rw.MovieID = m.MovieID WHERE rw.Watched = 1 AND rw.UserID = ?;";
+  db.query(query, [id], (error, results) => {
+    if (error) {
+      console.error("Error fetching movies:", error);
+      res.status(500).json({ error: "Internal server error" });
+    } else {
+      const movies = results.map((result) => ({
+        movieId: result.MovieId,
+        thumbnail: result.Thumbnail,
+      }));
+      res.json(movies);
+    }
+  });
+});
+
+
+// MovieList get covers
+
+app.get("/api/movieListCover", (req, res) => {
+  const query = "SELECT MovieId, Cover FROM movies";
+  db.query(query, (error, results) => {
+    if (error) {
+      console.error("Error fetching movies:", error);
+      res.status(500).json({ error: "Internal server error" });
+    } else {
+      const movies = results.map((result) => ({
+        movieId: result.MovieId,
+        cover: result.Cover,
+      }));
+      res.json(movies);
+    }
+  });
+});
+
+

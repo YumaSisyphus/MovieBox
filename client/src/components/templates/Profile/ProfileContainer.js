@@ -9,31 +9,77 @@ import {
   Typography,
 } from "@mui/material";
 import Footer from "../../footer/Footer";
-import { Link, useParams } from "react-router-dom";
-import JohnWick4 from "../../../assets/movies/JohnWick4Thumbnail.jpg";
-import Everything from "../../../assets/EverythingEverywhere.jpg";
-import GoodWill from "../../../assets/GoodWillHuntingCover.png";
-import DeadPoets from "../../../assets/DeadPoetsSocietyCover.jpg";
-import Parasite from "../../../assets/Parasite.jpg";
-// import Avatar from "../../../assets/movies/AvatarThumbnail.jpg"
+import { Link } from "react-router-dom";
 import LinearProgress from "@mui/material/LinearProgress";
 import theme from "../../../utils/Themes";
-import ErblinUser from "../../../assets/Profile/Erblin.jpg";
 import Cookies from "universal-cookie";
 import axios from "axios";
-import Hive from "../../../assets/movies/HiveThumbnail.jpg";
 
 function ProfileContainer() {
-  const progress1 = 80;
-  const progress2 = 60;
-  const progress3 = 40;
-  const progress4 = 30;
-  let { id } = useParams();
   const cookies = new Cookies();
   const token = cookies.get("token");
   const { UserID } = token[0];
   const [movies, setMovies] = useState([]);
   const [user, setUser] = useState([]);
+  const [movieswatched, setMoviesWatched] = useState([]);
+  const [watchlist, setWatchlist] = useState([]);
+  const [lists, setLists] = useState([]);
+  const [favorite, setFavorite] = useState([]);
+  const [genreCounts, setGenreCounts] = useState({});
+
+  const fetchGenres = () => { 
+    return axios.get(`/api/genres/${UserID}`) 
+      .then((response) => {
+        const genres = response.data;
+  
+        // Calculate genre counts
+        const counts = {};
+        genres.forEach((genre) => {
+          const { Genre } = genre;
+          if (counts[Genre]) {
+            counts[Genre] += 10 ;
+          } else {
+            counts[Genre] = 10 ;
+          }
+        });
+  
+        setGenreCounts(counts);
+      })
+      .catch((error) => {
+        console.error("Error fetching genres:", error);
+      });
+  };
+  
+  useEffect(() => { 
+    fetchGenres(); 
+  }, []);
+  
+  
+
+  const fetchMoviesWatched = () => { 
+    return axios.get(`/api/movieswatched/${UserID}`) 
+             .then((response) => setMoviesWatched(response.data));
+  }
+  useEffect(() => { 
+    fetchMoviesWatched(); 
+  }, []);
+  
+  const fetchWatchlist = () => { 
+    return axios.get(`/api/watchlist/${UserID}`) 
+             .then((response) => setWatchlist(response.data));
+  }
+  useEffect(() => { 
+    fetchWatchlist(); 
+  }, []);
+
+    
+  const fetchList = () => { 
+    return axios.get(`/api/lists/${UserID}`) 
+             .then((response) => setLists(response.data));
+  }
+  useEffect(() => { 
+    fetchList(); 
+  }, []);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -50,15 +96,30 @@ function ProfileContainer() {
   useEffect(() => {
     const fetchMovies = async () => {
       try {
-        const response = await axios.get("/api/movies");
+        const response = await axios.get(`/api/movieswatchedThumbnails/${UserID}`);
         setMovies(response.data);
       } catch (error) {
         console.error("Error fetching movies:", error);
       }
     };
-
+    console.log(movies)
     fetchMovies();
   }, []);
+
+  useEffect(() => {
+    const fetchFavorite = async () => {
+      try {
+        const response = await axios.get(`/api/favorite/${UserID}`);
+        setFavorite(response.data);
+      } catch (error) {
+        console.error("Error fetching favorite movies:", error);
+      }
+    };
+
+    fetchFavorite();
+  }, []);
+
+
 
   return (
     <ThemeProvider theme={theme}>
@@ -102,35 +163,31 @@ function ProfileContainer() {
                   <Typography
                     mr={1}
                     fontSize="16px"
-                    className={styles.statsTitle}
+                    className={styles.Watched}
                   >
-                    Films
+                   Watched
                   </Typography>
-                  <Typography className={styles.statsNumber}>128</Typography>
+                  <Typography className={styles.watchedNumber}>{movieswatched}</Typography>
                 </div>
                 <div className={styles.statsItem}>
                   <Typography
                     mr={1}
                     fontSize="16px"
-                    className={styles.statsTitle}
+                    className={styles.Watched}
                   >
                     Watchlist
                   </Typography>
-                  <Typography className={styles.statsNumber}>25</Typography>
+                  <Typography className={styles.watchedNumber}>{watchlist}</Typography>
                 </div>
                 <div className={styles.statsItem}>
-                  <Typography fontSize="16px" className={styles.statsTitle}>
-                    Reviews
+                  <Typography fontSize="16px" className={styles.Watched}>
+                    Lists
                   </Typography>
-                  <Typography className={styles.statsNumber}>12</Typography>
+                  <Typography className={styles.watchedNumber}>{lists}</Typography>
                 </div>
               </Box>
             </Box>
             <Typography className={styles.bio} mt={2} width={600}>
-              {/* Lights, camera, action! Join me on this cinematic journey as we
-                            dive into a world of unforgettable stories, thrilling adventures,
-                            and mesmerizing moments. Get ready to escape reality and immerse
-                            yourself in the magic of the silver screen. */}
               {user.Bio}
             </Typography>
 
@@ -149,32 +206,32 @@ function ProfileContainer() {
                     sx={{ width: "400px", height: "10px", bgcolor: "#ebebeb" }}
                     color="secondary"
                     variant="determinate"
-                    value={progress1}
+                    value={genreCounts["Drama"] || 0}
                   />
                 </Box>
 
                 <Box>
                   <Typography variant="body2" color="#ebebeb">
-                    Scifi
+                    Sci-Fi
                   </Typography>
                   <LinearProgress
                     sx={{ width: "400px", height: "10px", bgcolor: "#ebebeb" }}
                     color="secondary"
                     variant="determinate"
-                    value={progress3}
+                    value={genreCounts["Sci-Fi"] || 0}
                   />
                 </Box>
               </Box>
               <Box display="flex" mt={5}>
                 <Box mr={7}>
                   <Typography variant="body2" color="#ebebeb">
-                    Fantasy
+                    Comedy
                   </Typography>
                   <LinearProgress
                     sx={{ width: "400px", height: "10px", bgcolor: "#ebebeb" }}
                     color="secondary"
                     variant="determinate"
-                    value={progress2}
+                    value={genreCounts["Comedy"] || 0}
                   />
                 </Box>
 
@@ -186,7 +243,7 @@ function ProfileContainer() {
                     sx={{ width: "400px", height: "10px", bgcolor: "#ebebeb" }}
                     color="secondary"
                     variant="determinate"
-                    value={progress4}
+                    value={genreCounts["Action"] || 0}
                   />
                 </Box>
               </Box>
@@ -197,18 +254,13 @@ function ProfileContainer() {
                 <Typography fontWeight="bold" color="#ebebeb">
                   Favorite Films:
                 </Typography>
-                <Link to="/" className={styles.Links}>
-                  <Typography fontWeight="bold" color="#ebebeb">
-                    More...
-                  </Typography>
-                </Link>
               </Box>
               <hr style={{ border: "1px solid #8f8f8f" }} />
 
               <Box display="flex" mt={2}>
-                {movies?.slice(0, 4).map((movie) => (
+                {favorite?.slice(0, 4).map((favorite) => (
                   <Link
-                    key={movie.movieId}
+                    key={favorite.movieId}
                     to="/"
                     style={{
                       width: "168px",
@@ -222,7 +274,7 @@ function ProfileContainer() {
                       className={styles.MovieBorder}
                       sx={{
                         borderRadius: "5px",
-                        backgroundImage: `url(${movie.thumbnail})`,
+                        backgroundImage: `url(${favorite.thumbnail})`,
                         backgroundSize: "cover",
                         backgroundRepeat: "no-repeat",
                         backgroundPosition: "center",
@@ -238,7 +290,7 @@ function ProfileContainer() {
                   Watched:
                 </Typography>
 
-                <Link to="/" className={styles.Links}>
+                <Link to="/usermovie" className={styles.Links}>
                   <Typography fontWeight="bold" color="#ebebeb">
                     More...
                   </Typography>
@@ -247,7 +299,7 @@ function ProfileContainer() {
               <hr style={{ border: "1px solid #8f8f8f" }} />
 
               <Box display="flex" mt={2}>
-                {movies.slice(4, 8).map((movie) => (
+                {movies.slice(0, 4).map((movie) => (
                   <Link
                     key={movie.movieId}
                     to="/"

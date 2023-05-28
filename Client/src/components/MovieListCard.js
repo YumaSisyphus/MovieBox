@@ -82,7 +82,7 @@ const MovieListCard = ({movies}) => {
 }}> 
 
         <div class="image-container">
-            <img src={movies.image} alt="" class="img" />
+            <img src={movies.image} alt="" class="img" style={{height: 200, width: '355px', objectFit: 'contain'}}/>
          <div class="image-overlay">
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                  <p style={{ marginBottom: 0 }}>See More</p>

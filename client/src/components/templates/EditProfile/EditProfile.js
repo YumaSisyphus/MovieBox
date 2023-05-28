@@ -1,4 +1,3 @@
-import { ThemeProvider } from "@emotion/react";
 import theme, { Colors } from "../../../utils/Themes";
 import Header from "../../header/Header";
 import Footer from "../../footer/Footer";
@@ -11,6 +10,7 @@ import {
   Button,
   Modal,
   IconButton,
+  ThemeProvider,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import CloseIcon from "@mui/icons-material/Close";
@@ -18,7 +18,6 @@ import styles from "./EditProfile.module.css";
 import Cookies from "universal-cookie";
 import { Link } from "react-router-dom";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
-import DescriptionIcon from "@mui/icons-material/Description";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

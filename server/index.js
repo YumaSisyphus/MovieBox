@@ -611,3 +611,35 @@ app.get("/api/movieListCover", (req, res) => {
     }
   });
 });
+
+// GET movie thumbnails for the cinema page
+
+app.get("/api/theatremovies/:id", (req, res) => {
+  const { id } = req.params;
+  const query = "SELECT m.Title, m.Length, m.Thumbnail FROM movies m INNER JOIN movies_cinema mc ON m.MovieId = mc.Movie_ID WHERE mc.Theatre_ID = ?;"
+  db.query(query, [id], (error, results) => {
+    if (error) {
+      console.error("Error fetching movies watched:", error);
+      res.status(500).json({ error: "Internal server error" });
+    } else {
+      res.status(200).json(results);
+    }
+  })
+});
+
+// GET Cinema ID
+
+app.get("/api/getCinema/:id", (req, res) => {
+  const { id } = req.params;
+  const sqlGet = "SELECT * FROM theatre WHERE TheatreID = ?;";
+  db.query(sqlGet, id, (error, result) => {
+    if (error) {
+      console.log(error);
+      res.status(500).send({ error: "Error retrieving user data" });
+    } else {
+      res.send(result[0]);
+    }
+  });
+});
+
+

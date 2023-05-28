@@ -3,13 +3,14 @@ import { Link } from "react-router-dom";
 import styles from "./style.module.css";
 import logo from "../../assets/logo2.png";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import Cookies from "universal-cookie";
 
 const Header = () => {
   const history = useNavigate();
   const cookies = new Cookies();
   const token = cookies.get('token');
+  const {id} = useParams();
 
   const handleLogout = () => {
     // Clear the token cookie
@@ -75,9 +76,9 @@ const Header = () => {
               </Link>
             </li>
             <li>
-              <Link to="/" className={styles.Links}>
+              <Link to={`/cinema/${id}`} className={styles.Links}>
                 <Typography variant="body1" className={styles.NavbarText}>
-                  Theatres
+                  Cinema
                 </Typography>
               </Link>
             </li>

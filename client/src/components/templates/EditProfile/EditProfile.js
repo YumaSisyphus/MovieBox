@@ -18,7 +18,6 @@ import styles from "./EditProfile.module.css";
 import Cookies from "universal-cookie";
 import { Link } from "react-router-dom";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
-import DescriptionIcon from "@mui/icons-material/Description";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

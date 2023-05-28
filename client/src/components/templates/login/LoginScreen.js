@@ -33,17 +33,23 @@ const initalState = {
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [remember, setRemember] = useState(false);
   const [state, setState] = useState(initalState);
   const { usernameORemail, password } = state;
+
   const navigate = useNavigate();
   const cookies = new Cookies();
   const handleClickShowPassword = () => {
     setShowPassword((prev) => !prev);
   };
+
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-
+  const handleRemember = () => {
+    setRemember((prev) => !prev);
+  };
+  console.log(remember);
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!usernameORemail || !password) {
@@ -60,6 +66,7 @@ const Login = () => {
           } else {
             cookies.set("token", response.data, {
               path: "/",
+              expires: remember ? undefined : new Date(Date.now() + 86400000),
             });
             setState({
               usernameORemail: "",
@@ -194,6 +201,7 @@ const Login = () => {
                     />
                   }
                   label="Remember me"
+                  onChange={handleRemember}
                 />
                 <Button
                   onClick={handleSubmit}

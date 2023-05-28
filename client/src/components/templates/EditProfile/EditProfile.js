@@ -1,4 +1,3 @@
-import { ThemeProvider } from "@emotion/react";
 import theme, { Colors } from "../../../utils/Themes";
 import Header from "../../header/Header";
 import Footer from "../../footer/Footer";
@@ -11,6 +10,7 @@ import {
   Button,
   Modal,
   IconButton,
+  ThemeProvider,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import CloseIcon from "@mui/icons-material/Close";
@@ -114,10 +114,10 @@ const EditProfile = () => {
     setProfilePic(avatarItem);
     setOpen(false);
   };
-  const handleProfilePicDelete = ()=>{
+  const handleProfilePicDelete = () => {
     setProfilePic("user.png");
     setOpen(false);
-  }
+  };
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
   };
@@ -208,225 +208,225 @@ const EditProfile = () => {
     <ThemeProvider theme={theme}>
       <Header />
       <Container maxWidth="md">
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            gap: "5%",
+          }}
+        >
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <Container maxWidth="md">
+              <Box
+                mt={5}
+                mb={5}
+                ml={2}
+                sx={{ display: "flex", flexDirection: "column" }}
+              >
+                <Typography color={Colors.white} variant="h6">
+                  Public Profile
+                </Typography>
+                <Typography color="#a6a6a6" variant="body2">
+                  People visiting your profile will see the following info
+                </Typography>
 
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          gap: "5%",
-        }}
-      >
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <Container maxWidth="md" >
-            <Box
-              mt={5}
-              mb={5}
-              ml={2}
-              sx={{ display: "flex", flexDirection: "column" }}
-            >
-              <Typography color={Colors.white} variant="h6">
-                Public Profile
-              </Typography>
-              <Typography color="#a6a6a6" variant="body2">
-                People visiting your profile will see the following info
-              </Typography>
-
-              <Typography mt={5} color={Colors.white} variant="body2" mb={1}>
-                Photo
-              </Typography>
-              <Box display="flex" alignItems="center">
-                <Box
-                  name="profilepic"
-                  id="profilepic"
-                  width={100}
-                  height={100}
-                  borderRadius={50}
-                  sx={{
-                    backgroundImage: `url(images/profile/${profilePic})`,
-                    backgroundSize: "cover",
-                  }}
-                ></Box>
-
-                <Button onClick={handleOpen} 
-                className={styles.changeButton}>Change Avatar</Button>
-                <Modal
-                  open={open}
-                  onClose={handleClose}
-                  aria-labelledby="modal-modal-title"
-                  aria-describedby="modal-modal-description"
-                >
+                <Typography mt={5} color={Colors.white} variant="body2" mb={1}>
+                  Photo
+                </Typography>
+                <Box display="flex" alignItems="center">
                   <Box
-                    display="flex"
-                    flexDirection="column"
-                    justifyContent="space-between"
-                    sx={style}
+                    name="profilepic"
+                    id="profilepic"
+                    width={100}
+                    height={100}
+                    borderRadius={50}
+                    sx={{
+                      backgroundImage: `url(images/profile/${profilePic})`,
+                      backgroundSize: "cover",
+                    }}
+                  ></Box>
+
+                  <Button onClick={handleOpen} className={styles.changeButton}>
+                    Change Avatar
+                  </Button>
+                  <Modal
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
                   >
-                    <Button
-                      onClick={handleClose}
-                      style={{
-                        display: "flex",
-                        alignSelf: "flex-end",
-                        color: "white",
-                        marginTop: "-6%",
-                        marginRight: "-9%",
-                      }}
+                    <Box
+                      display="flex"
+                      flexDirection="column"
+                      justifyContent="space-between"
+                      sx={style}
                     >
-                      <CloseIcon />
-                    </Button>
-                    <Box display="flex" justifyContent="space-between">
-                      {avatars.slice(0, 4).map((avatarItem) => (
-                        <Box
-                          component="img"
-                          name="profilepic"
-                          id="profilepic"
-                          width={100}
-                          height={100}
-                          borderRadius={50}
-                          src={`images/profile/${avatarItem}`}
-                          alt={`${avatarItem}`}
-                          sx={{
-                            cursor: "pointer",
-                            border: "3px solid transparent",
-                            transition:
-                              "border-color 0.4s, height 0.4s, width 0.4s",
-                            "&:hover": {
-                              height: 110,
-                              width: 110,
-                              borderColor: "#2A9D8F",
-                            },
-                          }}
-                          onClick={() => handleProfilePicChange(avatarItem)}
-                        />
-                      ))}
+                      <Button
+                        onClick={handleClose}
+                        style={{
+                          display: "flex",
+                          alignSelf: "flex-end",
+                          color: "white",
+                          marginTop: "-6%",
+                          marginRight: "-9%",
+                        }}
+                      >
+                        <CloseIcon />
+                      </Button>
+                      <Box display="flex" justifyContent="space-between">
+                        {avatars.slice(0, 4).map((avatarItem) => (
+                          <Box
+                            component="img"
+                            name="profilepic"
+                            id="profilepic"
+                            width={100}
+                            height={100}
+                            borderRadius={50}
+                            src={`images/profile/${avatarItem}`}
+                            alt={`${avatarItem}`}
+                            sx={{
+                              cursor: "pointer",
+                              border: "3px solid transparent",
+                              transition:
+                                "border-color 0.4s, height 0.4s, width 0.4s",
+                              "&:hover": {
+                                height: 110,
+                                width: 110,
+                                borderColor: "#2A9D8F",
+                              },
+                            }}
+                            onClick={() => handleProfilePicChange(avatarItem)}
+                          />
+                        ))}
+                      </Box>
+                      <Box display="flex" justifyContent="space-between">
+                        {avatars.slice(4).map((avatarItem) => (
+                          <Box
+                            component="img"
+                            name="profilepic"
+                            id="profilepic"
+                            width={100}
+                            height={100}
+                            borderRadius={50}
+                            src={`images/profile/${avatarItem}`}
+                            alt={`${avatarItem}`}
+                            sx={{
+                              cursor: "pointer",
+                              border: "3px solid transparent",
+                              transition:
+                                "border-color 0.4s, height 0.4s, width 0.4s",
+                              "&:hover": {
+                                height: 110,
+                                width: 110,
+                                borderColor: "#2A9D8F",
+                              },
+                            }}
+                            onClick={() => handleProfilePicChange(avatarItem)}
+                          />
+                        ))}
+                      </Box>
+                      <Button
+                        onClick={handleProfilePicDelete}
+                        style={{
+                          display: "flex",
+                          alignSelf: "flex-start",
+                          color: "white",
+                          marginBottom: "-5%",
+                        }}
+                      >
+                        Delete avatar
+                      </Button>
                     </Box>
-                    <Box display="flex" justifyContent="space-between">
-                      {avatars.slice(4).map((avatarItem) => (
-                        <Box
-                          component="img"
-                          name="profilepic"
-                          id="profilepic"
-                          width={100}
-                          height={100}
-                          borderRadius={50}
-                          src={`images/profile/${avatarItem}`}
-                          alt={`${avatarItem}`}
-                          sx={{
-                            cursor: "pointer",
-                            border: "3px solid transparent",
-                            transition:
-                              "border-color 0.4s, height 0.4s, width 0.4s",
-                            "&:hover": {
-                              height: 110,
-                              width: 110,
-                              borderColor: "#2A9D8F",
-                            },
-                          }}
-                          onClick={() => handleProfilePicChange(avatarItem)}
-                        />
-                      ))}
-                    </Box>
-                    <Button
-                      onClick={handleProfilePicDelete}
-                      style={{
-                        display: "flex",
-                        alignSelf: "flex-start",
-                        color: "white",
-                        marginBottom: "-5%",
-                      }}
-                    >
-                      Delete avatar
-                    </Button>
-                  </Box>
-                </Modal>
-              </Box>
+                  </Modal>
+                </Box>
 
-              <Box mt={5}>
-                <TextField
-                  id="username"
-                  name="username"
-                  label="Username"
-                  variant="filled"
-                  defaultValue={username}
-                  value={username}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <DriveFileRenameOutlineIcon/>
-                      </InputAdornment>
-                    ),
-                    style: {
-                      backgroundColor: "#ebebeb",
-                      borderRadius: "5px",
-                      width: "400px",
-                    },
-                  }}
-                  onChange={handleUsernameChange}
-                />
-              </Box>
+                <Box mt={5}>
+                  <TextField
+                    id="username"
+                    name="username"
+                    label="Username"
+                    variant="filled"
+                    defaultValue={username}
+                    value={username}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <DriveFileRenameOutlineIcon />
+                        </InputAdornment>
+                      ),
+                      style: {
+                        backgroundColor: "#ebebeb",
+                        borderRadius: "5px",
+                        width: "400px",
+                      },
+                    }}
+                    onChange={handleUsernameChange}
+                  />
+                </Box>
 
-              <Box mt={5}>
-                <TextField
-                  id="email"
-                  name="email"
-                  label="Email"
-                  variant="filled"
-                  value={email}
-                  defaultValue={email}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                            <DriveFileRenameOutlineIcon/>
-                      </InputAdornment>
-                    ),
-                    style: {
-                      backgroundColor: "#ebebeb",
-                      borderRadius: "5px",
-                      width: "400px",
-                    },
-                  }}
-                  onChange={handleEmailChange}
-                />
-              </Box>
+                <Box mt={5}>
+                  <TextField
+                    id="email"
+                    name="email"
+                    label="Email"
+                    variant="filled"
+                    value={email}
+                    defaultValue={email}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <DriveFileRenameOutlineIcon />
+                        </InputAdornment>
+                      ),
+                      style: {
+                        backgroundColor: "#ebebeb",
+                        borderRadius: "5px",
+                        width: "400px",
+                      },
+                    }}
+                    onChange={handleEmailChange}
+                  />
+                </Box>
 
-              <Box mt={5}>
-                <TextField
-                  id="bio"
-                  name="bio"
-                  label="Bio"
-                  variant="filled"
-                  multiline
-                  rows={6}
-                  defaultValue={bio}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start"></InputAdornment>
-                    ),
-                    style: {
-                      backgroundColor: "#ebebeb",
-                      borderRadius: "5px",
-                      width: "400px",
-                    },
-                  }}
-                  onChange={handleBioChange}
-                />
-              </Box>
+                <Box mt={5}>
+                  <TextField
+                    id="bio"
+                    name="bio"
+                    label="Bio"
+                    variant="filled"
+                    multiline
+                    rows={6}
+                    defaultValue={bio}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start"></InputAdornment>
+                      ),
+                      style: {
+                        backgroundColor: "#ebebeb",
+                        borderRadius: "5px",
+                        width: "400px",
+                      },
+                    }}
+                    onChange={handleBioChange}
+                  />
+                </Box>
 
-              <Box mt={5}>
-                <Button
-                  className={styles.SaveButton}
-                  onClick={handleSaveChanges}
-                  sx={{
-                    marginRight: "20px",
-                  }}
-                >
-                  <Typography
-                    color={Colors.white}
-                    className={styles.SaveText}
+                <Box mt={5}>
+                  <Button
+                    className={styles.SaveButton}
+                    onClick={handleSaveChanges}
+                    sx={{
+                      marginRight: "20px",
+                    }}
                   >
-                    Save Changes
-                  </Typography>
-                </Button>
-                <Button
+                    <Typography
+                      color={Colors.white}
+                      className={styles.SaveText}
+                    >
+                      Save Changes
+                    </Typography>
+                  </Button>
+                  <Button
                     className={styles.SaveButton}
                     onClick={handleShowChangePassword}
                   >
@@ -437,133 +437,133 @@ const EditProfile = () => {
                       Change Password
                     </Typography>
                   </Button>
+                </Box>
               </Box>
-            </Box>
-          </Container>
+            </Container>
+          </div>
+          <div
+            style={{
+              display: showChangePassword ? "flex" : "none",
+              flexDirection: "column",
+            }}
+          >
+            <Container maxWidth="md">
+              <Box mt={45.5} mb={5} ml={2}>
+                <Box mt={5}>
+                  <Typography color={Colors.white} variant="h6" mb={2}>
+                    Privacy
+                  </Typography>
+                  <TextField
+                    id="password"
+                    name="password"
+                    label="Password"
+                    variant="filled"
+                    type={showPassword ? "text" : "password"}
+                    defaultValue=""
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start"></InputAdornment>
+                      ),
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            onClick={handleClickShowPassword}
+                            onMouseDown={handleMouseDownPassword}
+                            edge="end"
+                          >
+                            {showPassword ? (
+                              <VisibilityOff color="black" />
+                            ) : (
+                              <Visibility color="black" />
+                            )}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                      style: {
+                        backgroundColor: "#ebebeb",
+                        borderRadius: "5px",
+                        width: "400px",
+                      },
+                    }}
+                    onChange={handlePasswordChange}
+                  />
+                </Box>
+                <Box mt={5}>
+                  <TextField
+                    id="newpassword"
+                    name="newpassword"
+                    label="New Password"
+                    variant="filled"
+                    type={showNewPassword ? "text" : "password"}
+                    defaultValue=""
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start"></InputAdornment>
+                      ),
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            onClick={handleClickShowNewPassword}
+                            onMouseDown={handleMouseDownNewPassword}
+                            edge="end"
+                          >
+                            {showNewPassword ? (
+                              <VisibilityOff color="black" />
+                            ) : (
+                              <Visibility color="black" />
+                            )}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                      style: {
+                        backgroundColor: "#ebebeb",
+                        borderRadius: "5px",
+                        width: "400px",
+                      },
+                    }}
+                    onChange={handleNewPasswordChange}
+                  />
+                </Box>
+                <Box mt={5}>
+                  <TextField
+                    id="confirmpassword"
+                    name="confirmpassword"
+                    label="Confirm Password"
+                    variant="filled"
+                    type={showConfirmPassword ? "text" : "password"}
+                    defaultValue=""
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start"></InputAdornment>
+                      ),
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            onClick={handleClickShowConfirmPassword}
+                            onMouseDown={handleMouseDownConfirmPassword}
+                            edge="end"
+                          >
+                            {showConfirmPassword ? (
+                              <VisibilityOff color="black" />
+                            ) : (
+                              <Visibility color="black" />
+                            )}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                      style: {
+                        backgroundColor: "#ebebeb",
+                        borderRadius: "5px",
+                        width: "400px",
+                      },
+                    }}
+                    onChange={handleConfirmPasswordChange}
+                  />
+                </Box>
+              </Box>
+            </Container>
+          </div>
         </div>
-        <div
-          style={{
-            display: showChangePassword ? "flex" : "none",
-            flexDirection: "column",
-          }}
-        >
-          <Container maxWidth="md" >
-            <Box mt={45.5} mb={5} ml={2}>
-              <Box mt={5}>
-              <Typography color={Colors.white} variant="h6" mb={2}>
-                Privacy
-              </Typography>
-                <TextField
-                  id="password"
-                  name="password"
-                  label="Password"
-                  variant="filled"
-                  type={showPassword ? "text" : "password"}
-                  defaultValue=""
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start"></InputAdornment>
-                    ),
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton
-                          onClick={handleClickShowPassword}
-                          onMouseDown={handleMouseDownPassword}
-                          edge="end"
-                        >
-                          {showPassword ? (
-                            <VisibilityOff color="black" />
-                          ) : (
-                            <Visibility color="black" />
-                          )}
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                    style: {
-                      backgroundColor: "#ebebeb",
-                      borderRadius: "5px",
-                      width: "400px",
-                    },
-                  }}
-                  onChange={handlePasswordChange}
-                />
-              </Box>
-              <Box mt={5}>
-                <TextField
-                  id="newpassword"
-                  name="newpassword"
-                  label="New Password"
-                  variant="filled"
-                  type={showNewPassword ? "text" : "password"}
-                  defaultValue=""
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start"></InputAdornment>
-                    ),
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton
-                          onClick={handleClickShowNewPassword}
-                          onMouseDown={handleMouseDownNewPassword}
-                          edge="end"
-                        >
-                          {showNewPassword ? (
-                            <VisibilityOff color="black" />
-                          ) : (
-                            <Visibility color="black" />
-                          )}
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                    style: {
-                      backgroundColor: "#ebebeb",
-                      borderRadius: "5px",
-                      width: "400px",
-                    },
-                  }}
-                  onChange={handleNewPasswordChange}
-                />
-              </Box>
-              <Box mt={5}>
-                <TextField
-                  id="confirmpassword"
-                  name="confirmpassword"
-                  label="Confirm Password"
-                  variant="filled"
-                  type={showConfirmPassword ? "text" : "password"}
-                  defaultValue=""
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start"></InputAdornment>
-                    ),
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton
-                          onClick={handleClickShowConfirmPassword}
-                          onMouseDown={handleMouseDownConfirmPassword}
-                          edge="end"
-                        >
-                          {showConfirmPassword ? (
-                            <VisibilityOff color="black" />
-                          ) : (
-                            <Visibility color="black" />
-                          )}
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                    style: {
-                      backgroundColor: "#ebebeb",
-                      borderRadius: "5px",
-                      width: "400px",
-                    },
-                  }}
-                  onChange={handleConfirmPasswordChange}
-                />
-              </Box>
-            </Box>
-          </Container>
-        </div>
-      </div>
       </Container>
 
       <Footer />

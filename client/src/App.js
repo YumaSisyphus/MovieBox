@@ -18,7 +18,7 @@ import EditProfile from "./components/templates/EditProfile/EditProfile";
 import UserFilms from "./components/templates/UserFilms/UserFilms";
 import MovieListHome from "./components/templates/MovieList/MovieListHome";
 import MovieList from "./components/templates/MovieList/MovieList";
-
+import Movies from "./components/templates/Movies/Movies";
 
 function App() {
   return (
@@ -29,7 +29,7 @@ function App() {
             <Route path={"/welcome"} Component={WelcomeScreen} />
             <Route path="/login" Component={Login}></Route>
             <Route path="/register" Component={Register} />
-            <Route path="/terms" Component={TermsOfUse}/>
+            <Route path="/terms" Component={TermsOfUse} />
             <Route element={<PrivateRoutes />}>
               <Route path="/profile" Component={ProfileContainer} />
               <Route path="/usermovie" Component={UserFilms} />
@@ -39,6 +39,7 @@ function App() {
               <Route path="/dashboard" Component={Dashboard} />
               <Route path="/edit" Component={AddEdit} />
               <Route path="/update/:id" Component={AddEdit} />
+              <Route path="/movies" Component={Movies} />
               <Route path="/moviePage" Component={MoviePage} />
               <Route path="/" Component={HomePage} />
               <Route path="/editProfile" Component={EditProfile} />

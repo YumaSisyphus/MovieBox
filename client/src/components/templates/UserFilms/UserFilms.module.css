@@ -1,20 +1,43 @@
 .MovieBorder {
-    transition: all .4s;
-    border: 3px solid transparent;
-    position: relative;
+  transition: all 0.4s;
+  border: 3px solid transparent;
+  position: relative;
 }
 
 .MovieBorder:hover {
-    border: 3px solid #2A9D8F !important;
+  border: 3px solid #2a9d8f !important;
 }
 
 .Links {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 .Watched {
-    font-size: 20px;
-    color: #b6b6b6;
-    font-weight: bold;
-    font-family: "DM Sans", sans-serif;
+  font-size: 20px;
+  color: #b6b6b6;
+  font-weight: bold;
+  font-family: "DM Sans", sans-serif;
+}
+
+.MovieLink {
+  width: calc(25% - 2%);
+  margin: 0 1% 4% 1%;
+}
+
+.MovieThumbnail {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+@media (max-width: 768px) {
+  .MovieLink {
+    width: calc(50% - 2%);
+  }
+}
+
+@media (max-width: 480px) {
+  .MovieLink {
+    width: 100%;
+  }
 }

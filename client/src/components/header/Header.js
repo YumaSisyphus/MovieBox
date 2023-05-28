@@ -61,7 +61,7 @@ const Header = () => {
               </Link>
             </li>
             <li>
-              <Link to="/MoviePage" className={styles.Links}>
+              <Link to="/Movies" className={styles.Links}>
                 <Typography variant="body1" className={styles.NavbarText}>
                   Films
                 </Typography>

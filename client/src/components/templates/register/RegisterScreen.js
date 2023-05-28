@@ -110,7 +110,7 @@ const Register = () => {
                 birthday,
               })
               .then((response) => {
-                console.log(response.data)
+                console.log(response.data);
                 setState({
                   username: "",
                   email: "",
@@ -358,24 +358,11 @@ const Register = () => {
                     />
                   </LocalizationProvider>
                 </form>
-                <FormControlLabelStyle
-                  control={
-                    <Checkbox
-                      sx={{
-                        color: theme.palette.light.main,
-                        "&.Mui-checked": {
-                          color: theme.palette.light.main,
-                        },
-                      }}
-                      disableRipple
-                    />
-                  }
-                  label="Remember me"
-                />
                 <Button
                   onClick={handleSubmit}
                   style={{
                     marginBottom: "3%",
+                    marginTop: "3%",
                   }}
                   color="white"
                   variant="outlined"

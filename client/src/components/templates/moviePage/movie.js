@@ -1,53 +1,59 @@
 import { useEffect, useState } from "react";
 import styles from "./style.module.css";
-import movie from "../../../assets/movies/JohnWick4Thumbnail.jpg";
 import { useNavigate, useLocation } from "react-router-dom";
 import Header from "../../header/Header";
 import Footer from "../../footer/Footer";
+import axios from "axios";
 
 const MoviePage = () => {
   const location = useLocation();
   const actor_movie = location.state?.movie;
-  console.log(actor_movie);
+  const movies_movie = location.state?.movies;
   const [activeList, setActiveList] = useState("cast");
   const [actors, setActors] = useState([]);
+  const [movie, setMovie] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
     const fetchActors = async () => {
-      const movieId = actor_movie?.MovieId || 1;
-      const response = await fetch(`/api/getMovieActors?movieId=${movieId}`);
-      const data = await response.json();
-      if (response.ok) {
-        setActors(data.results);
-      } else {
-        console.error(data.error);
+      try {
+        const movieId = actor_movie?.MovieId || movies_movie?.MovieId;
+        const responseActors = await axios.get(
+          `/api/getMovieActors/${movieId}`
+        );
+        const responseMovies = await axios.get(`/api/getMovie/${movieId}`);
+        setMovie(responseMovies.data.results[0]);
+        setActors(responseActors.data.results);
+      } catch (error) {
+        console.error("Error fetching actors:", error);
       }
     };
     fetchActors();
   }, []);
+  console.log(movie);
   const sendActorInfo = (actor) => {
     navigate("/ActorPage", { state: { actor } });
   };
+
   return (
     <div className={styles.movie_page}>
       <Header />
       <div className={styles.movie}>
-        <div className={styles.movie_background}> </div>
+        <div
+          className={styles.movie_background}
+          style={{
+            backgroundImage: `url(${movie.Cover})`,
+          }}
+        >
+          {" "}
+        </div>
         <div className={styles.container}>
           <div className={styles.movie_img}>
-            <img src={movie} />
+            <img src={movie.Thumbnail} />
           </div>
           <div className={styles.movie_details}>
-            <h1 className={styles.movie_title}> John Wick: Chapter 4</h1>
+            <h1 className={styles.movie_title}> {movie.Title}</h1>
 
-            <p className={styles.movie_desc}>
-              {" "}
-              With the price on his head ever increasing, John Wick uncovers a
-              path to defeating The High Table. But before he can earn his
-              freedom, Wick must face off against a new enemy with powerful
-              alliances across the globe and forces that turn old friends into
-              foes.
-            </p>
+            <p className={styles.movie_desc}> {movie.Description}</p>
 
             <ul className={styles.movie_labels}>
               <li
@@ -88,21 +94,6 @@ const MoviePage = () => {
                   </li>
                 ))}
               </ul>
-              // <ul className={styles.movie_cast}>
-              //   <li> Keanu Reeves </li>
-              //   <li> Donnie Yen </li>
-              //   <li> Bill Skarsgard</li>
-              //   <li> Ian McShane</li>
-              //   <li> Laurence Fishburne</li>
-              //   <li> Lance Reddick </li>
-              //   <li> Clancy Brown </li>
-              //   <li> Hirouky Sanada</li>
-              //   <li> Actor 8</li>
-              //   <li> Actor 8</li>
-              //   <li> Actor 8</li>
-              //   <li> Actor 8</li>
-              //   <li> Actor 8</li>
-              // </ul>
             )}
 
             {activeList === "crew" && (

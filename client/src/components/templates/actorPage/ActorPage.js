@@ -9,27 +9,28 @@ import Footer from "../../footer/Footer";
 import theme from "../../../utils/Themes";
 import GrandBudapest from "../../../assets/GrandBudapest.jpg";
 import { useNavigate, useLocation } from "react-router-dom";
+import axios from "axios";
 
 const ActorPage = () => {
   const location = useLocation();
-  const actor = location.state.actor;
+  const actor = location.state?.actor;
   const [showFullDescription, setShowFullDescription] = useState(false);
   const [showMovies, setShowMovies] = useState(false);
   const [movies, setMovies] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
     const fetchMovies = async () => {
-      const actorId = actor.ActorId;
-      const response = await fetch(`/api/getActorMovies?actorId=${actorId}`);
-      const data = await response.json();
-      if (response.ok) {
-        setMovies(data.results);
-      } else {
-        console.error(data.error);
+      try {
+        const actorId = actor?.ActorId;
+        const response = await axios.get(`/api/getActorMovies/${actorId}`);
+        setMovies(response.data.results);
+      } catch (error) {
+        console.error("Error fetching movies:", error);
       }
     };
     fetchMovies();
   }, []);
+  console.log(movies);
   const sendMovieInfo = (movie) => {
     navigate("/MoviePage", { state: { movie } });
   };
@@ -48,7 +49,7 @@ const ActorPage = () => {
           display: "flex",
           flexDirection: "row",
           height: "100%",
-          backgroundImage: `linear-gradient(to top, rgba(26, 26, 36), rgba(22, 22, 28))`
+          backgroundImage: `linear-gradient(to top, rgba(26, 26, 36), rgba(22, 22, 28))`,
         }}
       >
         <Container
@@ -125,7 +126,7 @@ const ActorPage = () => {
                 onClick={handleInputShowFullDescription}
                 disableRipple
                 disableFocusRipple
-                style={{ marginBottom: "2%", marginTop: "0\%" }}
+                style={{ marginBottom: "2%", marginTop: "0%" }}
               >
                 <Typography
                   style={{
@@ -171,7 +172,7 @@ const ActorPage = () => {
                   height={200}
                   className={styles.MovieBorder}
                   sx={{
-                    backgroundImage: `url(${require(`../../../assets/movies/${movie.Thumbnail}`)})`,
+                    backgroundImage: `url(${movie.Thumbnail})`,
                     backgroundSize: "cover",
                     backgroundRepeat: "no-repeat",
                     backgroundPosition: "right",

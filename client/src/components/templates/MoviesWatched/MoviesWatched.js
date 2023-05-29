@@ -2,14 +2,14 @@ import { ThemeProvider, Typography } from "@mui/material";
 import theme from "../../../utils/Themes";
 import Header from "../../header/Header";
 import Footer from "../../footer/Footer";
-import styles from "./UserFilms.module.css";
+import styles from "./MoviesWatched.module.css";
 import { Box, Container, Rating } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from "universal-cookie";
 
-const UserFilms = () => {
+const MoviesWatched = () => {
     const [movies, setMovies] = useState([]);
     const cookies = new Cookies();
     const token = cookies.get("token");
@@ -72,7 +72,6 @@ const UserFilms = () => {
                                     }}
                                 ></Box>
                             </Link>
-                                
                         ))}
 
                     </Box>
@@ -85,4 +84,4 @@ const UserFilms = () => {
     )
 }
 
-export default UserFilms;
+export default MoviesWatched;

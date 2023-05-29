@@ -15,11 +15,12 @@ import AddEdit from "./components/Edit/AddEdit";
 import HomePage from "./components/templates/HomePage/HomePage";
 import PrivateRoutes from "./utils/PrivateRoutes";
 import EditProfile from "./components/templates/EditProfile/EditProfile";
-import UserFilms from "./components/templates/UserFilms/UserFilms";
 import MovieListHome from "./components/templates/MovieList/MovieListHome";
 import MovieList from "./components/templates/MovieList/MovieList";
 import Movies from "./components/templates/Movies/Movies";
 import CinemaPage from "./components/templates/CinemaPage/CinemaPage";
+import Cinemas from "./components/templates/Cinemas/Cinemas";
+import MoviesWatched from "./components/templates/MoviesWatched/MoviesWatched";
 
 
 function App() {
@@ -34,8 +35,9 @@ function App() {
             <Route path="/terms" Component={TermsOfUse} />
             <Route element={<PrivateRoutes />}>
               <Route path="/profile" Component={ProfileContainer} />
-              <Route path="/cinema/:id" Component={CinemaPage} />
-              <Route path="/usermovie" Component={UserFilms} />
+              <Route path="/cinemas" Component={Cinemas}/> 
+              {/* <Route path="/cinema/:id" Component={CinemaPage}/> */}
+              <Route path="/usermovie" Component={MoviesWatched} />
               <Route path="/films" Component={MovieListHome} />
               <Route path="/filmslist" Component={MovieList} />
               <Route path="/actorPage" Component={ActorPage} />

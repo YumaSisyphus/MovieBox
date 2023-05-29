@@ -12,19 +12,26 @@ const CinemaPage = () => {
     const { id } = useParams();
     const [cinemaData, setCinemaData] = useState(null);
   
-    const fetchCinemaData = async () => {
-      try {
-        const response = await fetch(`/api/getCinema/${id}`);
-        const data = await response.json();
-        setCinemaData(data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+    // const fetchCinemaData = async () => {
+    //     try {
+    //         const response = await fetch(`/api/getCinema/${id.toString()}`);
+    //       if (!response.ok) {
+    //         throw new Error('Failed to fetch cinema data');
+    //       }
+    //       const data = await response.json();
+    //       if (!data) {
+    //         throw new Error('Empty response received');
+    //       }
+    //       console.log(data); // Log the response data
+    //       setCinemaData(data);
+    //     } catch (error) {
+    //       console.error(error);
+    //     }
+    //   };
   
-    useEffect(() => {
-      fetchCinemaData();
-    }, [id]);
+    // useEffect(() => {
+    //   fetchCinemaData();
+    // }, [id]);
 
     return (
         <ThemeProvider theme={theme}>

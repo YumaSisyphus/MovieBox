@@ -576,6 +576,8 @@ app.get("/api/favorite/:id", (req, res) => {
   });
 });
 
+// Get thumbnails of users movies watched
+
 app.get("/api/movieswatchedThumbnails/:id", (req, res) => {
   const { id } = req.params;
   const query =
@@ -642,4 +644,22 @@ app.get("/api/getCinema/:id", (req, res) => {
   });
 });
 
+
+// Get Cinema Covers 
+
+app.get("/api/TheatresCover", (req, res) => {
+  const query = "SELECT TheatreID, Cover FROM theatre";
+  db.query(query, (error, results) => {
+    if (error) {
+      console.error("Error fetching cover from theatre:", error);
+      res.status(500).json({ error: "Internal server error" });
+    } else {
+      const theatre = results.map((result) => ({
+        theatreId: result.TheatreID,
+        cover: result.Cover,
+      }));
+      res.json(theatre);
+    }
+  });
+});
 

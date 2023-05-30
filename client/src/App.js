@@ -36,7 +36,7 @@ function App() {
             <Route element={<PrivateRoutes />}>
               <Route path="/profile" Component={ProfileContainer} />
               <Route path="/cinemas" Component={Cinemas}/> 
-              {/* <Route path="/cinema/:id" Component={CinemaPage}/> */}
+              <Route path="/cinema" Component={CinemaPage}/>
               <Route path="/usermovie" Component={MoviesWatched} />
               <Route path="/films" Component={MovieListHome} />
               <Route path="/filmslist" Component={MovieList} />

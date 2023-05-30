@@ -4,30 +4,37 @@ import Header from "../../header/Header";
 import Footer from "../../footer/Footer";
 import styles from "./Cinemas.module.css";
 import { Box, Container, Rating } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from "universal-cookie";
 
 const Cinemas = () => {
-    const [movies, setMovies] = useState([]);
     const [theatre, setTheatre] = useState([]);
     const cookies = new Cookies();
     const token = cookies.get("token");
     const { UserID } = token[0];
+    const navigate = useNavigate();
+
+    
 
     useEffect(() => {
-        const fetchTheatreCover = async () => {
+        const fetchCinema = async () => {
             try {
-                const response = await axios.get(`/api/TheatresCover`);
-                setTheatre(response.data);
+                const response = await axios.get(`/api/getAllCinemas`);
+                setTheatre(response.data.results);
             } catch (error) {
-                console.error("Error fetching cover from theatre:", error);
+                console.error("Error fetching movies:", error);
             }
         };
-        console.log(theatre)
-        fetchTheatreCover();
+        fetchCinema();
     }, []);
+
+    const sendCinemaInfo = (cinema) => {
+        setTimeout(() => {
+            navigate("/cinema", { state: { cinema } });
+          }, 0);
+    };
 
     return (
         <ThemeProvider theme={theme}>
@@ -47,7 +54,6 @@ const Cinemas = () => {
                         Watched
                     </Typography>
                     <Box display="flex" flexWrap="wrap" mt={2} mb={5} gap={3}>
-
                         {theatre.map((cinema) => (
                             <Link
                                 key={cinema.theatreId}
@@ -57,26 +63,30 @@ const Cinemas = () => {
                                     height: "210px",
                                     marginRight: "2%",
                                     marginLeft: "2%"
-                                }}
-                            >
+                                }}>
                                 <Box
                                     width="158px"
                                     height="210px"
                                     className={styles.MovieBorder}
                                     sx={{
                                         borderRadius: "5px",
-                                        backgroundImage: `url(${cinema.cover})`,
+                                        backgroundImage: `url(${cinema.Cover})`,
                                         backgroundSize: "cover",
                                         backgroundRepeat: "no-repeat",
                                         backgroundPosition: "center",
                                     }}
+                                    onClick={() => {
+                                        sendCinemaInfo(cinema);
+                                    }}
                                 ></Box>
                             </Link>
                         ))}
-
                     </Box>
-                </Container>
+                    
+                    
 
+
+                </Container>
                 <Footer />
             </div>
         </ThemeProvider>

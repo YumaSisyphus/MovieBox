@@ -1,37 +1,44 @@
-import { Container, ThemeProvider } from "@mui/material";
+import { Container, ThemeProvider, Box, Typography } from "@mui/material";
 import theme from "../../../utils/Themes";
 import styles from "./CinemaPage.module.css";
 import Header from "../../header/Header";
 import Footer from "../../footer/Footer";
-import { Box, Typography } from "@mui/material";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useLocation } from "react-router-dom";
 import Thisio from "../../../assets/Theatres/Thisio.jpg"
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 const CinemaPage = () => {
-    const { id } = useParams();
-    const [cinemaData, setCinemaData] = useState(null);
-  
-    // const fetchCinemaData = async () => {
-    //     try {
-    //         const response = await fetch(`/api/getCinema/${id.toString()}`);
-    //       if (!response.ok) {
-    //         throw new Error('Failed to fetch cinema data');
-    //       }
-    //       const data = await response.json();
-    //       if (!data) {
-    //         throw new Error('Empty response received');
-    //       }
-    //       console.log(data); // Log the response data
-    //       setCinemaData(data);
-    //     } catch (error) {
-    //       console.error(error);
-    //     }
-    //   };
-  
-    // useEffect(() => {
-    //   fetchCinemaData();
-    // }, [id]);
+    const location = useLocation();
+    const [cinema, setCinema] = useState({
+        Name: '',
+        Description: ''
+    });
+    const [movies, setMovies] = useState({});
+    const theatre_cinema = location.state?.cinema;
+
+    const fetchCinema = () => {
+        const theatreId = theatre_cinema?.TheatreID;
+        return axios.get(`/api/getCinema/${theatreId}`)
+            .then((response) => {
+                setCinema(response.data[0]);
+            });
+    }
+    useEffect(() => {
+        fetchCinema();
+    }, []);
+
+    const fetchCinemaMovies = () => {
+        const theatreId = theatre_cinema?.TheatreID;
+        return axios.get(`/api/getCinemaMovies/${theatreId}`)
+            .then((response) => {
+                setMovies(response.data);
+            });
+    }
+    useEffect(() => {
+        fetchCinemaMovies();
+    }, []);
+
 
     return (
         <ThemeProvider theme={theme}>
@@ -54,7 +61,8 @@ const CinemaPage = () => {
                     <Typography
                         pt={15}
                         pl={10}
-                        className={styles.BannerQuote}>Cinema Thisio
+                        className={styles.BannerQuote}>
+                        {cinema.Name}
                     </Typography>
 
                     <Typography
@@ -67,13 +75,39 @@ const CinemaPage = () => {
                         fontSize="34px"
                         letterSpacing="2px"
                         color="#ebebeb">
-                        Built in 1935, this spring–summer outdoor movie theater features gourmet nibbles & Acropolis views
+                        {cinema.Description}
                     </Typography>
                     <Link className={styles.CinemaButton}>
                         Get Tickets Here
                     </Link>
                 </Box>
                 <Container maxWidth="md">
+
+                    <Box display="flex" flexWrap="wrap" mt={10} mb={5} gap={10} ml={0}>
+                        {Array.isArray(movies) && movies.slice(0,3).map((movie) => (
+                            <Link
+                                key={movie.MovieId}
+                                to="/"
+                                style={{
+                                    width: "208px",
+                                    height: "300px",
+                                    marginLeft: "2%"
+                                }}>
+                                <Box
+                                    width="208px"
+                                    height="300px"
+                                    className={styles.MovieBorder}
+                                    sx={{
+                                        borderRadius: "5px",
+                                        backgroundImage: `url(${movie.Cover})`,
+                                        backgroundSize: "cover",
+                                        backgroundRepeat: "no-repeat",
+                                        backgroundPosition: "center",
+                                    }}
+                                ></Box>
+                            </Link>
+                        ))}
+                    </Box>
 
                 </Container>
 

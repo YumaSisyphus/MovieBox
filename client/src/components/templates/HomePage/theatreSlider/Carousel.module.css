@@ -52,8 +52,9 @@
 .sliderQuote {
     font-size: 16px;
     font-weight: 800;
-    color: #cddce9;
+    color: #e6e6e6;
     margin-bottom: 12%;
+    letter-spacing: 1px;
 }
 
 .carouselDisplay {

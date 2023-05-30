@@ -614,6 +614,8 @@ app.get("/api/movieListCover", (req, res) => {
   });
 });
 
+
+
 // GET movie thumbnails for the cinema page
 
 app.get("/api/theatremovies/:id", (req, res) => {
@@ -634,32 +636,40 @@ app.get("/api/theatremovies/:id", (req, res) => {
 app.get("/api/getCinema/:id", (req, res) => {
   const { id } = req.params;
   const sqlGet = "SELECT * FROM theatre WHERE TheatreID = ?;";
-  db.query(sqlGet, id, (error, result) => {
+  db.query(sqlGet, id, (error, results) => {
     if (error) {
       console.log(error);
       res.status(500).send({ error: "Error retrieving user data" });
     } else {
-      res.send(result[0]);
+      res.send(results);
+    }
+  });
+});
+
+app.get("/api/getAllCinemas", (req, res) => {
+  const sqlGet = "SELECT * FROM theatre;";
+  db.query(sqlGet, (err, results) => {
+    if (err) {
+      console.error(err);
+      res.status(500).json({ error: "An error occurred." });
+    } else {
+      res.status(200).json({ msg: "Cinemas pulled successfully", results });
     }
   });
 });
 
 
-// Get Cinema Covers 
+// Get Movies for Cinema
 
-app.get("/api/TheatresCover", (req, res) => {
-  const query = "SELECT TheatreID, Cover FROM theatre";
-  db.query(query, (error, results) => {
+app.get("/api/getCinemaMovies/:id", (req, res) => {
+  const { id } = req.params;
+  const query = "SELECT m.* FROM movies m JOIN movies_cinema mc ON m.MovieID = mc.Movie_ID WHERE mc.Theatre_ID = ?;"
+  db.query(query, [id], (error, results) => {
     if (error) {
-      console.error("Error fetching cover from theatre:", error);
+      console.error("Error fetching movies watched:", error);
       res.status(500).json({ error: "Internal server error" });
     } else {
-      const theatre = results.map((result) => ({
-        theatreId: result.TheatreID,
-        cover: result.Cover,
-      }));
-      res.json(theatre);
+      res.status(200).json(results);
     }
-  });
+  })
 });
-

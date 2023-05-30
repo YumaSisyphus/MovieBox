@@ -34,6 +34,10 @@ const Movie = () => {
     const [open, setOpen] = useState(false);
     const[movie, setMovie] = useState({});
     const {id} = useParams();
+    const [isFavorite, setIsFavorite] = useState(false);
+    const handleFavoriteClick = () => {
+        setIsFavorite(!isFavorite);
+      };
     
     useEffect( ()=>{
         axios.get(`http://localhost:5000/api/get/${id}`).then((res)=>setMovie({...res.data[0]}))
@@ -124,10 +128,28 @@ const Movie = () => {
 
                         </Typography>
                         <LabelList>
-                            <Label  onClick={e=>setActiveList("cast")}> Cast </Label>
-                            <Label onClick={e=>setActiveList("crew")}>Crew</Label>
-                            <Label onClick={e=>setActiveList("genres")} >Genres</Label>
-                            <Label  onClick={e=>setActiveList("details")}>Details</Label>
+                            <Label
+                              style={{
+      color: activeList === "cast" ? "#fff" : "#9e2c3b"
+    }}
+       onClick={e=>setActiveList("cast")}> Cast </Label>
+
+                            <Label  style={{
+      color: activeList === "crew" ? "#fff" : "#9e2c3b"
+
+    }} onClick={e=>setActiveList("crew")}>Crew</Label>
+
+
+                            <Label  style={{
+      color: activeList === "genres" ? "#fff" : "#9e2c3b"
+    }} 
+    
+    onClick={e=>setActiveList("genres")} >Genres</Label>
+                            <Label  style={{
+      color: activeList === "details" ? "#fff" : "#9e2c3b"
+    }} 
+    
+    onClick={e=>setActiveList("details")}>Details</Label>
                             
                         </LabelList>
 
@@ -211,7 +233,7 @@ const Movie = () => {
                         </Grid>} old */}
 
                         
-                     {loggedIn && <Grid item md={3} xs={2}
+                     {loggedIn && <Grid item md={3} 
                     sx={{
                         display:"block",
                         height:"200px",
@@ -229,15 +251,21 @@ const Movie = () => {
                                 flexDirection:"row"
                             }}
                             > 
-                                 <ListItemButton  >
-                                    <StyledListItemIcon sx={{}}>
-                                    <FavoriteIcon/>
-                                        <ListItemText sx={{
-                                            color:"#fff",
-                                            
-                                        }} primary="Like"  />
-                                    </StyledListItemIcon>
-                                 </ListItemButton>
+                                <ListItemButton onClick={handleFavoriteClick}>
+                           <StyledListItemIcon>
+                                {isFavorite ? (
+          <FavoriteIcon sx={{ color: "red" }} />
+                                            ) : (
+                           <FavoriteIcon />
+                                  )}
+                            <ListItemText
+                                       sx={{
+                                   color: "#fff",
+                             }}
+                           primary={isFavorite ? "Remove" : "Like"}
+                                />
+      </StyledListItemIcon>
+    </ListItemButton>
 
                                  <ListItemButton  >
                                     <StyledListItemIcon>
@@ -313,8 +341,8 @@ const Movie = () => {
       >
         <TrailerBox>
             <IconButton onClick={e=>setOpen(false)} >
-                <CloseIcon sx={{color:"#fff",
-            float:"right"}} />
+                <CloseIcon sx={{color:"#fff"
+            }} />
             </IconButton >
             <iframe height="100%" width="100%" src={`${movie.Trailer}`}></iframe>
         </TrailerBox>

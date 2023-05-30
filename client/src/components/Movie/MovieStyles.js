@@ -27,22 +27,20 @@ export const theme = createTheme({
           marginTop:"20px",
           display:"flex",
           flexDirection:"row",
-          marginBottom:10
+          marginBottom:10,
+          
           
   
       });
   
     export const Label = styled("li")({
-          
-          
-          // color: "#8ec77d",  //light green
-          color:"#9e2c3b",
     display: "inline-block",
     fontSize: "20px",
     paddingLeft: "30px",
     ":hover":{
       cursor:"pointer",
       color:"#fff",
+      
   
     }
     

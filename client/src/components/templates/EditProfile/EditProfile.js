@@ -34,14 +34,14 @@ const style = {
   p: 4,
 };
 const avatars = [
-  "bear.png",
-  "cat.png",
-  "dog.png",
-  "koala.png",
-  "panda.png",
-  "rabbit.png",
-  "sea-lion.png",
-  "giraffe.png",
+  "Profile/bear.png",
+  "Profile/cat.png",
+  "Profile/dog.png",
+  "Profile/koala.png",
+  "Profile/panda.png",
+  "Profile/rabbit.png",
+  "Profile/sea-lion.png",
+  "Profile/giraffe.png",
 ];
 
 const EditProfile = () => {
@@ -240,7 +240,7 @@ const EditProfile = () => {
                     height={100}
                     borderRadius={50}
                     sx={{
-                      backgroundImage: `url(images/profile/${profilePic})`,
+                      backgroundImage: `url(${profilePic})`,
                       backgroundSize: "cover",
                     }}
                   ></Box>
@@ -281,7 +281,7 @@ const EditProfile = () => {
                             width={100}
                             height={100}
                             borderRadius={50}
-                            src={`images/profile/${avatarItem}`}
+                            src={`${avatarItem}`}
                             alt={`${avatarItem}`}
                             sx={{
                               cursor: "pointer",
@@ -307,7 +307,7 @@ const EditProfile = () => {
                             width={100}
                             height={100}
                             borderRadius={50}
-                            src={`images/profile/${avatarItem}`}
+                            src={`${avatarItem}`}
                             alt={`${avatarItem}`}
                             sx={{
                               cursor: "pointer",

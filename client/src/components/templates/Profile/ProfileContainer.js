@@ -3,7 +3,6 @@ import styles from "./ProfileContainer.module.css";
 import Header from "../../header/Header";
 import {
   Box,
-  Button,
   Container,
   ThemeProvider,
   Typography,
@@ -134,7 +133,7 @@ function ProfileContainer() {
             <Box display={"flex"}>
               <Box display={"flex"} flex={1}>
                 <img
-                  src={`images/Profile/${user.ProfilePic}`}
+                  src={`${user.ProfilePic}`}
                   alt="Profile picture"
                   className={styles.profilePicture}
                 />

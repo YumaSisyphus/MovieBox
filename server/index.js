@@ -21,12 +21,25 @@ db.connect((err) => {
   }
 });
 
+
+
+app.use(express.static(__dirname + '/public'));
+
+// Error handler middleware
+app.use(function (err, req, res, next) {
+  console.error(err.stack);
+  res.status(500).send('Internal Server Error');
+});
+
 app.listen(5000, () => {
   console.log("server started on port 5000");
 });
+
+
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
 
 app.get("/api/users", (req, res) => {
   const sqlGet = "SELECT * FROM users";

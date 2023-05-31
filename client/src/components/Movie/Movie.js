@@ -234,7 +234,7 @@ const Movie = () => {
                                 <ListItemButton onClick={handleFavoriteClick}>
                            <StyledListItemIcon>
                                 {isFavorite ? (
-          <FavoriteIcon sx={{ color: "red" }} />
+          <FavoriteIcon sx={{ color: "#DC143C" }} />
                                             ) : (
                            <FavoriteIcon />
                                   )}
@@ -251,7 +251,7 @@ const Movie = () => {
                                     <StyledListItemIcon>
                                         
                                         {isChecked ?(
-                                            <MoreTimeIcon sx={{color:"green"}} />  ):(
+                                            <MoreTimeIcon sx={{color:"#2d8525"}} />  ):(
                                                 <MoreTimeIcon/>
                                             )}
                                             
@@ -264,8 +264,7 @@ const Movie = () => {
                                             
 
 
-                                        
-                                    
+                                            
                                     
                                     
                                     </StyledListItemIcon>

@@ -38,6 +38,11 @@ const Movie = () => {
     const handleFavoriteClick = () => {
         setIsFavorite(!isFavorite);
       };
+    const [isChecked, setIsChecked] = useState(false);
+    const handleWatchlistClick = () => {
+        setIsChecked(!isChecked)
+    }
+    
     
     useEffect( ()=>{
         axios.get(`http://localhost:5000/api/get/${id}`).then((res)=>setMovie({...res.data[0]}))
@@ -199,39 +204,14 @@ const Movie = () => {
 
                              
                         <LoggedOutBox> 
-                            <StyledLink> Share</StyledLink>
-                           <ShareIcon/>
+                            <StyledLink> Share </StyledLink>
+                           <ShareIcon/> 
                         </LoggedOutBox>
 
                         
                     </Grid>}
 
-                    {/* {loggedIn && <Grid item md={3} xs={2}
-                    sx={{
-                        height:"200px",
-                        mt:8,
-                        background: "#445566;",
-                        color: "#99AABB;",
-                        borderRadius: "16px"}}>
-                        
-                        <LoggedInBox> <StyledLink> Like </StyledLink>
-                        <FavoriteIcon/>
-                        </LoggedInBox>
-                                 
-                             
-                        <LoggedInBox><StyledLink> Add to watchlist  </StyledLink>
-                                <MoreTimeIcon/>  </LoggedInBox>
-
-                        <LoggedInBox> <StyledLink> Leave a review  </StyledLink>
-                        <RateReviewIcon/>
-                        </LoggedInBox>
-
-                        <LoggedInBox ><StyledLink> Share</StyledLink>
-                           <ShareIcon/> </LoggedInBox>
-                        
-                        
-                        </Grid>} old */}
-
+                    
                         
                      {loggedIn && <Grid item md={3} 
                     sx={{
@@ -267,13 +247,27 @@ const Movie = () => {
       </StyledListItemIcon>
     </ListItemButton>
 
-                                 <ListItemButton  >
+                                 <ListItemButton  onClick={handleWatchlistClick}>
                                     <StyledListItemIcon>
-                                        <MoreTimeIcon />
-                                        <ListItemText primary="Watchlist"
-                                        sx={{
-                                            color:"#fff"
-                                        }} />
+                                        
+                                        {isChecked ?(
+                                            <MoreTimeIcon sx={{color:"green"}} />  ):(
+                                                <MoreTimeIcon/>
+                                            )}
+                                            
+                                            <ListItemText sx={{
+                                   color: "#fff",
+                             }}
+                           primary={isChecked ? "Remove" : "Watchlist"}
+                                />
+                                            
+                                            
+
+
+                                        
+                                    
+                                    
+                                    
                                     </StyledListItemIcon>
                                  </ListItemButton>
 

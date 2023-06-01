@@ -1,6 +1,6 @@
 import {
 Box, Grid, Typography, Link, ButtonGroup, Button, Modal, Checkbox, IconButton, ListItemButton,
-List, ListItemIcon, ListItemText, Badge, TextField
+List, ListItemIcon, ListItemText, Badge, TextField, FormControlLabel
  } from '@mui/material';
 import Container from '@mui/material/Container';
 import styled from '@emotion/styled';
@@ -36,6 +36,12 @@ const Movie = () => {
     const [openReview, setOpenReview] = useState(false);
     const[movie, setMovie] = useState({});
     const {id} = useParams();
+
+    const [isWatched, setIsWatched] = useState(false);
+    const handleWatchClick = () => {
+        setIsWatched(!isWatched);
+      };
+
     const [isFavorite, setIsFavorite] = useState(false);
     const handleFavoriteClick = () => {
         setIsFavorite(!isFavorite);
@@ -44,6 +50,16 @@ const Movie = () => {
     const handleWatchlistClick = () => {
         setIsChecked(!isChecked)
     };
+
+    const [isHoveredWatch, setIsHoveredWatch] = useState(false);
+
+      const handleMouseEnterWatch = () => {
+         setIsHoveredWatch(true);
+        };
+ 
+       const handleMouseLeaveWatch = () => {
+        setIsHoveredWatch(false);
+       };
 
     const [isHoveredFavorite, setIsHoveredFavorite] = useState(false);
 
@@ -65,6 +81,24 @@ const Movie = () => {
        const handleMouseLeaveWatchlist = () => {
         setIsHoveredWatchlist(false);
        };
+
+       const [expanded, setExpanded] = useState(false);
+
+       const handleFocus = () => {
+         setExpanded(true);
+       };
+     
+       const handleBlur = () => {
+         setExpanded(false);
+       };
+       
+       const [reviewInputValue, setReviewInputValue] = useState('');
+
+       const handleReviewInputChange = (e) => {
+         setReviewInputValue(e.target.value);
+       };
+
+       
     
     
     useEffect( ()=>{
@@ -239,7 +273,7 @@ const Movie = () => {
                      {loggedIn && <Grid item md={3} 
                     sx={{
                         display:"block",
-                        height:"200px",
+                        height:"250px",
                         mt:8,
                         background: "#445566",
                         // background: "#304244",
@@ -254,6 +288,32 @@ const Movie = () => {
                                 flexDirection:"row"
                             }}
                             > 
+                            <ListItemButton onClick={handleWatchClick}
+                                onMouseEnter={handleMouseEnterWatch}
+                                onMouseLeave={handleMouseLeaveWatch}
+                                
+                                >
+                                    
+                                 <StyledListItemIcon  >
+
+                                    {isWatched?(
+                                        <VisibilityIcon sx={{color:"#327ba8"}} />
+
+                                    ):(
+                                        <VisibilityIcon/>
+                                    )}
+
+                                    
+                                    <ListItemText primary={ (!isWatched?"Watch":(isHoveredWatch?"Remove":"Watched")) }
+                                        sx={{
+                                            color:"#fff"
+                                        }}
+                                        />
+                                     </StyledListItemIcon>
+                                 </ListItemButton>
+
+
+
                                 <ListItemButton onClick={handleFavoriteClick}
                                 onMouseEnter={handleMouseEnterFavorite}
                                 onMouseLeave={handleMouseLeaveFavorite}
@@ -269,7 +329,7 @@ const Movie = () => {
                                        sx={{
                                    color: "#fff",
                              }}
-                             primary=  { (!isFavorite?"Like":(isHoveredFavorite?"Remove":"Liked")) }
+                             primary=  { (!isFavorite?"Favorite":(isHoveredFavorite?"Remove":"Favorite")) }
                                 />
       </StyledListItemIcon>
     </ListItemButton>
@@ -301,7 +361,7 @@ const Movie = () => {
                                     </StyledListItemIcon>
                                  </ListItemButton>
 
-                                 <ListItemButton onClick={e=>setOpenReview(true)} >
+                                 {/* <ListItemButton onClick={e=>setOpenReview(true)} >
                                     <StyledListItemIcon>
                                         <RateReviewIcon/>
                                         <ListItemText primary="Review"
@@ -310,9 +370,29 @@ const Movie = () => {
                                         }}
                                         />
                                     </StyledListItemIcon>
-                                 </ListItemButton>
+                                 </ListItemButton> */}
 
-                                 <Modal
+                                 {/* <ListItemButton>
+                                 <StyledListItemIcon>
+                                    <VisibilityIcon/>
+                                    <ListItemText primary="Watch"
+                                        sx={{
+                                            color:"#fff"
+                                        }}
+                                        />
+                                     </StyledListItemIcon>
+                                 </ListItemButton> */}
+
+                            </List>
+
+
+
+                        </LoggedInBox>
+
+                        <LoggedInBox sx={{height:"50px"}}>
+                               
+                        <StyledLink onClick={e=>setOpenReview(true)}> Leave a review </StyledLink>
+                        <Modal
                                  open={openReview}
                                  >
 
@@ -333,7 +413,11 @@ const Movie = () => {
                                             <Grid item sx={{
                                                 height:"60%",
                                                 width:"140px",
-                                                marginLeft:"40px"
+                                                marginLeft:"40px",
+                                                mt:1,
+                                                ":hover":{
+                                                    border:"1px solid #fff"
+                                                }
                                             }}> 
                                                 <img src={movie.Thumbnail} height="100%" width="100%"/>
                                                 
@@ -358,11 +442,36 @@ const Movie = () => {
                                                 }}>  {new Date(movie.ReleaseDate).getFullYear()} </span> </Typography>
 
                                                 <TextField
-                                                  id="123"
+                                                variant='standard'
+                                                  id="review"
+                                                  name='review'
                                                   label="Add your review"
+                                                  multiline
+                                                  value={reviewInputValue}
+                                            onChange={handleReviewInputChange}
+                                                  InputProps={{
+                                                    disableUnderline: true,
+                                                    onFocus: handleFocus,
+                                                    onBlur: handleBlur,
+                                                    style:{
+                                                        marginLeft:"10px"
+                                                    }
+                                                    
+                                                  }}
+                                                  
+                                                  InputLabelProps={{
+                                                    style: { color: '#ACB2C1',
+                                                     paddingLeft: "10px" },
+                                      
+                                                  }}
+                                                  
                                                   sx={{
-                                                    mt:4,
-                                                    backgroundColor:"#CCDDEE"
+                                                    mt: 4,
+                                                    backgroundColor: "#CCDDEE",
+                                                    height: expanded ? "200px" : "100px",
+                                                    background: "#fff",
+                                                    transition: "height 0.3s ease",
+                                                    overflow:"auto"
                                                   }}
                                                   
                                                   
@@ -371,6 +480,22 @@ const Movie = () => {
 
 
                                           </Grid>
+
+
+                                          <Box sx={{
+                                            display:"flex",
+                                            justifyContent:"right",
+                                            
+                                          }}>
+                                           
+                                           
+                                            <Button disabled={reviewInputValue==''?true:false} variant="contained" color="success" sx={{
+                                                mr:4,
+                                                mb:2,
+                                                width:"100px",
+                                                
+                                            }}> Save</Button>
+                                          </Box>
                                         
                                         
 
@@ -380,10 +505,7 @@ const Movie = () => {
 
 
                                  </Modal>
-
-                            </List>
-
-
+                             
 
                         </LoggedInBox>
                                  

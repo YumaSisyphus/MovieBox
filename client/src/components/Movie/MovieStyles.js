@@ -84,7 +84,7 @@ export const theme = createTheme({
       flexDirection:"row",
       justifyContent: "center",
            alignItems:"center",
-          //  height:"33.3%",
+          
            gap:"10px",
            ":not(:last-child)": {
               borderBottom: "1px solid #c7bcb1",

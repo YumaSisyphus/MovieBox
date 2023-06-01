@@ -123,8 +123,7 @@ const Footer = () => {
           </ul>
 
           <Typography variant="body2" color="#aaaaaa" pb={6}>
-            © MovieBox. Made by students from UBT. Film data from TMDb. Web
-            site.
+            © MovieBox. Made by students from UBT. Film data from TMDb.
           </Typography>
         </Container>
       </ThemeProvider>

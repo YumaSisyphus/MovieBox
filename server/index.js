@@ -21,25 +21,21 @@ db.connect((err) => {
   }
 });
 
-
-
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + "/public"));
 
 // Error handler middleware
 app.use(function (err, req, res, next) {
   console.error(err.stack);
-  res.status(500).send('Internal Server Error');
+  res.status(500).send("Internal Server Error");
 });
 
 app.listen(5000, () => {
   console.log("server started on port 5000");
 });
 
-
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
 
 app.get("/api/users", (req, res) => {
   const sqlGet = "SELECT * FROM users";
@@ -376,6 +372,18 @@ app.get("/api/getAllMovies", (req, res) => {
   });
 });
 
+app.get("/api/getAllNewMovies", (req, res) => {
+  const sqlGet = "SELECT * FROM movies ORDER BY ReleaseDate DESC";
+  db.query(sqlGet, (err, results) => {
+    if (err) {
+      console.error(err);
+      res.status(500).json({ error: "An error occurred." });
+    } else {
+      res.status(200).json({ msg: "Movies pulled successfully", results });
+    }
+  });
+});
+
 app.get("/api/numOfMoviesByActor", (req, res) => {
   const { actorId } = req.query;
   const sqlGet = "SELECT COUNT(*) FROM movie_reviews WHERE actorId = ?;";
@@ -627,13 +635,12 @@ app.get("/api/movieListCover", (req, res) => {
   });
 });
 
-
-
 // GET movie thumbnails for the cinema page
 
 app.get("/api/theatremovies/:id", (req, res) => {
   const { id } = req.params;
-  const query = "SELECT m.Title, m.Length, m.Thumbnail FROM movies m INNER JOIN movies_cinema mc ON m.MovieId = mc.Movie_ID WHERE mc.Theatre_ID = ?;"
+  const query =
+    "SELECT m.Title, m.Length, m.Thumbnail FROM movies m INNER JOIN movies_cinema mc ON m.MovieId = mc.Movie_ID WHERE mc.Theatre_ID = ?;";
   db.query(query, [id], (error, results) => {
     if (error) {
       console.error("Error fetching movies watched:", error);
@@ -641,7 +648,7 @@ app.get("/api/theatremovies/:id", (req, res) => {
     } else {
       res.status(200).json(results);
     }
-  })
+  });
 });
 
 // GET Cinema ID
@@ -671,12 +678,12 @@ app.get("/api/getAllCinemas", (req, res) => {
   });
 });
 
-
 // Get Movies for Cinema
 
 app.get("/api/getCinemaMovies/:id", (req, res) => {
   const { id } = req.params;
-  const query = "SELECT m.* FROM movies m JOIN movies_cinema mc ON m.MovieID = mc.Movie_ID WHERE mc.Theatre_ID = ?;"
+  const query =
+    "SELECT m.* FROM movies m JOIN movies_cinema mc ON m.MovieID = mc.Movie_ID WHERE mc.Theatre_ID = ?;";
   db.query(query, [id], (error, results) => {
     if (error) {
       console.error("Error fetching movies watched:", error);
@@ -684,5 +691,5 @@ app.get("/api/getCinemaMovies/:id", (req, res) => {
     } else {
       res.status(200).json(results);
     }
-  })
+  });
 });

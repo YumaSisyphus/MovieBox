@@ -30,14 +30,14 @@ app.use(function (err, req, res, next) {
   res.status(500).send("Internal Server Error");
 });
 
-app.get("/api/addMovieAPI", (req, res) => {
+app.get("/api/addMovieAPI/:page", (req, res) => {
   const apiKey =
     "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkMTVmMzdkYjM2NjJhYzhjMjQ2NmUxNmU1MTZjOWFlZiIsInN1YiI6IjYzYjlmZjY2YWU2ZjA5MDBiZDFkY2JlMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.hrmuK_7NqjFYAl8kwZa_5bN0z38T-22dhK4HIb_sYkU";
 
   // Fetch movie data from TMDB API
   axios
     .get(
-      `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc`,
+      `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${page}&sort_by=popularity.desc`,
       {
         headers: {
           Authorization: `Bearer ${apiKey}`,

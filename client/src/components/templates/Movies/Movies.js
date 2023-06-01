@@ -15,7 +15,7 @@ import Header from "../../header/Header";
 import Footer from "../../footer/Footer";
 import axios from "axios";
 import styled from "@emotion/styled";
-import StarRateIcon from '@mui/icons-material/StarRate';
+import StarRateIcon from "@mui/icons-material/StarRate";
 
 const Movies = () => {
   const [movies, setMovies] = useState([]);
@@ -47,7 +47,13 @@ const Movies = () => {
           <Typography ml={2} mt={7} variant="h5" color="#ebebeb">
             Movies
           </Typography>
-          <hr style={{ border: "1px solid #8f8f8f", marginLeft: "2%", width: "95%" }} />
+          <hr
+            style={{
+              border: "1px solid #8f8f8f",
+              marginLeft: "2%",
+              width: "95%",
+            }}
+          />
           <Box display="flex" flexWrap="wrap" mt={3} mb={5}>
             {movies.map((movie) => (
               <>
@@ -55,7 +61,8 @@ const Movies = () => {
                   title={
                     <React.Fragment>
                       <Typography color="inherit">{movie.Title}</Typography>
-                      <em>{movie.Length}</em> <b>{"minutes"}</b>{" "}<em style={{ float: "right", fontSize: "12px" }}></em>
+                      <em>{movie.Length}</em> <b>{"minutes"}</b>{" "}
+                      <em style={{ float: "right", fontSize: "12px" }}></em>
                     </React.Fragment>
                   }
                   placement="top"
@@ -93,6 +100,5 @@ const Movies = () => {
 };
 
 export default Movies;
-
 
 // {"5"}{<StarRateIcon/>}

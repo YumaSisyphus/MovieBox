@@ -3,13 +3,14 @@ import theme from "../../../utils/Themes";
 import styles from "./CinemaPage.module.css";
 import Header from "../../header/Header";
 import Footer from "../../footer/Footer";
-import { Link, useParams, useLocation } from "react-router-dom";
+import { Link, useParams, useLocation, useNavigate } from "react-router-dom";
 import Thisio from "../../../assets/Theatres/Thisio.jpg"
 import { useEffect, useState } from "react";
 import axios from "axios";
 
 
 const CinemaPage = () => {
+    const navigate = useNavigate();
     const location = useLocation();
     const [cinema, setCinema] = useState({
         Name: '',
@@ -39,6 +40,10 @@ const CinemaPage = () => {
     useEffect(() => {
         fetchCinemaMovies();
     }, []);
+
+    const sendMovieInfo = (movie) => {
+        navigate("/MoviePage", { state: { movie } });
+    };
 
 
     return (
@@ -86,27 +91,22 @@ const CinemaPage = () => {
 
                     <Box display="flex" flexWrap="wrap" mt={10} mb={5} gap={10} ml={0}>
                         {Array.isArray(movies) && movies.slice(0, 3).map((movie) => (
-                            <Link
-                                key={movie.MovieId}
-                                to="/"
-                                style={{
-                                    width: "208px",
-                                    height: "250px",
-                                    marginLeft: "2%"
-                                }}>
-                                <Box
-                                    width="208px"
-                                    height="250px"
-                                    className={styles.MovieBorder}
-                                    sx={{
-                                        borderRadius: "5px",
-                                        backgroundImage: `url(${movie.Thumbnail})`,
-                                        backgroundSize: "cover",
-                                        backgroundRepeat: "no-repeat",
-                                        backgroundPosition: "center",
-                                    }}
-                                ></Box>
-                            </Link>
+                            <Box
+                                ml={2}
+                                width="208px"
+                                height="250px"
+                                className={styles.MovieBorder}
+                                sx={{
+                                    borderRadius: "5px",
+                                    backgroundImage: `url(${movie.Thumbnail})`,
+                                    backgroundSize: "cover",
+                                    backgroundRepeat: "no-repeat",
+                                    backgroundPosition: "center",
+                                }}
+                                onClick={() => {
+                                    sendMovieInfo(movie);
+                                }}
+                            ></Box>
                         ))}
                     </Box>
 
@@ -119,32 +119,27 @@ const CinemaPage = () => {
                     <Box display="flex" flexDirection="column" mt={3} ml={2} bgcolor="#0b1017">
                         {Array.isArray(movies) && movies.map((movie) => (
                             <Box display="flex" className={styles.rowBorder} height={120} alignItems="center">
-                                <Link
-                                    key={movie.MovieId}
-                                    to="/"
-                                    style={{
-                                        width: "70px",
-                                        height: "90px",
-                                        marginLeft: "2%"
-                                    }}>
-                                    <Box
-                                        width="70px"
-                                        height="90px"
-                                        className={styles.MovieBorder}
-                                        sx={{
-                                            borderRadius: "5px",
-                                            backgroundImage: `url(${movie.Thumbnail})`,
-                                            backgroundSize: "cover",
-                                            backgroundRepeat: "no-repeat",
-                                            backgroundPosition: "center",
-                                        }}
-                                    ></Box>
-                                </Link>
-                                    <Box display="flex" flexDirection="column">
-                                        <Typography variant="h6" ml={3} color="#ebebeb">{movie.Title}</Typography>
-                                        <Typography variant="body2" ml={3} color="#ebebeb">Length: {movie.Length} Minuta</Typography>
-                                        <Typography variant="body2" ml={3} color="#ebebeb">Release Date: {new Date(movie.ReleaseDate).toLocaleDateString()}</Typography>
-                                    </Box>
+                                <Box
+                                ml={2}
+                                    width="70px"
+                                    height="90px"
+                                    className={styles.MovieBorder}
+                                    sx={{
+                                        borderRadius: "5px",
+                                        backgroundImage: `url(${movie.Thumbnail})`,
+                                        backgroundSize: "cover",
+                                        backgroundRepeat: "no-repeat",
+                                        backgroundPosition: "center",
+                                    }}
+                                    onClick={() => {
+                                        sendMovieInfo(movie);
+                                    }}
+                                ></Box>
+                                <Box display="flex" flexDirection="column">
+                                    <Typography variant="h6" ml={3} color="#ebebeb">{movie.Title}</Typography>
+                                    <Typography variant="body2" ml={3} color="#ebebeb">Length: {movie.Length} minutes</Typography>
+                                    <Typography variant="body2" ml={3} color="#ebebeb">Release Date: {new Date(movie.ReleaseDate).toLocaleDateString()}</Typography>
+                                </Box>
                             </Box>
                         ))}
 

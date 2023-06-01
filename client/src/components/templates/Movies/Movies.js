@@ -44,17 +44,18 @@ const Movies = () => {
       >
         <Header />
         <Container maxWidth="md">
-          <Typography ml={2} fontSize="16px" mt={5} className={styles.Watched}>
+          <Typography ml={2} mt={7} variant="h5" color="#ebebeb">
             Movies
           </Typography>
-          <Box display="flex" flexWrap="wrap" mt={2} mb={5}>
+          <hr style={{ border: "1px solid #8f8f8f", marginLeft: "2%", width: "95%" }} />
+          <Box display="flex" flexWrap="wrap" mt={3} mb={5}>
             {movies.map((movie) => (
               <>
                 <Tooltip
                   title={
                     <React.Fragment>
                       <Typography color="inherit">{movie.Title}</Typography>
-                      <em>{movie.Length}</em> <b>{"minutes"}</b>{" "}<em style={{float: "right", fontSize: "12px"}}>{"5"}{<StarRateIcon/>}</em>
+                      <em>{movie.Length}</em> <b>{"minutes"}</b>{" "}<em style={{ float: "right", fontSize: "12px" }}></em>
                     </React.Fragment>
                   }
                   placement="top"
@@ -92,3 +93,6 @@ const Movies = () => {
 };
 
 export default Movies;
+
+
+// {"5"}{<StarRateIcon/>}

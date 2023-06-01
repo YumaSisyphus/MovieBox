@@ -1,6 +1,6 @@
 import {
 Box, Grid, Typography, Link, ButtonGroup, Button, Modal, Checkbox, IconButton, ListItemButton,
-List, ListItemIcon, ListItemText
+List, ListItemIcon, ListItemText, Badge, TextField
  } from '@mui/material';
 import Container from '@mui/material/Container';
 import styled from '@emotion/styled';
@@ -12,9 +12,10 @@ import ShareIcon from '@mui/icons-material/Share';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import MoreTimeIcon from '@mui/icons-material/MoreTime';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import {
-LabelList, Label, StyledList, LoggedOutBox, StyledLink, LoggedInBox, StyledButton, TrailerBox,StyledListItemIcon
+LabelList, Label, StyledList, LoggedOutBox, StyledLink, LoggedInBox, StyledButton, TrailerBox,StyledListItemIcon, ReviewBox
 
 } from './MovieStyles';
 import {theme}  from './MovieStyles';
@@ -31,7 +32,8 @@ import { useParams } from 'react-router-dom';
 const Movie = () => {
     const [activeList, setActiveList] = useState('cast');
     const [loggedIn,setLoggedIn] = useState(true);
-    const [open, setOpen] = useState(false);
+    const [openTrailer, setOpenTrailer] = useState(false);
+    const [openReview, setOpenReview] = useState(false);
     const[movie, setMovie] = useState({});
     const {id} = useParams();
     const [isFavorite, setIsFavorite] = useState(false);
@@ -41,7 +43,28 @@ const Movie = () => {
     const [isChecked, setIsChecked] = useState(false);
     const handleWatchlistClick = () => {
         setIsChecked(!isChecked)
-    }
+    };
+
+    const [isHoveredFavorite, setIsHoveredFavorite] = useState(false);
+
+     const handleMouseEnterFavorite = () => {
+        setIsHoveredFavorite(true);
+       };
+
+      const handleMouseLeaveFavorite = () => {
+       setIsHoveredFavorite(false);
+      };
+
+
+      const [isHoveredWatchlist, setIsHoveredWatchlist] = useState(false);
+
+      const handleMouseEnterWatchlist = () => {
+         setIsHoveredWatchlist(true);
+        };
+ 
+       const handleMouseLeaveWatchlist = () => {
+        setIsHoveredWatchlist(false);
+       };
     
     
     useEffect( ()=>{
@@ -231,7 +254,11 @@ const Movie = () => {
                                 flexDirection:"row"
                             }}
                             > 
-                                <ListItemButton onClick={handleFavoriteClick}>
+                                <ListItemButton onClick={handleFavoriteClick}
+                                onMouseEnter={handleMouseEnterFavorite}
+                                onMouseLeave={handleMouseLeaveFavorite}
+                                
+                                >
                            <StyledListItemIcon>
                                 {isFavorite ? (
           <FavoriteIcon sx={{ color: "#DC143C" }} />
@@ -242,23 +269,27 @@ const Movie = () => {
                                        sx={{
                                    color: "#fff",
                              }}
-                           primary={isFavorite ? "Remove" : "Like"}
+                             primary=  { (!isFavorite?"Like":(isHoveredFavorite?"Remove":"Liked")) }
                                 />
       </StyledListItemIcon>
     </ListItemButton>
 
-                                 <ListItemButton  onClick={handleWatchlistClick}>
-                                    <StyledListItemIcon>
+                                 <ListItemButton
+                                 onClick={handleWatchlistClick}
+                                 onMouseEnter={handleMouseEnterWatchlist}
+                                onMouseLeave={handleMouseLeaveWatchlist}
+                                 >
+                                    <StyledListItemIcon  >
                                         
                                         {isChecked ?(
-                                            <MoreTimeIcon sx={{color:"#2d8525"}} />  ):(
+                                            <AccessTimeIcon sx={{color:"#2d8525"}} />  ):(
                                                 <MoreTimeIcon/>
                                             )}
                                             
                                             <ListItemText sx={{
                                    color: "#fff",
                              }}
-                           primary={isChecked ? "Remove" : "Watchlist"}
+                           primary={!isChecked ? "Watchlist" : (isHoveredWatchlist?"Remove":"Watchlist")}
                                 />
                                             
                                             
@@ -270,7 +301,7 @@ const Movie = () => {
                                     </StyledListItemIcon>
                                  </ListItemButton>
 
-                                 <ListItemButton >
+                                 <ListItemButton onClick={e=>setOpenReview(true)} >
                                     <StyledListItemIcon>
                                         <RateReviewIcon/>
                                         <ListItemText primary="Review"
@@ -280,6 +311,75 @@ const Movie = () => {
                                         />
                                     </StyledListItemIcon>
                                  </ListItemButton>
+
+                                 <Modal
+                                 open={openReview}
+                                 >
+
+                                    <ReviewBox>
+                                        <Box> 
+                                        <IconButton sx={{
+                                            float:"right",
+                                            marginRight:"10px",
+                                            color:"#fff",
+                                            
+                                        }} color='#fff' aria-label="" onClick={e=>setOpenReview(false)}>
+                                          <CloseIcon/>
+                                          
+                                          </IconButton>
+                                          </Box>
+                                          
+                                          <Grid container height="80%" width="100%  ">
+                                            <Grid item sx={{
+                                                height:"60%",
+                                                width:"140px",
+                                                marginLeft:"40px"
+                                            }}> 
+                                                <img src={movie.Thumbnail} height="100%" width="100%"/>
+                                                
+                                                 </Grid>
+
+
+                                            <Grid item sx={{
+                                                marginLeft:5,
+                                                display:"flex",
+                                                flexDirection:"column"
+                                            }}>
+                                                <Typography variant="h6" color="#99AABB"> I watched... </Typography>
+                                                <Typography variant="p" 
+                                                sx={{
+                                                    color:"#fff",
+                                                    fontSize:"22px"
+                                                }}
+                                                > {movie.Title} <span style={{
+                                                    color:"#99AABB",
+                                                    fontSize:"18px",
+                                                    marginLeft:"5px"
+                                                }}>  {new Date(movie.ReleaseDate).getFullYear()} </span> </Typography>
+
+                                                <TextField
+                                                  id="123"
+                                                  label="Add your review"
+                                                  sx={{
+                                                    mt:4,
+                                                    backgroundColor:"#CCDDEE"
+                                                  }}
+                                                  
+                                                  
+                                                />
+                                                 </Grid>
+
+
+                                          </Grid>
+                                        
+                                        
+
+                                        
+                                         </ReviewBox>
+
+
+
+                                 </Modal>
 
                             </List>
 
@@ -308,7 +408,7 @@ const Movie = () => {
             <Box  sx={{
                
                 mt:4,
-                // position:"static",
+                
                 
                 
                 
@@ -321,19 +421,19 @@ const Movie = () => {
                     
                     
                 }} variant="contained" size="large" orientation="vertical" color="button" >
-                  <StyledButton onClick={e=>setOpen(true)}> Watch the trailer <YouTubeIcon sx={{
+                  <StyledButton onClick={e=>setOpenTrailer(true)}> Watch the trailer <YouTubeIcon sx={{
                     fontSize:"40px",
                     
                   }}/></StyledButton>
 
 
        <Modal
-        open={open}
-        onClose={e=>setOpen(false)}
+        open={openTrailer}
+        onClose={e=>setOpenTrailer(false)}
         
       >
         <TrailerBox>
-            <IconButton onClick={e=>setOpen(false)} >
+            <IconButton onClick={e=>setOpenTrailer(false)} >
                 <CloseIcon sx={{color:"#fff"
             }} />
             </IconButton >

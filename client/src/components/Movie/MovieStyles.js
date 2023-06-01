@@ -124,3 +124,14 @@ export const theme = createTheme({
     margin:"auto",
     marginTop:"120px"
       })
+
+      export const ReviewBox = styled(Box)({
+        height:"400px",
+        width:"700px",
+        backgroundColor:"#445566",
+        margin:"auto",
+    marginTop:"320px",
+    display:"flex",
+    flexDirection:"column"
+
+      })

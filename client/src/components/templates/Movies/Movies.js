@@ -11,11 +11,11 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./style.module.css";
 import theme from "../../../utils/Themes";
-import Header from "../../header/Header";
-import Footer from "../../footer/Footer";
 import axios from "axios";
 import styled from "@emotion/styled";
 import StarRateIcon from "@mui/icons-material/StarRate";
+import Header from "../../header/Header";
+import Footer from "../../footer/Footer"
 
 const Movies = () => {
   const [movies, setMovies] = useState([]);
@@ -42,7 +42,7 @@ const Movies = () => {
           backgroundImage: `linear-gradient(to top, rgba(26, 26, 36), rgba(22, 22, 28))`,
         }}
       >
-        <Header />
+        <Header/>
         <Container maxWidth="md">
           <Typography ml={2} mt={7} variant="h5" color="#ebebeb">
             Movies
@@ -93,7 +93,7 @@ const Movies = () => {
           </Box>
         </Container>
 
-        <Footer />
+        <Footer/>
       </div>
     </ThemeProvider>
   );

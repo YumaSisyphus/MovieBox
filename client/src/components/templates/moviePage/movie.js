@@ -46,6 +46,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import axios from "axios";
 import { useEffect } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import Header from "../../header/Header";
+import Footer from "../../footer/Footer";
 
 const Movie = () => {
   const location = useLocation();
@@ -110,6 +112,7 @@ const Movie = () => {
 
   return (
     <ThemeProvider theme={theme}>
+    <Header/>
       <Box
         sx={{
           backgroundColor: "#14181C",
@@ -546,6 +549,7 @@ const Movie = () => {
           </Box>
         </Container>
       </Box>
+      <Footer/>
     </ThemeProvider>
   );
 };

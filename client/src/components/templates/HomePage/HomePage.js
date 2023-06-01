@@ -109,30 +109,23 @@ const HomePage = () => {
 
           <hr />
 
-          <Box display="flex" mt={2}>
+          <Box display="flex" mt={2} gap={7}>
             {movies.slice(0, 4).map((movie) => (
-              <Link
-                key={movie.movieId}
-                to="/"
-                style={{
-                  width: "168px",
-                  height: "220px",
-                  marginRight: "7%",
+              <Box
+                width="168px"
+                height="220px"
+                className={styles.MovieBorder}
+                sx={{
+                  borderRadius: "5px",
+                  backgroundImage: `url(${movie.Thumbnail})`,
+                  backgroundSize: "cover",
+                  backgroundRepeat: "no-repeat",
+                  backgroundPosition: "center",
                 }}
-              >
-                <Box
-                  width="168px"
-                  height="220px"
-                  className={styles.MovieBorder}
-                  sx={{
-                    borderRadius: "5px",
-                    backgroundImage: `url(${movie.Thumbnail})`,
-                    backgroundSize: "cover",
-                    backgroundRepeat: "no-repeat",
-                    backgroundPosition: "center",
-                  }}
-                ></Box>
-              </Link>
+                onClick={() => {
+                  sendMovieInfo(movie);
+                }}
+              ></Box>
             ))}
           </Box>
         </Box>

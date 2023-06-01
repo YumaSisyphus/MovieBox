@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import Footer from "../../footer/Footer";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LinearProgress from "@mui/material/LinearProgress";
 import theme from "../../../utils/Themes";
 import Cookies from "universal-cookie";
@@ -18,6 +18,7 @@ function ProfileContainer() {
   const cookies = new Cookies();
   const token = cookies.get("token");
   const { UserID } = token[0];
+  const navigate = useNavigate();
   const [movies, setMovies] = useState([]);
   const [user, setUser] = useState([]);
   const [movieswatched, setMoviesWatched] = useState([]);
@@ -26,58 +27,58 @@ function ProfileContainer() {
   const [favorite, setFavorite] = useState([]);
   const [genreCounts, setGenreCounts] = useState({});
 
-  const fetchGenres = () => { 
-    return axios.get(`/api/genres/${UserID}`) 
+  const fetchGenres = () => {
+    return axios.get(`/api/genres/${UserID}`)
       .then((response) => {
         const genres = response.data;
-  
+
         // Calculate genre counts
         const counts = {};
         genres.forEach((genre) => {
           const { Genre } = genre;
           if (counts[Genre]) {
-            counts[Genre] += 10 ;
+            counts[Genre] += 10;
           } else {
-            counts[Genre] = 10 ;
+            counts[Genre] = 10;
           }
         });
-  
+
         setGenreCounts(counts);
       })
       .catch((error) => {
         console.error("Error fetching genres:", error);
       });
   };
-  
-  useEffect(() => { 
-    fetchGenres(); 
-  }, []);
-  
-  
 
-  const fetchMoviesWatched = () => { 
-    return axios.get(`/api/movieswatched/${UserID}`) 
-             .then((response) => setMoviesWatched(response.data));
-  }
-  useEffect(() => { 
-    fetchMoviesWatched(); 
-  }, []);
-  
-  const fetchWatchlist = () => { 
-    return axios.get(`/api/watchlist/${UserID}`) 
-             .then((response) => setWatchlist(response.data));
-  }
-  useEffect(() => { 
-    fetchWatchlist(); 
+  useEffect(() => {
+    fetchGenres();
   }, []);
 
-    
-  const fetchList = () => { 
-    return axios.get(`/api/lists/${UserID}`) 
-             .then((response) => setLists(response.data));
+
+
+  const fetchMoviesWatched = () => {
+    return axios.get(`/api/movieswatchedcount/${UserID}`)
+      .then((response) => setMoviesWatched(response.data));
   }
-  useEffect(() => { 
-    fetchList(); 
+  useEffect(() => {
+    fetchMoviesWatched();
+  }, []);
+
+  const fetchWatchlist = () => {
+    return axios.get(`/api/watchlist/${UserID}`)
+      .then((response) => setWatchlist(response.data));
+  }
+  useEffect(() => {
+    fetchWatchlist();
+  }, []);
+
+
+  const fetchList = () => {
+    return axios.get(`/api/lists/${UserID}`)
+      .then((response) => setLists(response.data));
+  }
+  useEffect(() => {
+    fetchList();
   }, []);
 
   useEffect(() => {
@@ -95,7 +96,7 @@ function ProfileContainer() {
   useEffect(() => {
     const fetchMovies = async () => {
       try {
-        const response = await axios.get(`/api/movieswatchedThumbnails/${UserID}`);
+        const response = await axios.get(`/api/movieswatched/${UserID}`);
         setMovies(response.data);
       } catch (error) {
         console.error("Error fetching movies:", error);
@@ -117,6 +118,14 @@ function ProfileContainer() {
 
     fetchFavorite();
   }, []);
+
+  const sendMovieInfo = (movie) => {
+    navigate("/MoviePage", { state: { movie } });
+  };
+
+  const sendFavoriteInfo = (movie)=>{
+    navigate("/MoviePage", { state: { movie } });
+  };
 
 
 
@@ -164,7 +173,7 @@ function ProfileContainer() {
                     fontSize="16px"
                     className={styles.Watched}
                   >
-                   Watched
+                    Watched
                   </Typography>
                   <Typography className={styles.watchedNumber}>{movieswatched}</Typography>
                 </div>
@@ -256,30 +265,23 @@ function ProfileContainer() {
               </Box>
               <hr style={{ border: "1px solid #8f8f8f" }} />
 
-              <Box display="flex" mt={2}>
-                {favorite?.slice(0, 4).map((favorite) => (
-                  <Link
-                    key={favorite.movieId}
-                    to="/"
-                    style={{
-                      width: "168px",
-                      height: "220px",
-                      marginRight: "7%",
+              <Box display="flex" mt={2} gap={7}>
+                {favorite?.slice(0, 4).map((movie) => (
+                  <Box
+                    width="168px"
+                    height="220px"
+                    className={styles.MovieBorder}
+                    sx={{
+                      borderRadius: "5px",
+                      backgroundImage: `url(${movie.Thumbnail})`,
+                      backgroundSize: "cover",
+                      backgroundRepeat: "no-repeat",
+                      backgroundPosition: "center",
                     }}
-                  >
-                    <Box
-                      width="168px"
-                      height="220px"
-                      className={styles.MovieBorder}
-                      sx={{
-                        borderRadius: "5px",
-                        backgroundImage: `url(${favorite.thumbnail})`,
-                        backgroundSize: "cover",
-                        backgroundRepeat: "no-repeat",
-                        backgroundPosition: "center",
-                      }}
-                    ></Box>
-                  </Link>
+                    onClick={() => {
+                      sendFavoriteInfo(movie);
+                    }}
+                  ></Box>
                 ))}
               </Box>
             </Box>
@@ -297,30 +299,23 @@ function ProfileContainer() {
               </Box>
               <hr style={{ border: "1px solid #8f8f8f" }} />
 
-              <Box display="flex" mt={2}>
+              <Box display="flex" mt={2} gap={7}>
                 {movies.slice(0, 4).map((movie) => (
-                  <Link
-                    key={movie.movieId}
-                    to="/"
-                    style={{
-                      width: "168px",
-                      height: "220px",
-                      marginRight: "7%",
+                  <Box
+                    width="168px"
+                    height="220px"
+                    className={styles.MovieBorder}
+                    sx={{
+                      borderRadius: "5px",
+                      backgroundImage: `url(${movie.Thumbnail})`,
+                      backgroundSize: "cover",
+                      backgroundRepeat: "no-repeat",
+                      backgroundPosition: "center",
                     }}
-                  >
-                    <Box
-                      width="168px"
-                      height="220px"
-                      className={styles.MovieBorder}
-                      sx={{
-                        borderRadius: "5px",
-                        backgroundImage: `url(${movie.thumbnail})`,
-                        backgroundSize: "cover",
-                        backgroundRepeat: "no-repeat",
-                        backgroundPosition: "center",
-                      }}
-                    ></Box>
-                  </Link>
+                    onClick={() => {
+                      sendMovieInfo(movie);
+                    }}
+                  ></Box>
                 ))}
               </Box>
             </Box>

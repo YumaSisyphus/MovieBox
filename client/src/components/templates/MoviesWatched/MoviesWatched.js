@@ -4,7 +4,7 @@ import Header from "../../header/Header";
 import Footer from "../../footer/Footer";
 import styles from "./MoviesWatched.module.css";
 import { Box, Container, Rating } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from "universal-cookie";
@@ -14,11 +14,12 @@ const MoviesWatched = () => {
     const cookies = new Cookies();
     const token = cookies.get("token");
     const { UserID } = token[0];
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchMovies = async () => {
             try {
-                const response = await axios.get(`/api/movieswatchedThumbnails/${UserID}`);
+                const response = await axios.get(`/api/movieswatched/${UserID}`);
                 setMovies(response.data);
             } catch (error) {
                 console.error("Error fetching movies:", error);
@@ -27,6 +28,11 @@ const MoviesWatched = () => {
         console.log(movies)
         fetchMovies();
     }, []);
+
+    const sendMovieInfo = (movie) => {
+        navigate("/MoviePage", { state: { movie } });
+    };
+
 
     return (
         <ThemeProvider theme={theme}>
@@ -45,33 +51,24 @@ const MoviesWatched = () => {
                     >
                         Watched
                     </Typography>
-                    <Box display="flex" flexWrap="wrap" mt={2} mb={5}>
+                    <Box display="flex" flexWrap="wrap" mt={2} mb={5} gap={4.5} ml={2}>
 
                         {movies.map((movie) => (
-                            <Link
-                                key={movie.movieId}
-                                to="/"
-                                style={{
-                                    width: "134px",
+                            <Box
+                                className={styles.MovieBorder}
+                                sx={{
+                                    width: "130px",
                                     height: "170px",
-                                    marginRight: "2%",
-                                    marginBottom: "4%",
-                                    marginLeft: "2%"
+                                    borderRadius: "5px",
+                                    backgroundImage: `url(${movie.Thumbnail})`,
+                                    backgroundSize: "cover",
+                                    backgroundRepeat: "no-repeat",
+                                    backgroundPosition: "center",
                                 }}
-                            >
-                                <Box
-                                    width="100%"
-                                    height="100%"
-                                    className={styles.MovieBorder}
-                                    sx={{
-                                        borderRadius: "5px",
-                                        backgroundImage: `url(${movie.thumbnail})`,
-                                        backgroundSize: "cover",
-                                        backgroundRepeat: "no-repeat",
-                                        backgroundPosition: "center",
-                                    }}
-                                ></Box>
-                            </Link>
+                                onClick={() => {
+                                    sendMovieInfo(movie);
+                                }}
+                            ></Box>
                         ))}
 
                     </Box>

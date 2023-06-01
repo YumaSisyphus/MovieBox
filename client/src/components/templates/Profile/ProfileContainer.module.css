@@ -78,9 +78,34 @@
     border: 3px solid #2A9D8F !important;
 }
 
-.Links {
+
+/* Navbar */
+
+.Navbar1{
+    border: 1px solid #8f8f8f;
+    display: flex;
+    justify-content: space-around;
+    list-style-type: none;
+    padding: 10px 0px;
+    margin-top: 3%;
+}
+
+.NavbarText{
+    color: #b6b6b6;
+    margin-left: 10px;
+    transition: .3s;
+}
+
+.NavbarText:hover{
+    color: #ebebeb;
+}
+
+.Links{
     text-decoration: none;
 }
+
+
+
 
 /* media query for smaller screens */
 @media (max-width: 768px) {

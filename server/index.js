@@ -637,6 +637,8 @@ app.get("/api/genres/:id", (req, res) => {
   });
 });
 
+// Get favorite movies
+
 app.get("/api/favorite/:id", (req, res) => {
   const { id } = req.params;
   const query =
@@ -650,6 +652,8 @@ app.get("/api/favorite/:id", (req, res) => {
     }
   });
 });
+
+// Get watchlist movies
 
 // Get thumbnails of users movies watched
 

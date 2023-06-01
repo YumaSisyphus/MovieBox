@@ -16,7 +16,7 @@ const Cinemas = () => {
     const { UserID } = token[0];
     const navigate = useNavigate();
 
-    
+
 
     useEffect(() => {
         const fetchCinema = async () => {
@@ -33,7 +33,7 @@ const Cinemas = () => {
     const sendCinemaInfo = (cinema) => {
         setTimeout(() => {
             navigate("/cinema", { state: { cinema } });
-          }, 0);
+        }, 0);
     };
 
     return (
@@ -45,14 +45,10 @@ const Cinemas = () => {
             >
                 <Header />
                 <Container maxWidth="md">
-                    <Typography
-                        ml={2}
-                        fontSize="16px"
-                        mt={5}
-                        className={styles.Watched}
-                    >
-                        Watched
+                    <Typography ml={2} mt={7} variant="h5" color="#ebebeb">
+                        Check The Cinemas
                     </Typography>
+                    <hr style={{ border: "1px solid #8f8f8f", marginLeft: "2%", width: "95%" }} />
                     <Box display="flex" flexWrap="wrap" mt={2} mb={5} gap={3}>
                         {theatre.map((cinema) => (
                             <Link
@@ -82,8 +78,8 @@ const Cinemas = () => {
                             </Link>
                         ))}
                     </Box>
-                    
-                    
+
+
 
 
                 </Container>

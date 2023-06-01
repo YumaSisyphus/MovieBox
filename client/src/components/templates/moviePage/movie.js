@@ -2,24 +2,17 @@ import {
   Box,
   Grid,
   Typography,
-  Link,
   ButtonGroup,
   Button,
   Modal,
-  Checkbox,
   IconButton,
   ListItemButton,
   List,
-  ListItemIcon,
   ListItemText,
-  Badge,
   TextField,
 } from "@mui/material";
 import Container from "@mui/material/Container";
-import styled from "@emotion/styled";
 import { useState } from "react";
-import styles from "./style.module.css";
-import { breakpoints } from "@mui/system";
 import RateReviewIcon from "@mui/icons-material/RateReview";
 import ShareIcon from "@mui/icons-material/Share";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -46,8 +39,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import axios from "axios";
 import { useEffect } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import Header from "../../header/Header";
-import Footer from "../../footer/Footer";
 
 const Movie = () => {
   const location = useLocation();
@@ -59,14 +50,37 @@ const Movie = () => {
   const [openReview, setOpenReview] = useState(false);
   const [movie, setMovie] = useState([]);
   const [actors, setActors] = useState([]);
+  const [genres, setGenres] = useState([]);
   const navigate = useNavigate();
+
+  const [isWatched, setIsWatched] = useState(false);
+  const handleWatchClick = () => {
+    setIsWatched(!isWatched);
+  };
+
   const [isFavorite, setIsFavorite] = useState(false);
   const handleFavoriteClick = () => {
     setIsFavorite(!isFavorite);
+    if (!isFavorite) {
+      setIsWatched(true);
+    }
   };
   const [isChecked, setIsChecked] = useState(false);
   const handleWatchlistClick = () => {
     setIsChecked(!isChecked);
+    if (!isChecked) {
+      setIsWatched(true);
+    }
+  };
+
+  const [isHoveredWatch, setIsHoveredWatch] = useState(false);
+
+  const handleMouseEnterWatch = () => {
+    setIsHoveredWatch(true);
+  };
+
+  const handleMouseLeaveWatch = () => {
+    setIsHoveredWatch(false);
   };
 
   const [isHoveredFavorite, setIsHoveredFavorite] = useState(false);
@@ -89,6 +103,22 @@ const Movie = () => {
     setIsHoveredWatchlist(false);
   };
 
+  const [expanded, setExpanded] = useState(false);
+
+  const handleFocus = () => {
+    setExpanded(true);
+  };
+
+  const handleBlur = () => {
+    setExpanded(false);
+  };
+
+  const [reviewInputValue, setReviewInputValue] = useState("");
+
+  const handleReviewInputChange = (e) => {
+    setReviewInputValue(e.target.value);
+  };
+
   useEffect(() => {
     const fetchActors = async () => {
       try {
@@ -97,22 +127,27 @@ const Movie = () => {
           `/api/getMovieActors/${movieId}`
         );
         const responseMovies = await axios.get(`/api/getMovie/${movieId}`);
+        const responseGenres = await axios.get(`/api/genresMovies/${movieId}`);
         setMovie(responseMovies.data.results[0]);
         setActors(responseActors.data.results);
+        setGenres(responseGenres.data);
       } catch (error) {
         console.error("Error fetching actors:", error);
       }
     };
     fetchActors();
   }, []);
-  console.log(actors);
   const sendActorInfo = (actor) => {
     navigate("/ActorPage", { state: { actor } });
   };
 
+  const handleSubmitReview = async () => {
+    try {
+    } catch (error) {}
+  };
+
   return (
     <ThemeProvider theme={theme}>
-    <Header/>
       <Box
         sx={{
           backgroundColor: "#14181C",
@@ -240,11 +275,6 @@ const Movie = () => {
 
                 {activeList === "cast" && (
                   <ul>
-                    {/* {actors.forEach((actor) => {
-                        <StyledList>
-                          {actor.FirstName} {actor.LastName}
-                        </StyledList>;
-                      })} */}
                     {actors.map((actor) => (
                       <StyledList
                         key={actor.ActorId}
@@ -255,15 +285,6 @@ const Movie = () => {
                         {actor.FirstName} {actor.LastName}
                       </StyledList>
                     ))}
-
-                    {/* <StyledList> Keanu Reeves </StyledList>
-                      <StyledList> Donnie Yen </StyledList>
-                      <StyledList> Bill Skarsgard</StyledList>
-                      <StyledList> Ian McShane</StyledList>
-                      <StyledList> Laurence Fishburne</StyledList>
-                      <StyledList> Lance Reddick </StyledList>
-                      <StyledList> Clancy Brown </StyledList>
-                      <StyledList> Hirouky Sanada</StyledList> */}
                   </ul>
                 )}
 
@@ -276,8 +297,9 @@ const Movie = () => {
 
                 {activeList === "genres" && (
                   <ul>
-                    <StyledList> Genre 1</StyledList>
-                    <StyledList>Genre 2</StyledList>
+                    {genres.map((genre) => (
+                      <StyledList key={genre.Genre}>{genre.Genre}</StyledList>
+                    ))}
                   </ul>
                 )}
 
@@ -319,7 +341,7 @@ const Movie = () => {
                   md={3}
                   sx={{
                     display: "block",
-                    height: "200px",
+                    height: "250px",
                     mt: 8,
                     background: "#445566",
                     // background: "#304244",
@@ -336,9 +358,38 @@ const Movie = () => {
                       }}
                     >
                       <ListItemButton
+                        onClick={handleWatchClick}
+                        onMouseEnter={handleMouseEnterWatch}
+                        onMouseLeave={handleMouseLeaveWatch}
+                        disableRipple
+                      >
+                        <StyledListItemIcon>
+                          {isWatched ? (
+                            <VisibilityIcon sx={{ color: "#327ba8" }} />
+                          ) : (
+                            <VisibilityIcon />
+                          )}
+
+                          <ListItemText
+                            primary={
+                              !isWatched
+                                ? "Watch"
+                                : isHoveredWatch
+                                ? "Remove"
+                                : "Watched"
+                            }
+                            sx={{
+                              color: "#fff",
+                            }}
+                          />
+                        </StyledListItemIcon>
+                      </ListItemButton>
+
+                      <ListItemButton
                         onClick={handleFavoriteClick}
                         onMouseEnter={handleMouseEnterFavorite}
                         onMouseLeave={handleMouseLeaveFavorite}
+                        disableRipple
                       >
                         <StyledListItemIcon>
                           {isFavorite ? (
@@ -352,10 +403,10 @@ const Movie = () => {
                             }}
                             primary={
                               !isFavorite
-                                ? "Like"
+                                ? "Favorite"
                                 : isHoveredFavorite
                                 ? "Remove"
-                                : "Liked"
+                                : "Favorite"
                             }
                           />
                         </StyledListItemIcon>
@@ -365,6 +416,7 @@ const Movie = () => {
                         onClick={handleWatchlistClick}
                         onMouseEnter={handleMouseEnterWatchlist}
                         onMouseLeave={handleMouseLeaveWatchlist}
+                        disableRipple
                       >
                         <StyledListItemIcon>
                           {isChecked ? (
@@ -388,99 +440,161 @@ const Movie = () => {
                         </StyledListItemIcon>
                       </ListItemButton>
 
-                      <ListItemButton onClick={(e) => setOpenReview(true)}>
-                        <StyledListItemIcon>
-                          <RateReviewIcon />
-                          <ListItemText
-                            primary="Review"
+                      {/* <ListItemButton onClick={e=>setOpenReview(true)} >
+                                    <StyledListItemIcon>
+                                        <RateReviewIcon/>
+                                        <ListItemText primary="Review"
+                                        sx={{
+                                            color:"#fff"
+                                        }}
+                                        />
+                                    </StyledListItemIcon>
+                                 </ListItemButton> */}
+
+                      {/* <ListItemButton>
+                                 <StyledListItemIcon>
+                                    <VisibilityIcon/>
+                                    <ListItemText primary="Watch"
+                                        sx={{
+                                            color:"#fff"
+                                        }}
+                                        />
+                                     </StyledListItemIcon>
+                                 </ListItemButton> */}
+                    </List>
+                  </LoggedInBox>
+
+                  <LoggedInBox sx={{ height: "50px" }}>
+                    <StyledLink onClick={(e) => setOpenReview(true)}>
+                      {" "}
+                      Leave a review{" "}
+                    </StyledLink>
+                    <Modal open={openReview}>
+                      <ReviewBox>
+                        <Box>
+                          <IconButton
                             sx={{
+                              float: "right",
+                              marginRight: "10px",
                               color: "#fff",
                             }}
-                          />
-                        </StyledListItemIcon>
-                      </ListItemButton>
+                            color="#fff"
+                            aria-label=""
+                            onClick={(e) => setOpenReview(false)}
+                          >
+                            <CloseIcon />
+                          </IconButton>
+                        </Box>
 
-                      <Modal open={openReview}>
-                        <ReviewBox>
-                          <Box>
-                            <IconButton
+                        <Grid container height="80%" width="100%  ">
+                          <Grid
+                            item
+                            sx={{
+                              height: "60%",
+                              width: "140px",
+                              marginLeft: "40px",
+                              mt: 1,
+                              ":hover": {
+                                border: "1px solid #fff",
+                              },
+                            }}
+                          >
+                            <img
+                              src={movie.Thumbnail}
+                              height="100%"
+                              width="100%"
+                            />
+                          </Grid>
+
+                          <Grid
+                            item
+                            sx={{
+                              marginLeft: 5,
+                              display: "flex",
+                              flexDirection: "column",
+                            }}
+                          >
+                            <Typography variant="h6" color="#99AABB">
+                              {" "}
+                              I watched...{" "}
+                            </Typography>
+                            <Typography
+                              variant="p"
                               sx={{
-                                float: "right",
-                                marginRight: "10px",
                                 color: "#fff",
-                              }}
-                              color="#fff"
-                              aria-label=""
-                              onClick={(e) => setOpenReview(false)}
-                            >
-                              <CloseIcon />
-                            </IconButton>
-                          </Box>
-
-                          <Grid container height="80%" width="100%  ">
-                            <Grid
-                              item
-                              sx={{
-                                height: "60%",
-                                width: "140px",
-                                marginLeft: "40px",
+                                fontSize: "22px",
                               }}
                             >
-                              <img
-                                src={movie.Thumbnail}
-                                height="100%"
-                                width="100%"
-                              />
-                            </Grid>
-
-                            <Grid
-                              item
-                              sx={{
-                                marginLeft: 5,
-                                display: "flex",
-                                flexDirection: "column",
-                              }}
-                            >
-                              <Typography variant="h6" color="#99AABB">
-                                {" "}
-                                I watched...{" "}
-                              </Typography>
-                              <Typography
-                                variant="p"
-                                sx={{
-                                  color: "#fff",
-                                  fontSize: "22px",
+                              {" "}
+                              {movie.Title}{" "}
+                              <span
+                                style={{
+                                  color: "#99AABB",
+                                  fontSize: "18px",
+                                  marginLeft: "5px",
                                 }}
                               >
                                 {" "}
-                                {movie.Title}{" "}
-                                <span
-                                  style={{
-                                    color: "#99AABB",
-                                    fontSize: "18px",
-                                    marginLeft: "5px",
-                                  }}
-                                >
-                                  {" "}
-                                  {new Date(
-                                    movie.ReleaseDate
-                                  ).getFullYear()}{" "}
-                                </span>{" "}
-                              </Typography>
+                                {new Date(movie.ReleaseDate).getFullYear()}{" "}
+                              </span>{" "}
+                            </Typography>
 
-                              <TextField
-                                id="123"
-                                label="Add your review"
-                                sx={{
-                                  mt: 4,
-                                  backgroundColor: "#CCDDEE",
-                                }}
-                              />
-                            </Grid>
+                            <TextField
+                              variant="standard"
+                              id="review"
+                              name="review"
+                              label="Add your review"
+                              multiline
+                              value={reviewInputValue}
+                              onChange={handleReviewInputChange}
+                              InputProps={{
+                                disableUnderline: true,
+                                onFocus: handleFocus,
+                                onBlur: handleBlur,
+                                style: {
+                                  marginLeft: "10px",
+                                },
+                              }}
+                              InputLabelProps={{
+                                style: {
+                                  color: "#ACB2C1",
+                                  paddingLeft: "10px",
+                                },
+                              }}
+                              sx={{
+                                mt: 4,
+                                backgroundColor: "#CCDDEE",
+                                height: expanded ? "200px" : "100px",
+                                background: "#fff",
+                                transition: "height 0.3s ease",
+                                overflow: "auto",
+                              }}
+                            />
                           </Grid>
-                        </ReviewBox>
-                      </Modal>
-                    </List>
+                        </Grid>
+
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "right",
+                          }}
+                        >
+                          <Button
+                            disabled={reviewInputValue === "" ? true : false}
+                            variant="contained"
+                            color="success"
+                            sx={{
+                              mr: 4,
+                              mb: 2,
+                              width: "100px",
+                            }}
+                          >
+                            {" "}
+                            Save
+                          </Button>
+                        </Box>
+                      </ReviewBox>
+                    </Modal>
                   </LoggedInBox>
 
                   <LoggedInBox sx={{ height: "50px" }}>
@@ -549,7 +663,6 @@ const Movie = () => {
           </Box>
         </Container>
       </Box>
-      <Footer/>
     </ThemeProvider>
   );
 };

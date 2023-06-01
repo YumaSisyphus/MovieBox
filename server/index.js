@@ -596,7 +596,7 @@ app.get("/api/movieswatchedcount/:id", (req, res) => {
   });
 });
 
-app.get("/api/watchlist/:id", (req, res) => {
+app.get("/api/watchlistcount/:id", (req, res) => {
   const { id } = req.params;
   const query =
     "SELECT COUNT(MovieID) AS Watchlist FROM watchlist WHERE UserID = ?;";
@@ -654,6 +654,20 @@ app.get("/api/favorite/:id", (req, res) => {
 });
 
 // Get watchlist movies
+
+app.get("/api/watchlist/:id", (req, res) => {
+  const { id } = req.params;
+  const query =
+    "SELECT * FROM movies WHERE MovieId IN(SELECT MovieID FROM watchlist WHERE UserID = ?);";
+  db.query(query, [id], (error, results) => {
+    if (error) {
+      console.error("Error fetching movies:", error);
+      res.status(500).json({ error: "Internal server error" });
+    } else {
+      res.json(results);
+    }
+  });
+});
 
 // Get thumbnails of users movies watched
 

@@ -65,7 +65,7 @@ function ProfileContainer() {
   }, []);
 
   const fetchWatchlist = () => {
-    return axios.get(`/api/watchlist/${UserID}`)
+    return axios.get(`/api/watchlistcount/${UserID}`)
       .then((response) => setWatchlist(response.data));
   }
   useEffect(() => {
@@ -223,14 +223,14 @@ function ProfileContainer() {
               </Link>
             </li>
             <li>
-              <Link to="/Movies" className={styles.Links}>
+              <Link to="/watchlist" className={styles.Links}>
                 <Typography variant="body1" className={styles.NavbarText}>
                   Watchlist
                 </Typography>
               </Link>
             </li>
             <li>
-              <Link to="/usermovie" className={styles.Links}>
+              <Link to="/favorite" className={styles.Links}>
                 <Typography variant="body1" className={styles.NavbarText} display="flex" style={{ marginTop: "1px" }}>
                   Favorite
                 </Typography>

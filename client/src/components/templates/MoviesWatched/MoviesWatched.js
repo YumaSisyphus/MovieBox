@@ -56,7 +56,7 @@ const MoviesWatched = () => {
               display: "flex",
               alignItems: "center",
               width: "70%",
-              justifyContent: "space-evenly",
+              justifyContent: "space-around",
             }}
           >
             <li>
@@ -67,16 +67,16 @@ const MoviesWatched = () => {
               </Link>
             </li>
             <li>
-              <Link to="/usermovie" className={styles.Links}>
-                <Typography variant="body1" className={styles.NavbarText} display="flex" style={{ marginTop: "1px" }}>
-                  Favorite
+              <Link to="/watchlist" className={styles.Links}>
+                <Typography variant="body1" className={styles.NavbarText}>
+                  Watchlist
                 </Typography>
               </Link>
             </li>
             <li>
-              <Link to="/Movies" className={styles.Links}>
-                <Typography variant="body1" className={styles.NavbarText}>
-                  Watchlist
+              <Link to="/favorite" className={styles.Links}>
+                <Typography variant="body1" className={styles.NavbarText} display="flex" style={{ marginTop: "1px" }}>
+                  Favorite
                 </Typography>
               </Link>
             </li>

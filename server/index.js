@@ -637,6 +637,20 @@ app.get("/api/genres/:id", (req, res) => {
   });
 });
 
+app.get("/api/genresMovies/:id", (req, res) => {
+  const { id } = req.params;
+  const query =
+    "SELECT * FROM genre WHERE MoviesID IN(SELECT MovieID FROM movies WHERE MovieID =?)";
+  db.query(query, [id], (error, results) => {
+    if (error) {
+      console.error("Error fetching genres:", error);
+      res.status(500).json({ error: "Internal server error" });
+    } else {
+      res.status(200).json(results);
+    }
+  });
+});
+
 // Get favorite movies
 
 app.get("/api/favorite/:id", (req, res) => {
@@ -657,6 +671,8 @@ app.get("/api/favorite/:id", (req, res) => {
 
 // Get thumbnails of users movies watched
 
+//Get Genres for a specific movie
+
 app.get("/api/movieswatched/:id", (req, res) => {
   const { id } = req.params;
   const query =
@@ -669,6 +685,26 @@ app.get("/api/movieswatched/:id", (req, res) => {
       res.json(results);
     }
   });
+});
+
+//Inserting review into DB
+
+app.post("/api/rateMovie", (req, res) => {
+  const { movieId, userId, stars, watched, comment, favorite } = req.query;
+  const query =
+    "INSERT INTO rate_watched (MovieID, UserID, Stars, Watched, Comment, Favorite) VALUES (?,?,?,?,?,?)";
+  db.query(
+    query,
+    [movieId, userId, stars, watched, comment, favorite],
+    (error, results) => {
+      if (error) {
+        console.error("Error inserting review:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+      } else {
+        res.status(200).json({ msg: "Review added" });
+      }
+    }
+  );
 });
 
 // MovieList get covers

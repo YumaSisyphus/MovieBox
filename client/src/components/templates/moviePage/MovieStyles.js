@@ -43,10 +43,6 @@ export const StyledList = styled("li")({
   color: "#99AABB",
   display: "inline",
   paddingLeft: "10px",
-  ":hover": {
-    cursor: "pointer",
-    color: "#ebebeb",
-  },
 
   //   verticalAlign: "bottom",
   //   justifyContent: "flex-start"
@@ -74,7 +70,7 @@ export const LoggedInBox = styled(Box)({
   flexDirection: "row",
   justifyContent: "center",
   alignItems: "center",
-  //  height:"33.3%",
+
   gap: "10px",
   ":not(:last-child)": {
     borderBottom: "1px solid #c7bcb1",
@@ -87,6 +83,10 @@ export const StyledListItemIcon = styled(ListItemIcon)({
   alignItems: "center",
   flexDirection: "column",
   gap: "2px",
+  ":hover": {
+    cursor: "pointer",
+    color: "#ebebeb",
+  },
 });
 
 export const StyledButton = styled(Button)({

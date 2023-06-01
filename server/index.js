@@ -4,6 +4,7 @@ const mysql = require("mysql2");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const bcrypt = require("bcrypt");
+const axios = require("axios");
 // const path = require("path");
 
 const db = mysql.createConnection({
@@ -27,6 +28,63 @@ app.use(express.static(__dirname + "/public"));
 app.use(function (err, req, res, next) {
   console.error(err.stack);
   res.status(500).send("Internal Server Error");
+});
+
+app.get("/api/addMovieAPI", (req, res) => {
+  const apiKey =
+    "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkMTVmMzdkYjM2NjJhYzhjMjQ2NmUxNmU1MTZjOWFlZiIsInN1YiI6IjYzYjlmZjY2YWU2ZjA5MDBiZDFkY2JlMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.hrmuK_7NqjFYAl8kwZa_5bN0z38T-22dhK4HIb_sYkU";
+
+  // Fetch movie data from TMDB API
+  axios
+    .get(
+      `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc`,
+      {
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+        },
+      }
+    )
+    .then((response) => {
+      response.data.results.forEach((movie) => {
+        axios
+          .get(
+            `https://api.themoviedb.org/3/movie/${movie.id}?language=en-US`,
+            {
+              headers: {
+                Authorization: `Bearer ${apiKey}`,
+              },
+            }
+          )
+          .then((response) => {
+            console.log(response.data);
+
+            db.query(
+              "INSERT INTO movies (Title, Description, ReleaseDate, Thumbnail, Cover, Length, Trailer) VALUES (?, ?, ?, ?, ?, ?, 'empty')",
+              [
+                response.data.title,
+                response.data.overview,
+                response.data.release_date,
+                `https://image.tmdb.org/t/p/original${response.data.poster_path}`,
+                `https://image.tmdb.org/t/p/original${response.data.backdrop_path}`,
+                response.data.runtime,
+              ],
+              (err, result) => {
+                if (err) {
+                  console.log(err);
+                } else {
+                  console.log("Movie data inserted");
+                }
+              }
+            );
+          })
+          .catch((error) => {
+            console.error("Error fetching movie data:", error);
+          });
+      });
+    })
+    .catch((error) => {
+      console.error("Error fetching movie data:", error);
+    });
 });
 
 app.listen(5000, () => {

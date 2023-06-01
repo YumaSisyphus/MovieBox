@@ -1,4 +1,12 @@
-import { Box, Container, Grid, ThemeProvider, Typography } from "@mui/material";
+import {
+  Box,
+  Container,
+  Grid,
+  Rating,
+  ThemeProvider,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./style.module.css";
@@ -6,6 +14,8 @@ import theme from "../../../utils/Themes";
 import Header from "../../header/Header";
 import Footer from "../../footer/Footer";
 import axios from "axios";
+import styled from "@emotion/styled";
+import StarRateIcon from '@mui/icons-material/StarRate';
 
 const Movies = () => {
   const [movies, setMovies] = useState([]);
@@ -24,6 +34,7 @@ const Movies = () => {
   const sendMovieInfo = (movie) => {
     navigate("/MoviePage", { state: { movie } });
   };
+
   return (
     <ThemeProvider theme={theme}>
       <div
@@ -38,25 +49,38 @@ const Movies = () => {
           </Typography>
           <Box display="flex" flexWrap="wrap" mt={2} mb={5}>
             {movies.map((movie) => (
-              <Box
-                key={movie.movieId}
-                className={styles.MovieBorder}
-                sx={{
-                  width: "130px",
-                  height: "170px",
-                  marginRight: "2%",
-                  marginBottom: "4%",
-                  marginLeft: "2%",
-                  borderRadius: "5px",
-                  backgroundImage: `url(${movie.Thumbnail})`,
-                  backgroundSize: "cover",
-                  backgroundRepeat: "no-repeat",
-                  backgroundPosition: "center",
-                }}
-                onClick={() => {
-                  sendMovieInfo(movie);
-                }}
-              ></Box>
+              <>
+                <Tooltip
+                  title={
+                    <React.Fragment>
+                      <Typography color="inherit">{movie.Title}</Typography>
+                      <em>{movie.Length}</em> <b>{"minutes"}</b>{" "}<em style={{float: "right", fontSize: "12px"}}>{"5"}{<StarRateIcon/>}</em>
+                    </React.Fragment>
+                  }
+                  placement="top"
+                  arrow
+                >
+                  <Box
+                    key={movie.movieId}
+                    className={styles.MovieBorder}
+                    sx={{
+                      width: "130px",
+                      height: "170px",
+                      marginRight: "2%",
+                      marginBottom: "4%",
+                      marginLeft: "2%",
+                      borderRadius: "5px",
+                      backgroundImage: `url(${movie.Thumbnail})`,
+                      backgroundSize: "cover",
+                      backgroundRepeat: "no-repeat",
+                      backgroundPosition: "center",
+                    }}
+                    onClick={() => {
+                      sendMovieInfo(movie);
+                    }}
+                  />
+                </Tooltip>
+              </>
             ))}
           </Box>
         </Container>

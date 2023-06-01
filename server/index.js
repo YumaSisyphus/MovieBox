@@ -31,6 +31,7 @@ app.use(function (err, req, res, next) {
 });
 
 app.get("/api/addMovieAPI/:page", (req, res) => {
+  const {page}= req.params;
   const apiKey =
     "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkMTVmMzdkYjM2NjJhYzhjMjQ2NmUxNmU1MTZjOWFlZiIsInN1YiI6IjYzYjlmZjY2YWU2ZjA5MDBiZDFkY2JlMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.hrmuK_7NqjFYAl8kwZa_5bN0z38T-22dhK4HIb_sYkU";
 
@@ -582,7 +583,7 @@ app.get("/api/movies", (req, res) => {
   });
 });
 
-app.get("/api/movieswatchedcount/:id", (req, res) => {
+app.get("/api/movieswatched/:id", (req, res) => {
   const { id } = req.params;
   const query =
     "SELECT COUNT(MovieID) AS MoviesWatched FROM rate_watched WHERE Watched = 1 AND UserID = ?;";
@@ -642,13 +643,17 @@ app.get("/api/genres/:id", (req, res) => {
 app.get("/api/favorite/:id", (req, res) => {
   const { id } = req.params;
   const query =
-    "SELECT * FROM movies WHERE MovieId IN(SELECT MovieID FROM rate_watched WHERE Favorite = 1 AND UserID = ?);";
+    "SELECT m.Thumbnail FROM movies m JOIN rate_watched r ON m.MovieID = r.MovieID WHERE r.Favorite = 1 AND r.UserID = ?;";
   db.query(query, [id], (error, results) => {
     if (error) {
       console.error("Error fetching movies:", error);
       res.status(500).json({ error: "Internal server error" });
     } else {
-      res.json(results);
+      const movies = results.map((result) => ({
+        movieId: result.MovieId,
+        thumbnail: result.Thumbnail,
+      }));
+      res.json(movies);
     }
   });
 });
@@ -657,16 +662,20 @@ app.get("/api/favorite/:id", (req, res) => {
 
 // Get thumbnails of users movies watched
 
-app.get("/api/movieswatched/:id", (req, res) => {
+app.get("/api/movieswatchedThumbnails/:id", (req, res) => {
   const { id } = req.params;
   const query =
-    "SELECT * FROM movies WHERE MovieId IN(SELECT MovieID FROM rate_watched WHERE Watched = 1 AND UserID = ?);";
+    "SELECT rw.MovieID, m.Thumbnail, rw.UserID FROM rate_watched rw JOIN movies m ON rw.MovieID = m.MovieID WHERE rw.Watched = 1 AND rw.UserID = ?;";
   db.query(query, [id], (error, results) => {
     if (error) {
       console.error("Error fetching movies:", error);
       res.status(500).json({ error: "Internal server error" });
     } else {
-      res.json(results);
+      const movies = results.map((result) => ({
+        movieId: result.MovieId,
+        thumbnail: result.Thumbnail,
+      }));
+      res.json(movies);
     }
   });
 });

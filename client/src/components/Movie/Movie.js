@@ -13,9 +13,11 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import MoreTimeIcon from '@mui/icons-material/MoreTime';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import AddIcon from '@mui/icons-material/Add';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import {
-LabelList, Label, StyledList, LoggedOutBox, StyledLink, LoggedInBox, StyledButton, TrailerBox,StyledListItemIcon, ReviewBox
+LabelList, Label, StyledList, LoggedOutBox, StyledLink, LoggedInBox, StyledButton, TrailerBox,StyledListItemIcon, ReviewBox,
+ListBox
 
 } from './MovieStyles';
 import {theme}  from './MovieStyles';
@@ -34,8 +36,11 @@ const Movie = () => {
     const [loggedIn,setLoggedIn] = useState(true);
     const [openTrailer, setOpenTrailer] = useState(false);
     const [openReview, setOpenReview] = useState(false);
+    const [openListAdd, setOpenListAdd] = useState(false);
     const[movie, setMovie] = useState({});
     const {id} = useParams();
+    const [actors, setActors] = useState([]);
+    const [directors, setDirectors] = useState([]);
 
     const [isWatched, setIsWatched] = useState(false);
     const handleWatchClick = () => {
@@ -51,36 +56,8 @@ const Movie = () => {
         setIsChecked(!isChecked)
     };
 
-    const [isHoveredWatch, setIsHoveredWatch] = useState(false);
-
-      const handleMouseEnterWatch = () => {
-         setIsHoveredWatch(true);
-        };
- 
-       const handleMouseLeaveWatch = () => {
-        setIsHoveredWatch(false);
-       };
-
-    const [isHoveredFavorite, setIsHoveredFavorite] = useState(false);
-
-     const handleMouseEnterFavorite = () => {
-        setIsHoveredFavorite(true);
-       };
-
-      const handleMouseLeaveFavorite = () => {
-       setIsHoveredFavorite(false);
-      };
-
-
-      const [isHoveredWatchlist, setIsHoveredWatchlist] = useState(false);
-
-      const handleMouseEnterWatchlist = () => {
-         setIsHoveredWatchlist(true);
-        };
- 
-       const handleMouseLeaveWatchlist = () => {
-        setIsHoveredWatchlist(false);
-       };
+    
+    
 
        const [expanded, setExpanded] = useState(false);
 
@@ -98,13 +75,47 @@ const Movie = () => {
          setReviewInputValue(e.target.value);
        };
 
+
+       const [isCopied, setIsCopied] = useState(false);
+
+       const handleShareClick = () => {
+         const currentUrl = window.location.href;
+         navigator.clipboard
+           .writeText(currentUrl)
+           .then(() => {
+             setIsCopied(true);
+             setTimeout(() => {
+               setIsCopied(false);
+             }, 1000);
+           })
+           .catch((error) => {
+             console.error("Error copying link to clipboard:", error);
+             // You can display an error message or handle the error in any way you prefer
+           });
+       };
        
     
     
     useEffect( ()=>{
-        axios.get(`http://localhost:5000/api/get/${id}`).then((res)=>setMovie({...res.data[0]}))
+        axios.get(`http://localhost:5000/api/getMovie/${id}`).then((res)=>setMovie({...res.data[0]}))
 
     }, [id]);
+
+    useEffect( ()=>{
+        axios.get(`http://localhost:5000/api/getActorsByMovie/${id}`).then((res)=>setActors(res.data))
+
+    }, [id]);
+
+    useEffect( ()=>{
+        axios.get(`http://localhost:5000/api/getDirectorsByMovie/${id}`).then((res)=>setDirectors(res.data))
+
+    }, [id]);
+
+    
+
+    
+
+
 
 
 
@@ -155,7 +166,7 @@ const Movie = () => {
                         
                     }}>
                         
-                        <img src={movie.Thumbnail} alt="Movie" style={{ width: "100%", height: "100%" }} />
+                        <img src={`${movie.Thumbnail}`} alt="Movie" style={{ width: "100%", height: "100%" }} />
                     </Grid>
                     
                     <Grid item md={4.5} xs={4} sx={{
@@ -215,23 +226,18 @@ const Movie = () => {
                             
                         </LabelList>
 
-                        { activeList === 'cast' && <ul >
-                    
-                    <StyledList> Keanu Reeves </StyledList>
-                    <StyledList> Donnie Yen </StyledList>
-                    <StyledList> Bill Skarsgard</StyledList>
-                    <StyledList> Ian  McShane</StyledList>
-                    <StyledList> Laurence Fishburne</StyledList>
-                    <StyledList> Lance Reddick </StyledList>
-                    <StyledList> Clancy Brown </StyledList>
-                    <StyledList> Hirouky Sanada</StyledList>
-                    
-                 </ul>
-}
-
+                        {activeList === 'cast' && (
+  <ul >
+    {actors.map((actor) => (
+      <StyledList  key={actor.ActorID}>{actor.FirstName + " " + actor.LastName}</StyledList>
+    ))}
+  </ul>
+)}
                  { activeList === 'crew' && <ul>
-                 <StyledList> Crew 1</StyledList>
-                 <StyledList>Crew 2</StyledList>
+                 {directors.map((director) => (
+      <StyledList  key={director.MovieID}> {director.Directors} </StyledList>
+                         ))}
+                 
                  </ul>}
 
                  { activeList === 'genres' && <ul>
@@ -289,8 +295,11 @@ const Movie = () => {
                             }}
                             > 
                             <ListItemButton onClick={handleWatchClick}
-                                onMouseEnter={handleMouseEnterWatch}
-                                onMouseLeave={handleMouseLeaveWatch}
+                               
+                                disableRipple
+                              
+                                
+                                
                                 
                                 >
                                     
@@ -304,7 +313,7 @@ const Movie = () => {
                                     )}
 
                                     
-                                    <ListItemText primary={ (!isWatched?"Watch":(isHoveredWatch?"Remove":"Watched")) }
+                                    <ListItemText primary={ (!isWatched?"Watch":"Watched") }
                                         sx={{
                                             color:"#fff"
                                         }}
@@ -315,8 +324,13 @@ const Movie = () => {
 
 
                                 <ListItemButton onClick={handleFavoriteClick}
-                                onMouseEnter={handleMouseEnterFavorite}
-                                onMouseLeave={handleMouseLeaveFavorite}
+                                
+                                disableRipple
+                                sx={{
+                                    height:"100%",
+                                    
+                                }}  
+                                
                                 
                                 >
                            <StyledListItemIcon>
@@ -329,15 +343,16 @@ const Movie = () => {
                                        sx={{
                                    color: "#fff",
                              }}
-                             primary=  { (!isFavorite?"Favorite":(isHoveredFavorite?"Remove":"Favorite")) }
+                             primary=  "Favorite" 
                                 />
       </StyledListItemIcon>
     </ListItemButton>
 
                                  <ListItemButton
                                  onClick={handleWatchlistClick}
-                                 onMouseEnter={handleMouseEnterWatchlist}
-                                onMouseLeave={handleMouseLeaveWatchlist}
+                                disableRipple
+                               
+                                
                                  >
                                     <StyledListItemIcon  >
                                         
@@ -349,7 +364,7 @@ const Movie = () => {
                                             <ListItemText sx={{
                                    color: "#fff",
                              }}
-                           primary={!isChecked ? "Watchlist" : (isHoveredWatchlist?"Remove":"Watchlist")}
+                           primary="Watchlist"
                                 />
                                             
                                             
@@ -471,7 +486,8 @@ const Movie = () => {
                                                     height: expanded ? "200px" : "100px",
                                                     background: "#fff",
                                                     transition: "height 0.3s ease",
-                                                    overflow:"auto"
+                                                    overflow:"auto",
+                                                    width:"350px"
                                                   }}
                                                   
                                                   
@@ -512,12 +528,102 @@ const Movie = () => {
                              
                        
 
-                        <LoggedInBox sx={{height:"50px"}}> <StyledLink> Add to lists...  </StyledLink>
-                        {/* <RateReviewIcon/> */}
+                        <LoggedInBox sx={{height:"50px"}}> <StyledLink
+                        onClick={e=>setOpenListAdd(true)}
+                        > Add to lists...  </StyledLink>
+                        <Modal 
+                        open={openListAdd}
+                        >
+
+                            <ListBox>
+                            <Box sx={{
+                                height:"20px"
+                            }}> 
+                                        <IconButton sx={{
+                                            float:"right",
+                                            marginRight:"10px",
+                                            color:"#fff",
+                                            
+                                        }} color='#fff' aria-label="" onClick={e=>setOpenListAdd(false)}>
+                                          <CloseIcon/>
+                                          
+                                          </IconButton>
+                                          </Box>
+
+                            <Box sx={{
+                                
+                            }}>
+
+                                <Typography variant="p" sx={{
+                                    color:"#fff",
+                                    ml:4,
+                                    fontSize:"22px"
+                                }}> Add '{movie.Title}' to a list  </Typography>
+
+
+                            </Box>
+
+                            <Box sx={{
+                                borderTop:"1px solid #c7bcb1",
+                                mt:2,
+                                pt:1,
+                                pl:2
+                            }}>
+                                
+                                <StyledLink >
+                                    <AddIcon  sx={{color:'#CEDFF0',}}  />
+                                    <Typography sx={{
+                                    display:"inline-block",
+                                    color:'#CEDFF0',
+                                    ml:1,
+                                    fontSize:"18px"
+
+                                }}>
+                                    New list...
+                                </Typography>
+                                </StyledLink>
+                                </Box>
+
+
+                                <Box
+                                sx={{
+                                    position: 'absolute',
+                                    bottom: 0,
+                                    left: 0,
+                                    width: '100%',
+                                    backgroundColor: '#334455',
+                                    height: '20%',
+                                    
+                                  }}
+                                >
+
+                                    <Button variant='contained' color="success" sx={{
+                                        float:"right",
+                                        mt:1,
+                                        mr:2
+
+
+                                    }} > Add </Button>
+                                    
+                                    </Box>             
+
+
+                            </ListBox>
+
+
+
+                        </Modal>
+                        
+
+
+
                         </LoggedInBox>
 
-                        <LoggedInBox sx={{height:"50px"}}><StyledLink> Share</StyledLink>
-                           <ShareIcon/> </LoggedInBox>
+                        <LoggedInBox sx={{ height: "50px" }}>
+                             <StyledLink onClick={handleShareClick}>Share</StyledLink>
+                                    <ShareIcon />
+                                        {isCopied && <span>Link copied</span>}
+                                    </LoggedInBox>
                         
                         
                         </Grid>} 

@@ -123,7 +123,7 @@ export const theme = createTheme({
         width:"1000px",
     margin:"auto",
     marginTop:"120px"
-      })
+      });
 
       export const ReviewBox = styled(Box)({
         height:"400px",
@@ -134,4 +134,16 @@ export const theme = createTheme({
     display:"flex",
     flexDirection:"column"
 
+      });
+
+
+      export const ListBox = styled(Box)({
+        position:"relative",
+        height:"300px",
+        width:"500px",
+        backgroundColor:"#445566",
+        margin:"auto",
+    marginTop:"320px",
+    display:"flex",
+    flexDirection:"column"
       })

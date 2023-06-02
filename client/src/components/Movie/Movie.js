@@ -90,7 +90,7 @@ const Movie = () => {
            })
            .catch((error) => {
              console.error("Error copying link to clipboard:", error);
-             // You can display an error message or handle the error in any way you prefer
+             
            });
        };
        
@@ -376,27 +376,7 @@ const Movie = () => {
                                     </StyledListItemIcon>
                                  </ListItemButton>
 
-                                 {/* <ListItemButton onClick={e=>setOpenReview(true)} >
-                                    <StyledListItemIcon>
-                                        <RateReviewIcon/>
-                                        <ListItemText primary="Review"
-                                        sx={{
-                                            color:"#fff"
-                                        }}
-                                        />
-                                    </StyledListItemIcon>
-                                 </ListItemButton> */}
-
-                                 {/* <ListItemButton>
-                                 <StyledListItemIcon>
-                                    <VisibilityIcon/>
-                                    <ListItemText primary="Watch"
-                                        sx={{
-                                            color:"#fff"
-                                        }}
-                                        />
-                                     </StyledListItemIcon>
-                                 </ListItemButton> */}
+                                 
 
                             </List>
 

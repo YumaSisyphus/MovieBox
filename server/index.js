@@ -714,6 +714,21 @@ app.get("/api/getListMovies/:id", (req, res) => {
   });
 });
 
+// Get all Users of a List
+
+app.get("/api/getListUser/:id", (req, res) => {
+  const { id } = req.params;
+  const query =
+    "SELECT * FROM users WHERE UserID IN(SELECT UserID FROM lists WHERE ListID = ?);";
+  db.query(query, [id], (error, results) => {
+    if (error) {
+      console.error("Error fetching movies watched:", error);
+      res.status(500).json({ error: "Internal server error" });
+    } else {
+      res.json(results);
+    }
+  });
+});
 
 //Get Genres for a specific movie
 

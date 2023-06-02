@@ -15,37 +15,41 @@ const Lists = () => {
     const { UserID } = token[0];
     const navigate = useNavigate();
     const [list, setLists] = useState([]);
-    const [listMovies, setListMovies] = useState([]);
+    const [listUser, setListUser] = useState([]);
 
     useEffect(() => {
         const fetchLists = async () => {
             try {
                 const response = await axios.get(`/api/getLists`);
                 const listsData = response.data;
-                console.log(listsData)
                 setLists(listsData);
-
-                // Fetch movies for each list
-                const moviesPromises = listsData.map(async (list) => {
-                    const moviesResponse = await axios.get(`/api/getListMovies/${list.ListID}`);
-                    return moviesResponse.data;
-                });
-
-                const moviesData = await Promise.all(moviesPromises);
-                console.log(moviesData)
-                setListMovies(moviesData);
-
             } catch (error) {
                 console.error("Error fetching lists:", error);
             }
         };
-
-
         fetchLists();
     }, []);
 
-    console.log(list)
-    console.log(listMovies)
+    useEffect(() => {
+        const fetchListUser = async () => {
+          for (const element of list) {
+            const userId = element.UserID;
+            console.log(userId)
+      
+            try {
+              const response = await axios.get(`/api/getListUser/${userId}`);
+              const listsUserData = response.data;
+            //   setListUser((prevListUser) => [...prevListUser, listsUserData]);
+            setListUser(listsUserData);
+            } catch (error) {
+              console.error("Error fetching lists user:", error);
+            }
+          }
+        };
+        fetchListUser();
+      }, [list]);
+
+
 
 
 
@@ -75,29 +79,23 @@ const Lists = () => {
                         }}
                     />
                     <Box display="flex" flexWrap="wrap" mt={2} mb={9} gap={5} ml={2}>
-                        {list.slice(0, 8).map((lists, index) => {
-                            const movie = listMovies[index];
+                        {list.slice(0, 8).map((lists) => {
                             return (
                                 <Box
                                     key={lists.ListID}
                                     width={240}
                                     height={200}
                                     className={styles.ListBox}
-                                    sx={{
-                                        borderRadius: "5px",
-                                        backgroundImage: `url(${movie?.Cover || ''})`,
-                                        backgroundSize: "cover",
-                                        backgroundRepeat: "no-repeat",
-                                        backgroundPosition: "center",
-                                    }}
                                 >
-                                    {movie && (
-                                        <>
-                                            <Typography>{movie.Title}</Typography>
-                                            <Typography>{lists.Title}</Typography>
-                                            <Typography>{lists.Description}</Typography>
-                                        </>
-                                    )}
+                                    <Typography color="#ebebeb">{lists.Title}</Typography>
+                                    <Typography color="#b0b0b0">{lists.Description}</Typography>
+                                    {listUser.map((lists, index) => {
+                                        return (
+                                            <Box key={lists.UserID}>
+                                                <Typography color="#ebebeb">{lists.Username}</Typography>
+                                            </Box>
+                                        )
+                                    })}
                                 </Box>
                             );
                         })}

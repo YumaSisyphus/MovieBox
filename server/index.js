@@ -675,7 +675,7 @@ app.get("/api/watchlist/:id", (req, res) => {
     "SELECT * FROM movies WHERE MovieId IN(SELECT MovieID FROM watchlist WHERE UserID = ?);";
   db.query(query, [id], (error, results) => {
     if (error) {
-      console.error("Error fetching movies:", error);
+      console.error("Error fetching watchlist:", error);
       res.status(500).json({ error: "Internal server error" });
     } else {
       res.json(results);
@@ -683,7 +683,37 @@ app.get("/api/watchlist/:id", (req, res) => {
   });
 });
 
-// Get thumbnails of users movies watched
+// Get Lists from database
+
+app.get("/api/getLists", (req, res) => {
+  const query =
+    "SELECT * FROM lists WHERE ListID;";
+  db.query(query,  (error, results) => {
+    if (error) {
+      console.error("Error fetching lists:", error);
+      res.status(500).json({ error: "Internal server error" });
+    } else {
+      res.json(results);
+    }
+  });
+});
+
+// Get all Movies of a List
+
+app.get("/api/getListMovies/:id", (req, res) => {
+  const { id } = req.params;
+  const query =
+    "SELECT * FROM movies WHERE MovieId IN(SELECT MoviesID FROM movies_lists WHERE ListsID = ?) LIMIT 1;";
+  db.query(query, [id], (error, results) => {
+    if (error) {
+      console.error("Error fetching movies watched:", error);
+      res.status(500).json({ error: "Internal server error" });
+    } else {
+      res.json(results);
+    }
+  });
+});
+
 
 //Get Genres for a specific movie
 
@@ -693,7 +723,7 @@ app.get("/api/movieswatched/:id", (req, res) => {
     "SELECT * FROM movies WHERE MovieId IN(SELECT MovieID FROM rate_watched WHERE Watched = 1 AND UserID = ?);";
   db.query(query, [id], (error, results) => {
     if (error) {
-      console.error("Error fetching movies:", error);
+      console.error("Error fetching movies watched:", error);
       res.status(500).json({ error: "Internal server error" });
     } else {
       res.json(results);
@@ -727,7 +757,7 @@ app.get("/api/movieListCover", (req, res) => {
   const query = "SELECT MovieId, Cover FROM movies";
   db.query(query, (error, results) => {
     if (error) {
-      console.error("Error fetching movies:", error);
+      console.error("Error fetching movielistcover:", error);
       res.status(500).json({ error: "Internal server error" });
     } else {
       const movies = results.map((result) => ({
@@ -769,6 +799,8 @@ app.get("/api/getCinema/:id", (req, res) => {
     }
   });
 });
+
+// Get all the Cinemas
 
 app.get("/api/getAllCinemas", (req, res) => {
   const sqlGet = "SELECT * FROM theatre;";

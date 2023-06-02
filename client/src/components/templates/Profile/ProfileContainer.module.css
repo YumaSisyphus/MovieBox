@@ -1,0 +1,141 @@
+.profileContainer {
+    display: flex;
+    flex-direction: column;
+    background-color: #f8f8f8;
+    border-radius: 10px;
+    padding: 40px;
+}
+
+.profilePicture {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin-right: 2%;
+}
+
+.profileInfo {
+    display: flex;
+    flex-direction: column;
+}
+
+.username {
+    font-size: 20px !important;
+    font-weight: bold !important;
+    color: #ebebeb;
+}
+
+.editButton {
+    background-color: #2A9D8F !important;
+    color: #fff !important;
+    border-radius: 5px;
+    font-size: 12px !important;
+    padding: 5px 10px !important;
+    transition: background-color 0.3s ease !important;
+    text-decoration: none;
+}
+
+.editButton:hover {
+    background-color: #0c7bbf !important;
+}
+
+.bio {
+    font-size: 20px;
+    color: #b6b6b6;
+    margin-bottom: 40px;
+}
+
+.stats {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.statsItem {
+    text-align: center;
+}
+
+.Watched {
+    font-size: 20px;
+    color: #b6b6b6;
+    font-weight: bold;
+    font-family: "DM Sans", sans-serif;
+}
+
+.watchedNumber {
+    font-size: 28px !important;
+    color: #ebebeb;
+    margin-top: -8px !important;
+}
+
+.MovieBorder {
+    transition: all .4s;
+    border: 3px solid transparent;
+    position: relative;
+}
+
+.MovieBorder:hover {
+    border: 3px solid #2A9D8F !important;
+}
+
+
+/* Navbar */
+
+.Navbar1{
+    border: 1px solid #8f8f8f;
+    display: flex;
+    justify-content: space-around;
+    list-style-type: none;
+    padding: 10px 0px;
+    margin-top: 3%;
+}
+
+.NavbarText{
+    color: #b6b6b6;
+    margin-left: 10px;
+    transition: .3s;
+}
+
+.NavbarText:hover{
+    color: #ebebeb;
+}
+
+.Links{
+    text-decoration: none;
+}
+
+
+
+
+/* media query for smaller screens */
+@media (max-width: 768px) {
+    .reviewsGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .container {
+        grid-template-columns: 1fr 2fr;
+        gap: 60px;
+    }
+
+    .stats {
+        margin-top: 0;
+    }
+
+    .activity {
+        margin-top: 40px;
+    }
+
+    .films {
+        margin-top: 40px;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+}

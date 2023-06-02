@@ -1,0 +1,42 @@
+.BannerQuote {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 70px !important;
+    color: #ebebeb;
+    z-index: 10;
+    position: inherit;
+    line-height: 1 !important;
+    background-position: center;
+    mix-blend-mode: luminosity;
+}
+
+.CinemaButton{
+    text-decoration: none;
+    position: absolute;
+    border: 1px solid #ebebeb;
+    padding: 5px 15px;
+    color: rgb(23, 3, 3);
+    background-color: #ebebeb;
+    margin-left: 5.5%;
+    border-radius: 5px;
+    font-size: 20px;
+    transition: .4s;
+}
+
+.CinemaButton:hover{
+    background-color: transparent;
+    color: #ebebeb;
+}
+
+.MovieBorder{
+    transition: all .4s;
+    border: 3px solid transparent;
+    position: relative;
+}
+
+.MovieBorder:hover {
+    border: 3px solid #2A9D8F !important;
+}
+
+.rowBorder{
+    border: 1px solid #1e1e1e !important;
+}

@@ -1,0 +1,5 @@
+
+
+GET https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=true&language=en-US&page=1&sort_by=popularity.desc
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkMTVmMzdkYjM2NjJhYzhjMjQ2NmUxNmU1MTZjOWFlZiIsInN1YiI6IjYzYjlmZjY2YWU2ZjA5MDBiZDFkY2JlMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.hrmuK_7NqjFYAl8kwZa_5bN0z38T-22dhK4HIb_sYkU
+accept: application/json

@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const mysql = require("mysql2");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const bcrypt = require("bcrypt");
@@ -92,13 +93,18 @@ app.listen(5000, () => {
 
 app.use(cors());
 app.use(express.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 
-const db= mysql.createPool({
-    host: "localhost",
-    user: "root",
-    password : "leart",
-    database : "moviebox2"
+app.get("/api/users", (req, res) => {
+  const sqlGet = "SELECT * FROM users";
+  db.query(sqlGet, (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(400).json({ msg: "Error" });
+    } else {
+      res.send(result);
+    }
+  });
 });
 
 /*    
@@ -241,7 +247,7 @@ app.put("/api/editPassword/:id", (req, res) => {
 
 app.put("/api/editProfile/:id", (req, res) => {
   const userId = req.params.id;
-  const { profilePic, username, email, bio } = req.body;
+  const { profilePic, username, email, bio, birthday } = req.body;
   const sqlSelect = "SELECT * FROM users WHERE UserID = ?";
   db.query(sqlSelect, [userId], (err, result) => {
     if (err) {
@@ -255,8 +261,18 @@ app.put("/api/editProfile/:id", (req, res) => {
     }
     const updateUser = (field, value, message) => {
       if (value !== null && value !== result[0][field]) {
-        const sqlUpdate = `UPDATE users SET ${field} = ? WHERE UserID = ?`;
-        db.query(sqlUpdate, [value, userId], (err, result) => {
+        let sqlUpdate;
+        let params;
+
+        if (field === "Birthday") {
+          sqlUpdate = `UPDATE users SET ${field} = STR_TO_DATE(?, '%d/%m/%Y') WHERE UserID = ?`;
+          params = [value, userId];
+        } else {
+          sqlUpdate = `UPDATE users SET ${field} = ? WHERE UserID = ?`;
+          params = [value, userId];
+        }
+
+        db.query(sqlUpdate, params, (err, result) => {
           if (err) {
             console.error(`Error updating ${field}:`, err);
             return res
@@ -270,6 +286,7 @@ app.put("/api/editProfile/:id", (req, res) => {
     updateUser("Username", username, "your username");
     updateUser("Bio", bio, "your bio");
     updateUser("Email", email, "your email");
+    updateUser("Birthday", birthday, "your birthday");
     res.status(200).json({ message: "Profile updated successfully" });
   });
 });
@@ -398,6 +415,7 @@ app.get("/api/getMovie", (req, res) => {
       res.status(200).json({ msg: "Movie pulled successfully", results });
     }
   });
+});
 
 app.get("/api/getMovie/:id", (req, res) => {
   const { id } = req.params;
@@ -434,6 +452,7 @@ app.get("/api/getAllNewMovies", (req, res) => {
       res.status(200).json({ msg: "Movies pulled successfully", results });
     }
   });
+});
 
 app.get("/api/numOfMoviesByActor", (req, res) => {
   const { actorId } = req.query;
@@ -448,6 +467,7 @@ app.get("/api/numOfMoviesByActor", (req, res) => {
         .json({ msg: "Number of movies pulled successfully", results });
     }
   });
+});
 
 app.get("/api/getAllActors", (req, res) => {
   const sqlGet = "SELECT * FROM actors;";
@@ -459,6 +479,7 @@ app.get("/api/getAllActors", (req, res) => {
       res.status(200).json({ msg: "Actors pulled successfully", results });
     }
   });
+});
 
 app.get("/api/getMovieActors/:id", (req, res) => {
   const { id } = req.params;
@@ -473,6 +494,7 @@ app.get("/api/getMovieActors/:id", (req, res) => {
       res.status(200).json({ msg: "Actors pulled successfully", results });
     }
   });
+});
 
 app.get("/api/getActorMovies/:id", (req, res) => {
   const { id } = req.params;
@@ -516,6 +538,13 @@ app.get("/api/getUser/:id", (req, res) => {
     } else {
       res.send(result[0]);
     }
+  });
+});
+app.get("/api/editUserDashboard/:id", (req, res) => {
+  const { id } = req.params;
+  const sqlGet = "SELECT * FROM users WHERE UserID=? ;";
+  db.query(sqlGet, [id], (error, result) => {
+    res.send(result);
   });
 });
 
@@ -704,6 +733,21 @@ app.get("/api/getListMovies/:id", (req, res) => {
   });
 });
 
+// Get all Users of a List
+
+app.get("/api/getListUser/:id", (req, res) => {
+  const { id } = req.params;
+  const query =
+    "SELECT * FROM users WHERE UserID IN(SELECT UserID FROM lists WHERE ListID = ?);";
+  db.query(query, [id], (error, results) => {
+    if (error) {
+      console.error("Error fetching movies watched:", error);
+      res.status(500).json({ error: "Internal server error" });
+    } else {
+      res.json(results);
+    }
+  });
+});
 
 //Get Genres for a specific movie
 

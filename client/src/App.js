@@ -23,7 +23,9 @@ import Cinemas from "./components/templates/Cinemas/Cinemas";
 import MoviesWatched from "./components/templates/MoviesWatched/MoviesWatched";
 import Watchlist from "./components/templates/Watchlist/Watchlist";
 import Favorite from "./components/templates/Favorite/Favorite";
-
+import Seats from "./components/templates/Seats/Seats";
+import Dashboard2 from "./components/dashboard/Dashboard2";
+import Edit2 from "./components/Edit/Edit2";
 
 function App() {
   return (
@@ -37,8 +39,8 @@ function App() {
             <Route path="/terms" Component={TermsOfUse} />
             <Route element={<PrivateRoutes />}>
               <Route path="/profile" Component={ProfileContainer} />
-              <Route path="/cinemas" Component={Cinemas}/> 
-              <Route path="/cinema" Component={CinemaPage}/>
+              <Route path="/cinemas" Component={Cinemas} />
+              <Route path="/cinema" Component={CinemaPage} />
               <Route path="/usermovie" Component={MoviesWatched} />
               <Route path="/watchlist" Component={Watchlist} />
               <Route path="/favorite" Component={Favorite} />
@@ -46,12 +48,15 @@ function App() {
               <Route path="/filmslist" Component={MovieList} />
               <Route path="/actorPage" Component={ActorPage} />
               <Route path="/dashboard" Component={Dashboard} />
+              <Route path="/dashboard2" Component={Dashboard2} />
               <Route path="/edit" Component={AddEdit} />
+              <Route path="/edit2" Component={Edit2} />
               <Route path="/update/:id" Component={AddEdit} />
               <Route path="/movies" Component={Movies} />
               <Route path="/moviePage" Component={MoviePage} />
               <Route path="/" Component={HomePage} />
               <Route path="/editProfile" Component={EditProfile} />
+              <Route path="/Seats" Component={Seats} />
             </Route>
           </Routes>
         </BrowserRouter>

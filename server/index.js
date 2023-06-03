@@ -98,10 +98,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.get("/api/users", (req, res) => {
   const sqlGet = "SELECT * FROM users";
   db.query(sqlGet, (err, result) => {
-    res.send({ users: result, totalUsers: result.length });
     if (err) {
       console.log(err);
       res.status(400).json({ msg: "Error" });
+    } else {
+      res.send(result);
     }
   });
 });
@@ -246,7 +247,7 @@ app.put("/api/editPassword/:id", (req, res) => {
 
 app.put("/api/editProfile/:id", (req, res) => {
   const userId = req.params.id;
-  const { profilePic, username, email, bio } = req.body;
+  const { profilePic, username, email, bio, birthday } = req.body;
   const sqlSelect = "SELECT * FROM users WHERE UserID = ?";
   db.query(sqlSelect, [userId], (err, result) => {
     if (err) {
@@ -260,8 +261,18 @@ app.put("/api/editProfile/:id", (req, res) => {
     }
     const updateUser = (field, value, message) => {
       if (value !== null && value !== result[0][field]) {
-        const sqlUpdate = `UPDATE users SET ${field} = ? WHERE UserID = ?`;
-        db.query(sqlUpdate, [value, userId], (err, result) => {
+        let sqlUpdate;
+        let params;
+
+        if (field === "Birthday") {
+          sqlUpdate = `UPDATE users SET ${field} = STR_TO_DATE(?, '%d/%m/%Y') WHERE UserID = ?`;
+          params = [value, userId];
+        } else {
+          sqlUpdate = `UPDATE users SET ${field} = ? WHERE UserID = ?`;
+          params = [value, userId];
+        }
+
+        db.query(sqlUpdate, params, (err, result) => {
           if (err) {
             console.error(`Error updating ${field}:`, err);
             return res
@@ -275,6 +286,7 @@ app.put("/api/editProfile/:id", (req, res) => {
     updateUser("Username", username, "your username");
     updateUser("Bio", bio, "your bio");
     updateUser("Email", email, "your email");
+    updateUser("Birthday", birthday, "your birthday");
     res.status(200).json({ message: "Profile updated successfully" });
   });
 });
@@ -526,6 +538,13 @@ app.get("/api/getUser/:id", (req, res) => {
     } else {
       res.send(result[0]);
     }
+  });
+});
+app.get("/api/editUserDashboard/:id", (req, res) => {
+  const { id } = req.params;
+  const sqlGet = "SELECT * FROM users WHERE UserID=? ;";
+  db.query(sqlGet, [id], (error, result) => {
+    res.send(result);
   });
 });
 

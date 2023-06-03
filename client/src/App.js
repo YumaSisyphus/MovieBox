@@ -23,6 +23,8 @@ import Cinemas from "./components/templates/Cinemas/Cinemas";
 import MoviesWatched from "./components/templates/MoviesWatched/MoviesWatched";
 import Watchlist from "./components/templates/Watchlist/Watchlist";
 import Favorite from "./components/templates/Favorite/Favorite";
+import Lists from "./components/templates/Lists/Lists";
+
 import Seats from "./components/templates/Seats/Seats";
 import Dashboard2 from "./components/dashboard/Dashboard2";
 import Edit2 from "./components/Edit/Edit2";
@@ -46,6 +48,7 @@ function App() {
               <Route path="/favorite" Component={Favorite} />
               <Route path="/films" Component={MovieListHome} />
               <Route path="/filmslist" Component={MovieList} />
+              <Route path="/lists" Component={Lists}/>
               <Route path="/actorPage" Component={ActorPage} />
               <Route path="/dashboard" Component={Dashboard} />
               <Route path="/dashboard2" Component={Dashboard2} />

@@ -69,7 +69,7 @@ const Header = () => {
               </Link>
             </li>
             <li>
-              <Link to="/actorPage" className={styles.Links}>
+              <Link to="/lists" className={styles.Links}>
                 <Typography variant="body1" className={styles.NavbarText}>
                   Lists
                 </Typography>

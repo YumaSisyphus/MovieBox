@@ -50,15 +50,3 @@
   color: #ebebeb;
 }
 
-
-@media (max-width: 768px) {
-  .MovieLink {
-    width: calc(50% - 2%);
-  }
-}
-
-@media (max-width: 480px) {
-  .MovieLink {
-    width: 100%;
-  }
-}

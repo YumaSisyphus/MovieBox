@@ -10,8 +10,7 @@ import ActorPage from "./components/templates/actorPage/ActorPage";
 import MoviePage from "./components/templates/moviePage/movie";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import theme from "./utils/Themes";
-import Dashboard from "./components/dashboard/Dashboard";
-import AddEdit from "./components/Edit/AddEdit";
+
 import HomePage from "./components/templates/HomePage/HomePage";
 import PrivateRoutes from "./utils/PrivateRoutes";
 import EditProfile from "./components/templates/EditProfile/EditProfile";
@@ -26,8 +25,8 @@ import Favorite from "./components/templates/Favorite/Favorite";
 import Lists from "./components/templates/Lists/Lists";
 
 import Seats from "./components/templates/Seats/Seats";
-import Dashboard2 from "./components/dashboard/Dashboard2";
-import Edit2 from "./components/Edit/Edit2";
+import Dashboard from "./components/dashboard/Dashboard";
+import Edit from "./components/Edit/Edit";
 
 function App() {
   return (
@@ -48,13 +47,10 @@ function App() {
               <Route path="/favorite" Component={Favorite} />
               <Route path="/films" Component={MovieListHome} />
               <Route path="/filmslist" Component={MovieList} />
-              <Route path="/lists" Component={Lists}/>
+              <Route path="/lists" Component={Lists} />
               <Route path="/actorPage" Component={ActorPage} />
               <Route path="/dashboard" Component={Dashboard} />
-              <Route path="/dashboard2" Component={Dashboard2} />
-              <Route path="/edit" Component={AddEdit} />
-              <Route path="/edit2" Component={Edit2} />
-              <Route path="/update/:id" Component={AddEdit} />
+              <Route path="/edit" Component={Edit} />
               <Route path="/movies" Component={Movies} />
               <Route path="/moviePage" Component={MoviePage} />
               <Route path="/" Component={HomePage} />

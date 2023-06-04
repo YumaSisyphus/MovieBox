@@ -17,7 +17,7 @@ import theme from "../../utils/Themes";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { format } from "date-fns";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CloseIcon from "@mui/icons-material/Close";
@@ -59,9 +59,9 @@ const EditPage = () => {
   const [birthday, setBirthday] = useState(null);
   const [loading, setLoading] = useState(true);
   const [errorMessage, setError] = useState(null);
-
   const location = useLocation();
   const userinfo = location.state?.user;
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -142,13 +142,17 @@ const EditPage = () => {
         toast.error("Please check if you have written your email correctly");
         return;
       }
-      await axios.put(`/api/editProfile/${UserID}`, {
-        username,
-        bio,
-        profilePic,
-        email,
-        birthday: format(birthday, "dd/MM/yyyy"),
-      });
+      await axios
+        .put(`/api/editProfile/${UserID}`, {
+          username,
+          bio,
+          profilePic,
+          email,
+          birthday: format(birthday, "dd/MM/yyyy"),
+        })
+        .then(() => {
+          navigate("/Dashboard2");
+        });
       toast.success("Username, Bio, ProfilePic and Email changed successfully");
     } catch (error) {
       console.error("Error updating profile:", error);
@@ -320,11 +324,13 @@ const EditPage = () => {
               >
                 <DatePicker
                   sx={{
-                    marginTop: "1vh",
+                    marginTop: "1.8vh",
+                    marginLeft: "1.8vh",
                     "& input": {},
                     "& .MuiSvgIcon-root": {},
                   }}
                   format="dd/MM/yyyy"
+                  label="Birthday"
                   maxDate={minDate}
                   defaultValue={birthday}
                   onError={(newError) => setError(newError)}

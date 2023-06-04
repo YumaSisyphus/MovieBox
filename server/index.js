@@ -519,11 +519,13 @@ app.get("/api/get", (req, res) => {
 });
 
 app.delete("/api/remove/:id", (req, res) => {
-  const { userid } = req.params;
+  const { id } = req.params;
   const sqlRemove = "DELETE FROM users WHERE UserID=?;";
-  db.query(sqlRemove, [userid], (error, result) => {
+  db.query(sqlRemove, [id], (error, result) => {
     if (error) {
       console.log(error);
+    } else {
+      res.send(result);
     }
   });
 });
@@ -705,9 +707,8 @@ app.get("/api/watchlist/:id", (req, res) => {
 // Get Lists from database
 
 app.get("/api/getLists", (req, res) => {
-  const query =
-    "SELECT * FROM lists WHERE ListID;";
-  db.query(query,  (error, results) => {
+  const query = "SELECT * FROM lists WHERE ListID;";
+  db.query(query, (error, results) => {
     if (error) {
       console.error("Error fetching lists:", error);
       res.status(500).json({ error: "Internal server error" });

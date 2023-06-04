@@ -12,6 +12,9 @@ import {
   IconButton,
   ThemeProvider,
 } from "@mui/material";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { format } from "date-fns";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import CloseIcon from "@mui/icons-material/Close";
 import styles from "./EditProfile.module.css";
@@ -43,6 +46,12 @@ const avatars = [
   "Profile/sea-lion.png",
   "Profile/giraffe.png",
 ];
+const curentDate = new Date();
+const minDate = new Date(
+  curentDate.getFullYear() - 16,
+  curentDate.getMonth(),
+  curentDate.getDate()
+);
 
 const EditProfile = () => {
   const cookies = new Cookies();
@@ -53,6 +62,8 @@ const EditProfile = () => {
   const [email, setEmail] = useState("");
   const [bio, setBio] = useState("");
   const [profilePic, setProfilePic] = useState("");
+  const [birthday, setBirthday] = useState(null);
+  const [errorMessage, setError] = useState(null);
   const [password, setPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -94,12 +105,15 @@ const EditProfile = () => {
         setEmail(response.data.Email);
         setBio(response.data.Bio);
         setProfilePic(response.data.ProfilePic);
+        const tempDate = new Date(response.data.Birthday);
+        setBirthday(tempDate);
       } catch (error) {
         console.error("Error fetching user:", error);
       }
     };
     fetchUser();
   }, []);
+  console.log(birthday);
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
   };
@@ -125,6 +139,9 @@ const EditProfile = () => {
   };
   const handleConfirmPasswordChange = (event) => {
     setConfirmPassword(event.target.value);
+  };
+  const handleDateChange = (date) => {
+    setBirthday(date);
   };
 
   const handleSaveChanges = async () => {
@@ -168,6 +185,7 @@ const EditProfile = () => {
         bio,
         profilePic,
         email,
+        birthday: format(birthday, "dd/MM/yyyy"),
       });
       toast.success("Username, Bio, ProfilePic and Email changed successfully");
       if (showChangePassword) {
@@ -206,14 +224,15 @@ const EditProfile = () => {
   return (
     <ThemeProvider theme={theme}>
       <Header />
-      <Container maxWidth="md">
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            gap: "5%",
-          }}
-        >
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          backgroundImage: `linear-gradient(to top, rgba(26, 26, 36), rgba(22, 22, 28))`,
+          gap: "5%",
+        }}
+      >
+        <Container maxWidth="md" sx={{display: "flex", flexDirection:"row"}}>
           <div style={{ display: "flex", flexDirection: "column" }}>
             <Container maxWidth="md">
               <Box
@@ -409,6 +428,43 @@ const EditProfile = () => {
                     onChange={handleBioChange}
                   />
                 </Box>
+                <Box mt={5}>
+                  <LocalizationProvider
+                    sx={{ borderColor: "#fff" }}
+                    dateAdapter={AdapterDateFns}
+                  >
+                    <DatePicker
+                      sx={{
+                        backgroundColor: "#ebebeb",
+                        borderRadius: "4px",
+                        "& .MuiSvgIcon-root": { color: "rgba(0,0,0,0.6)" },
+                        "& .MuiFormLabel-root": {
+                          color: "rgba(0,0,0,0.6)",
+                          marginTop: "10px",
+                        },
+                        input: {
+                          padding: "20px",
+                          borderColor: "#ccc",
+                          borderRadius: "4px",
+                          backgroundColor: "#ebebeb",
+                        },
+                      }}
+                      format="dd/MM/yyyy"
+                      variant="filled"
+                      label="Birthday"
+                      maxDate={minDate}
+                      value={birthday}
+                      onError={(newError) => setError(newError)}
+                      slotProps={{
+                        textField: {
+                          helperText: errorMessage,
+                        },
+                      }}
+                      views={["year", "month", "day"]}
+                      onChange={handleDateChange}
+                    />
+                  </LocalizationProvider>
+                </Box>
 
                 <Box mt={5}>
                   <Button
@@ -562,9 +618,8 @@ const EditProfile = () => {
               </Box>
             </Container>
           </div>
-        </div>
-      </Container>
-
+        </Container>
+      </div>
       <Footer />
       <ToastContainer theme="colored" />
     </ThemeProvider>

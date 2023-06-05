@@ -135,20 +135,20 @@ const Register = () => {
     setState({ ...state, birthday: formattedDate });
   };
   return (
-    <div
-      style={{
-        backgroundImage: `linear-gradient(to top, rgba(48, 48, 54, 0.5), rgba(22, 22, 28, 0.5)), url(${BackGroundImage})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        height: "100%",
-      }}
-    >
-      <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
+      <div
+        style={{
+          backgroundImage: `linear-gradient(to top, rgba(48, 48, 54, 0.5), rgba(22, 22, 28, 0.5)), url(${BackGroundImage})`,
+         display: "flex",
+          flexDirection: "column",
+          minHeight: "100vh",
+        }}
+      >
         <Header />
         <Container
           sx={{
-            height: "auto",
             textAlign: "center",
+            flex: "1 0 auto",
           }}
         >
           <Grid
@@ -162,15 +162,10 @@ const Register = () => {
             }}
           >
             <Grid
-              mt={"12%"}
+              mt={12}
               md={6}
               xs={12}
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                height: "100%",
-                width: "100%",
-              }}
+              
             >
               <BoxStyle sx={{ boxShadow: "0px 0px 15px rgba(0, 0, 0, 1)" }}>
                 <TypographyStyle variant="h4">Sign up</TypographyStyle>
@@ -386,9 +381,10 @@ const Register = () => {
           </Grid>
         </Container>
         {isMatch ? <></> : <Footer />}
-      </ThemeProvider>
-      <ToastContainer theme="colored" />
-    </div>
+
+        <ToastContainer theme="colored" />
+      </div>
+    </ThemeProvider>
   );
 };
 export default Register;

@@ -49,11 +49,14 @@ const MoviesWatched = () => {
     <ThemeProvider theme={theme}>
       <div
         style={{
+          display: "flex",
+          flexDirection: "column",
+          minHeight: "100vh",
           backgroundImage: `linear-gradient(to top, rgba(26, 26, 36), rgba(22, 22, 28))`,
         }}
       >
         <Header />
-        <Container maxWidth="md">
+        <Container maxWidth="md" style={{ flex: "1 0 auto" }}>
 
           <Navbar />
 

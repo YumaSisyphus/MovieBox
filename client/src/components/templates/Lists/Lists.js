@@ -42,12 +42,15 @@ const Lists = () => {
     return (
         <ThemeProvider theme={theme}>
             <div
-                style={{
-                    backgroundImage: `linear-gradient(to top, rgba(26, 26, 36), rgba(22, 22, 28))`,
-                }}
+               style={{
+                display: "flex",
+                flexDirection: "column",
+                minHeight: "100vh",
+                backgroundImage: `linear-gradient(to top, rgba(26, 26, 36), rgba(22, 22, 28))`,
+              }}
             >
                 <Header />
-                <Container maxWidth="md">
+                <Container maxWidth="md" style={{ flex: "1 0 auto" }}>
 
                     <Typography ml={2} mt={7} variant="h5" color="#ebebeb">
                         Lists

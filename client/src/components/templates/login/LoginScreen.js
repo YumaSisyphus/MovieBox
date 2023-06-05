@@ -85,20 +85,20 @@ const Login = () => {
     setState({ ...state, [name]: value });
   };
   return (
-    <div
-      style={{
-        backgroundImage: `linear-gradient(to top, rgba(48, 48, 54, 0.5), rgba(22, 22, 28, 0.5)), url(${BackGroundImage})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        height: "100%",
-      }}
-    >
-      <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
+      <div
+        style={{
+          backgroundImage: `linear-gradient(to top, rgba(48, 48, 54, 0.5), rgba(22, 22, 28, 0.5)), url(${BackGroundImage})`,
+          display: "flex",
+          flexDirection: "column",
+          minHeight: "100vh",
+        }}
+      >
         <Header />
         <Container
           sx={{
             textAlign: "center",
-            height: "77vh",
+            flex: "1 0 auto"
           }}
         >
           <Grid
@@ -112,17 +112,9 @@ const Login = () => {
             }}
           >
             <Grid
-              item
+              mt={12}
               md={6}
               xs={8}
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                height: "100%",
-                width: "100%",
-                padding: "0 0 !important",
-              }}
             >
               <BoxStyle sx={{ boxShadow: "0px 0px 15px rgba(0, 0, 0, 1)" }}>
                 <TypographyStyle variant="h4">Sign in</TypographyStyle>
@@ -230,9 +222,9 @@ const Login = () => {
           </Grid>
         </Container>
         <Footer />
-      </ThemeProvider>
-      <ToastContainer theme="colored" />
-    </div>
+        <ToastContainer theme="colored" />
+      </div>
+    </ThemeProvider>
   );
 };
 export default Login;

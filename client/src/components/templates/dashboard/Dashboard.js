@@ -76,7 +76,7 @@ const Dashboard = () => {
         }}
       >
         <Header />
-        <Container maxWidth="xl" style={{ flex: "1 0 auto" }}>
+        <Container maxWidth="xl" style={{ flex: "1 0 auto" }} >
           <Box mt={4}>
             <Typography
               variant="h4"

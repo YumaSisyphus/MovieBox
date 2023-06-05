@@ -9,8 +9,6 @@ export const BoxStyle = styled(Box)(() => ({
   flexDirection: "column",
   width: "100%",
   alignItems: "center",
-
-  marginTop: "-10%",
   [theme.breakpoints.down("md")]: {
     marginTop: "45%",
   },

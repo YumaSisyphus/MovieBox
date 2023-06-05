@@ -6,6 +6,7 @@ import {
   ThemeProvider,
   Tooltip,
   Typography,
+  Pagination
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -19,7 +20,9 @@ import Footer from "../../footer/Footer"
 
 const Movies = () => {
   const [movies, setMovies] = useState([]);
+  const [page, setPage] = useState(1);
   const navigate = useNavigate();
+
   useEffect(() => {
     const fetchMovies = async () => {
       try {
@@ -31,8 +34,18 @@ const Movies = () => {
     };
     fetchMovies();
   }, []);
+
   const sendMovieInfo = (movie) => {
     navigate("/MoviePage", { state: { movie } });
+  };
+
+  const ITEMS_PER_PAGE = 20;
+  const totalPages = Math.ceil(movies.length / ITEMS_PER_PAGE);
+  const startIndex = (page - 1) * ITEMS_PER_PAGE;
+  const paginatedMovies = movies.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+
+  const handlePageChange = (event, value) => {
+    setPage(value);
   };
 
   return (
@@ -54,8 +67,8 @@ const Movies = () => {
               width: "95%",
             }}
           />
-          <Box display="flex" flexWrap="wrap" mt={3} mb={5}>
-            {movies.map((movie) => (
+          <Box display="flex" flexWrap="wrap" mt={3} mb={3}>
+            {paginatedMovies.map((movie) => (
               <>
                 <Tooltip
                   title={
@@ -90,6 +103,15 @@ const Movies = () => {
                 </Tooltip>
               </>
             ))}
+          </Box>
+          <Box display="flex" justifyContent="center" mb={9.4}>
+            <Pagination
+              count={totalPages}
+              page={page}
+              onChange={handlePageChange}
+              color="secondary"
+              size="large"
+            />
           </Box>
         </Container>
 

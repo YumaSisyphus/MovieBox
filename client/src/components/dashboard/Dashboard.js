@@ -68,7 +68,7 @@ const Dashboard = () => {
       <Header />
       <div
         style={{
-          height: "77vh",
+          height: "100%",
           backgroundImage: `linear-gradient(to top, rgba(26, 26, 36), rgba(22, 22, 28))`,
           display: "flex",
           alignItems: "center",
@@ -82,6 +82,7 @@ const Dashboard = () => {
               align="center"
               gutterBottom
               color="#ebebeb"
+              mb={3}
             >
               User Dashboard
             </Typography>
@@ -264,8 +265,8 @@ const Dashboard = () => {
                 <Button onClick={handleClose}>No</Button>
               </Box>
             </Modal>
-            <Box mt={2} display="flex" justifyContent="center">
-              <Button variant="contained" color="primary">
+            <Box mt={2} display="flex" justifyContent="center" mb={5}>
+              <Button variant="contained" color="primary" >
                 Add User
               </Button>
             </Box>

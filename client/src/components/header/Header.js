@@ -55,13 +55,6 @@ const Header = () => {
               </Link>
             </li>
             <li>
-              <Link to="/Profile" className={styles.Links}>
-                <Typography variant="body1" className={styles.NavbarText} display="flex" style={{ marginTop: "1px" }}>
-                  <AccountCircleIcon sx={{ marginTop: "-2px" }} />Profile
-                </Typography>
-              </Link>
-            </li>
-            <li>
               <Link to="/Movies" className={styles.Links}>
                 <Typography variant="body1" className={styles.NavbarText}>
                   Films
@@ -79,6 +72,13 @@ const Header = () => {
               <Link to="/cinemas" className={styles.Links}>
                 <Typography variant="body1" className={styles.NavbarText}>
                   Cinemas
+                </Typography>
+              </Link>
+            </li>
+            <li>
+              <Link to="/Profile" className={styles.Links}>
+                <Typography variant="body1" className={styles.NavbarText} display="flex" style={{ marginTop: "1px" }}>
+                  <AccountCircleIcon sx={{ marginTop: "-2px" }} />Profile
                 </Typography>
               </Link>
             </li>

@@ -27,6 +27,7 @@ import Lists from "./components/templates/Lists/Lists";
 import Seats from "./components/templates/Seats/Seats";
 import Dashboard from "./components/dashboard/Dashboard";
 import Edit from "./components/Edit/Edit";
+import UserLists from "./components/templates/UserLists/UserLists";
 
 function App() {
   return (
@@ -56,6 +57,7 @@ function App() {
               <Route path="/" Component={HomePage} />
               <Route path="/editProfile" Component={EditProfile} />
               <Route path="/Seats" Component={Seats} />
+              <Route path="/userlists" Component={UserLists}/>
             </Route>
           </Routes>
         </BrowserRouter>

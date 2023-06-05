@@ -29,7 +29,7 @@ const Lists = () => {
         fetchLists();
     }, []);
 
-    const ITEMS_PER_PAGE = 8;
+    const ITEMS_PER_PAGE = 6;
     const totalPages = Math.ceil(list.length / ITEMS_PER_PAGE);
     const startIndex = (page - 1) * ITEMS_PER_PAGE;
     const paginatedLists = list.slice(startIndex, startIndex + ITEMS_PER_PAGE);
@@ -80,7 +80,7 @@ const Lists = () => {
                                     >
                                         <Box className={styles.ListBoxInner} pl={2} pr={2} mt={1}>
                                             <Typography color="#ebebeb">{lists.Title}</Typography>
-                                            <Typography color="#b0b0b0">{lists.Description}</Typography>
+                                            <Typography color="#b0b0b0" className={styles.ListDescription}>{lists.Description}</Typography>
                                             <Box display="flex" mt={2} gap={1} alignContent="center">
                                                 <img
                                                     width="30px"
@@ -89,9 +89,9 @@ const Lists = () => {
                                                     alt="Profile picture"
                                                     className={lists.profilePicture}
                                                 />
-                                                <Typography mt={0.2} color="#b0b0b0">{lists.Username}</Typography>
+                                                <Typography mt={0.2} color="#b0b0b0" mb={5}>{lists.Username}</Typography>
                                             </Box>
-                                            <Button sx={{ marginTop: "5%", bgcolor: "#ebebeb", color: "#000" }}>Go To List</Button>
+                                            <Button sx={{ marginTop: "5%", bgcolor: "#ebebeb", color: "#000", alignSelf: "flex-end", display: "flex" }} size="small" className={styles.ListButton}>Go To List</Button>
 
                                         </Box>
 

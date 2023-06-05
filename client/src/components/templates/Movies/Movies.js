@@ -95,6 +95,7 @@ const Movies = () => {
                       backgroundSize: "cover",
                       backgroundRepeat: "no-repeat",
                       backgroundPosition: "center",
+                      cursor: "pointer"
                     }}
                     onClick={() => {
                       sendMovieInfo(movie);

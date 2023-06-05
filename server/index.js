@@ -10,8 +10,8 @@ const axios = require("axios");
 const db = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "password",
-  database: "moviebox",
+  password: "leart",
+  database: "moviebox2",
 });
 
 db.connect((err) => {

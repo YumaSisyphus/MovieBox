@@ -33,3 +33,18 @@
     border: 1px solid #ebebeb !important;
     color: #ebebeb;
 }
+
+.AddButton{
+    text-decoration: none;
+    color: #adadad;
+    background-color: #293e3c;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-left: 2%;
+    transition: .3s;
+}
+
+.AddButton:hover{
+    background-color: #344f4d;
+    color: #cbcbcb;
+}

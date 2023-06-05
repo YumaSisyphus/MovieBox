@@ -1,4 +1,4 @@
-import { ThemeProvider, Typography, Box, Container, Rating, Button, Pagination } from "@mui/material";
+import { ThemeProvider, Typography, Box, Container, Button, Pagination } from "@mui/material";
 import theme from "../../../utils/Themes";
 import Header from "../../header/Header";
 import Footer from "../../footer/Footer";
@@ -62,6 +62,11 @@ const Lists = () => {
                             width: "95%",
                         }}
                     />
+
+                        <Link>
+
+                        </Link>
+
                     <Box display="flex" flexWrap="wrap" mt={2} mb={9} gap={5} ml={2}>
                         {paginatedLists.slice(0, 8).map((lists) => {
                             return (

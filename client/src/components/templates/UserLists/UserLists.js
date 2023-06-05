@@ -16,6 +16,7 @@ import Footer from "../../footer/Footer";
 import Cookies from "universal-cookie";
 import axios from "axios";
 import Navbar from "../../Profile Navbar/Navbar";
+import { Link } from "react-router-dom";
 
 const UserLists = () => {
     const [page, setPage] = useState(1);
@@ -69,9 +70,15 @@ const UserLists = () => {
                             border: "1px solid #8f8f8f",
                             marginLeft: "2%",
                             width: "95%",
+                            marginBottom: "3%"
                         }}
                     />
-                    <Box display="flex" flexWrap="wrap" mt={2} mb={9} gap={5} ml={2}>
+
+                    <Link className={styles.AddButton}>
+                        Add a New List  +
+                    </Link>
+
+                    <Box display="flex" flexWrap="wrap" mt={4} mb={9} gap={5} ml={2}>
                         {paginatedLists.slice(0, 8).map((lists) => {
                             return (
                                 <Box>

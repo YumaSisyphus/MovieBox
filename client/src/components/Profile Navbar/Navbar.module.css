@@ -1,0 +1,28 @@
+
+/* Navbar */
+
+.Navbar1{
+    border: 1px solid #8f8f8f;
+    display: flex;
+    justify-content: space-between;
+    list-style-type: none;
+    padding: 10px 0px;
+    margin-top: 3%;
+    width: 94%;
+    margin-left: 2%;
+    padding-left: 10px;
+}
+
+.NavbarText{
+    color: #b6b6b6;
+    margin-left: 10px;
+    transition: .3s;
+}
+
+.NavbarText:hover{
+    color: #ebebeb;
+}
+
+.Links{
+    text-decoration: none;
+}

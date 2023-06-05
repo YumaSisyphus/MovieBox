@@ -13,6 +13,7 @@ import LinearProgress from "@mui/material/LinearProgress";
 import theme from "../../../utils/Themes";
 import Cookies from "universal-cookie";
 import axios from "axios";
+import Navbar from "../../Profile Navbar/Navbar";
 
 function ProfileContainer() {
   const cookies = new Cookies();
@@ -123,7 +124,7 @@ function ProfileContainer() {
     navigate("/MoviePage", { state: { movie } });
   };
 
-  const sendFavoriteInfo = (movie)=>{
+  const sendFavoriteInfo = (movie) => {
     navigate("/MoviePage", { state: { movie } });
   };
 
@@ -199,66 +200,9 @@ function ProfileContainer() {
               {user.Bio}
             </Typography>
 
-          <ul className={styles.Navbar1}>
-          <li>
-              <Link to="/profile" className={styles.Links}>
-                <Typography variant="body1" className={styles.NavbarText}>
-                  Profile
-                </Typography>
-              </Link>
-            </li>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              width: "70%",
-              justifyContent: "space-around",
-            }}
-          >
-            <li>
-              <Link to="/usermovie" className={styles.Links}>
-                <Typography variant="body1" className={styles.NavbarText} display="flex" style={{ marginTop: "1px" }}>
-                  Watched
-                </Typography>
-              </Link>
-            </li>
-            <li>
-              <Link to="/watchlist" className={styles.Links}>
-                <Typography variant="body1" className={styles.NavbarText}>
-                  Watchlist
-                </Typography>
-              </Link>
-            </li>
-            <li>
-              <Link to="/favorite" className={styles.Links}>
-                <Typography variant="body1" className={styles.NavbarText} display="flex" style={{ marginTop: "1px" }}>
-                  Favorite
-                </Typography>
-              </Link>
-            </li>
-            <li>
-              <Link to="/actorPage" className={styles.Links}>
-                <Typography variant="body1" className={styles.NavbarText}>
-                  Lists
-                </Typography>
-              </Link>
-            </li>
-            <li>
-              <Link to="/cinemas" className={styles.Links}>
-                <Typography variant="body1" className={styles.NavbarText}>
-                  Reviews
-                </Typography>
-              </Link>
-            </li>
-            <li>
-              <Link to="/cinemas" className={styles.Links}>
-                <Typography variant="body1" className={styles.NavbarText}>
-                  Payment history
-                </Typography>
-              </Link>
-            </li>
-          </div>
-        </ul>
+            <Box ml={-2}>
+              <Navbar />
+            </Box>
 
             <Box mt={10}>
               <Box>

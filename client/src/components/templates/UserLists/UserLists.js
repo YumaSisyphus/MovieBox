@@ -1,43 +1,50 @@
-import { ThemeProvider, Typography, Box, Container, Rating, Button, Pagination } from "@mui/material";
 import theme from "../../../utils/Themes";
+import React, { useEffect, useState } from "react";
 import Header from "../../header/Header";
+import styles from "./UserLists.module.css"
+import {
+    Box,
+    Container,
+    Grid,
+    Rating,
+    ThemeProvider,
+    Button,
+    Typography,
+    Pagination
+} from "@mui/material";
 import Footer from "../../footer/Footer";
-import styles from "./Lists.module.css";
-import { Link, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
-import axios from "axios";
 import Cookies from "universal-cookie";
+import axios from "axios";
+import Navbar from "../../Profile Navbar/Navbar";
 
-const Lists = () => {
+const UserLists = () => {
+    const [page, setPage] = useState(1);
+    const [lists, setLists] = useState([]);
     const cookies = new Cookies();
     const token = cookies.get("token");
     const { UserID } = token[0];
-    const navigate = useNavigate();
-    const [list, setLists] = useState([]);
-    const [page, setPage] = useState(1);
 
     useEffect(() => {
         const fetchLists = async () => {
             try {
-                const response = await axios.get(`/api/getLists`);
-                const listsData = response.data;
-                setLists(listsData);
+                const response = await axios.get(`/api/getUserLists/${UserID}`);
+                setLists(response.data);
             } catch (error) {
-                console.error("Error fetching lists:", error);
+                console.error("Error fetching user lists:", error);
             }
         };
         fetchLists();
     }, []);
 
+
     const ITEMS_PER_PAGE = 8;
-    const totalPages = Math.ceil(list.length / ITEMS_PER_PAGE);
+    const totalPages = Math.ceil(lists.length / ITEMS_PER_PAGE);
     const startIndex = (page - 1) * ITEMS_PER_PAGE;
-    const paginatedLists = list.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+    const paginatedLists = lists.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
     const handlePageChange = (event, value) => {
         setPage(value);
     };
-
 
     return (
         <ThemeProvider theme={theme}>
@@ -49,8 +56,10 @@ const Lists = () => {
                 <Header />
                 <Container maxWidth="md">
 
-                    <Typography ml={2} mt={7} variant="h5" color="#ebebeb">
-                        Lists
+                    <Navbar />
+
+                    <Typography ml={2} mt={5} variant="h6" color="#ebebeb">
+                        Your Lists
                     </Typography>
                     <hr
                         style={{
@@ -68,15 +77,7 @@ const Lists = () => {
                                         width={240}
                                         height={200}
                                         className={styles.ListBox}
-                                        sx={{
-                                            borderRadius: "5px",
-                                            // backgroundImage: `url(${lists.Cover})`,
-                                            // backgroundSize: "cover",
-                                            // backgroundRepeat: "no-repeat",
-                                            // backgroundPosition: "center",
-                                            // filter: "brightness(30%)",
-                                            // cursor: "pointer"
-                                        }}
+                                        borderRadius="5px"
                                     >
                                         <Box className={styles.ListBoxInner} pl={2} pr={2} mt={1}>
                                             <Typography color="#ebebeb">{lists.Title}</Typography>
@@ -94,9 +95,7 @@ const Lists = () => {
                                             <Button sx={{ marginTop: "5%", bgcolor: "#ebebeb", color: "#000" }}>Go To List</Button>
 
                                         </Box>
-
                                     </Box>
-
                                 </Box>
                             );
                         })}
@@ -116,8 +115,7 @@ const Lists = () => {
                 <Footer />
             </div>
         </ThemeProvider>
-
     )
 }
 
-export default Lists;
+export default UserLists;

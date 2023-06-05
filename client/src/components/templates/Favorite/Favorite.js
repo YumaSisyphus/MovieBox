@@ -8,6 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from "universal-cookie";
+import Navbar from "../../Profile Navbar/Navbar";
 
 const Favorite = () => {
     const [movies, setMovies] = useState({});
@@ -43,74 +44,21 @@ const Favorite = () => {
             >
                 <Header />
                 <Container maxWidth="md">
-                    <ul className={styles.Navbar1}>
-                        <li>
-                            <Link to="/profile" className={styles.Links}>
-                                <Typography variant="body1" className={styles.NavbarText}>
-                                    Profile
-                                </Typography>
-                            </Link>
-                        </li>
-                        <div
-                            style={{
-                                display: "flex",
-                                alignItems: "center",
-                                width: "70%",
-                                justifyContent: "space-around",
-                            }}
-                        >
-                            <li>
-                                <Link to="/usermovie" className={styles.Links}>
-                                    <Typography variant="body1" className={styles.NavbarText} display="flex" style={{ marginTop: "1px" }}>
-                                        Watched
-                                    </Typography>
-                                </Link>
-                            </li>
-                            <li>
-                                <Link to="/watchlist" className={styles.Links}>
-                                    <Typography variant="body1" className={styles.NavbarText}>
-                                        Watchlist
-                                    </Typography>
-                                </Link>
-                            </li>
-                            <li>
-                                <Link to="/favorite" className={styles.Links}>
-                                    <Typography variant="body1" className={styles.NavbarText} display="flex" style={{ marginTop: "1px" }}>
-                                        Favorite
-                                    </Typography>
-                                </Link>
-                            </li>
-                            <li>
-                                <Link to="/actorPage" className={styles.Links}>
-                                    <Typography variant="body1" className={styles.NavbarText}>
-                                        Lists
-                                    </Typography>
-                                </Link>
-                            </li>
-                            <li>
-                                <Link to="/cinemas" className={styles.Links}>
-                                    <Typography variant="body1" className={styles.NavbarText}>
-                                        Reviews
-                                    </Typography>
-                                </Link>
-                            </li>
-                            <li>
-                                <Link to="/cinemas" className={styles.Links}>
-                                    <Typography variant="body1" className={styles.NavbarText}>
-                                        Payment history
-                                    </Typography>
-                                </Link>
-                            </li>
-                        </div>
-                    </ul>
-                    <Typography
-                        ml={2}
-                        fontSize="16px"
-                        mt={3}
-                        className={styles.Watched}
-                    >
+
+                    <Navbar />
+
+                    <Typography ml={2} mt={5} variant="h6" color="#ebebeb">
                         Favorite
                     </Typography>
+                    <hr
+                        style={{
+                            border: "1px solid #8f8f8f",
+                            marginLeft: "2%",
+                            width: "95.5%",
+                        }}
+                    />
+
+
                     <Box display="flex" flexWrap="wrap" mt={2} mb={5} gap={4.5} ml={2}>
 
                         {Array.isArray(movies) && movies.map((movie) => (

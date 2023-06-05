@@ -13,6 +13,7 @@
     mix-blend-mode: luminosity;
 }
 
+
 .MovieBorder {
     transition: all .4s;
     border: 3px solid transparent;
@@ -67,68 +68,6 @@
     color: #ebebeb;
     font-weight: 800 !important;
     letter-spacing: 1px;
-}
-
-
-.BackgroundImage {
-    background-image: url("../../../assets/ChungkingExpress.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
-    height: 90vh;
-    position: relative;
-    z-index: 0;
-}
-
-.BackgroundImage::after {
-    box-shadow: inset 10px -100px 20px 5px #0c0c0f, inset 20px -60px 100px 50px #0c0c0f, inset -20px -100px 100px 50px #0c0c0f;
-    content: '';
-    display: block;
-    height: 100%;
-    width: 100%;
-    position: absolute;
-    top: 0;
-    z-index: -10 !important;
-}
-
-.Description {
-    position: absolute;
-    width: 50%;
-    left: 25%;
-    bottom: 40px;
-    text-align: center;
-}
-
-.DescriptionText {
-    font-size: 38px !important;
-    color: #ffffff;
-    font-weight: 600 !important;
-}
-
-.QuoteText {
-    color: #aaaaaa;
-}
-
-.servicesBox {
-    background-color: #445566;
-    display: flex;
-    padding: 22px;
-    border-radius: 3px;
-}
-
-.servicesBox:hover {
-    background-color: #fd9131;
-}
-
-.ServiceIcon {
-    color: #e6f5f4b3;
-    font-size: 40px !important;
-    margin-right: 15px;
-}
-
-
-
-.servicesBox:hover .ServiceIcon {
-    color: #e6f5f4;
 }
 
 .Links {

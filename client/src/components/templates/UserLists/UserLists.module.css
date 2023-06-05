@@ -1,13 +1,3 @@
-.MovieBorder {
-    transition: all 0.4s;
-    border: 3px solid transparent;
-    position: relative;
-}
-
-.MovieBorder:hover {
-    border: 3px solid #2a9d8f !important;
-}
-
 .ListBox {
     transition: all 0.4s;
     border: 3px solid #293e3c;

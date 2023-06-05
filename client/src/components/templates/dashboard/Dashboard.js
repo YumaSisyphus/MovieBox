@@ -67,29 +67,29 @@ const Dashboard = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Header />
       <div
-        style={{
-          height: "77vh",
-          backgroundImage: `linear-gradient(to top, rgba(26, 26, 36), rgba(22, 22, 28))`,
+         style={{
           display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
+          flexDirection: "column",
+          minHeight: "100vh",
+          backgroundImage: `linear-gradient(to top, rgba(26, 26, 36), rgba(22, 22, 28))`,
         }}
       >
-        <Container maxWidth="xl">
+        <Header />
+        <Container maxWidth="xl" style={{ flex: "1 0 auto" }}>
           <Box mt={4}>
             <Typography
               variant="h4"
               align="center"
               gutterBottom
               color="#ebebeb"
+              mb={3}
             >
               User Dashboard
             </Typography>
             <TableContainer
               component={Paper}
-              sx={{ backgroundColor: Colors.shaft }}
+              sx={{ backgroundColor: Colors.shaft, maxHeight: "50vh" }}
             >
               <Table style={{ tableLayout: "fixed" }}>
                 <TableHead>
@@ -266,7 +266,7 @@ const Dashboard = () => {
                 <Button onClick={handleClose}>No</Button>
               </Box>
             </Modal>
-            <Box mt={2} display="flex" justifyContent="center">
+            <Box mt={2} display="flex" justifyContent="center" mb={3}>
               <Button
                 variant="contained"
                 color="primary"
@@ -277,8 +277,8 @@ const Dashboard = () => {
             </Box>
           </Box>
         </Container>
+        <Footer />
       </div>
-      <Footer />
     </ThemeProvider>
   );
 };

@@ -291,6 +291,39 @@ app.put("/api/editProfile/:id", (req, res) => {
   });
 });
 
+app.post("/api/addUser", (req, res) => {
+  const { username, email, password, bio, profilePic, userType, birthday } =
+    req.body;
+  bcrypt.hash(password, 10, (err, hash) => {
+    if (err) {
+      res
+        .status(401)
+        .json({ msg: "An error occured during password encryption" });
+    } else {
+      let sqlInsert;
+      if (!birthday) {
+        sqlInsert =
+          "INSERT INTO users (Username, Email, Password, Bio, Profilepic, UserType, Birthday, DateCreated) VALUES( ?, ?, ?, ?, ?, ?, NULL, NOW());";
+      } else {
+        sqlInsert =
+          "INSERT INTO users (Username, Email, Password, Bio, Profilepic, UserType, Birthday, DateCreated) VALUES( ?, ?, ?, ?, ?, ?, STR_TO_DATE(?, '%d/%m/%Y'), NOW());";
+      }
+      db.query(
+        sqlInsert,
+        [username, email, hash, bio, profilePic, userType, birthday],
+        (err, result) => {
+          if (err) {
+            console.log(err);
+            res.status(400).json({ msg: "Username or Email already exists" });
+          } else {
+            res.status(200).json({ msg: "User created" });
+          }
+        }
+      );
+    }
+  });
+});
+
 app.get("/api/checkUsernameEdit/:username", (req, res) => {
   const { username } = req.params;
   const sqlSelect = "SELECT * FROM users WHERE Username = ?";

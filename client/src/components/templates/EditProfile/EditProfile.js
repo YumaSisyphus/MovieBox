@@ -113,7 +113,6 @@ const EditProfile = () => {
     };
     fetchUser();
   }, []);
-  console.log(birthday);
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
   };
@@ -292,7 +291,7 @@ const EditProfile = () => {
                         <CloseIcon />
                       </Button>
                       <Box display="flex" justifyContent="space-between">
-                        {avatars.slice(0, 4).map((avatarItem) => (
+                        {avatars.slice(0, 4).map((avatarItem, index) => (
                           <Box
                             component="img"
                             name="profilepic"
@@ -300,6 +299,7 @@ const EditProfile = () => {
                             width={100}
                             height={100}
                             borderRadius={50}
+                            key={index}
                             src={`${avatarItem}`}
                             alt={`${avatarItem}`}
                             sx={{
@@ -318,7 +318,7 @@ const EditProfile = () => {
                         ))}
                       </Box>
                       <Box display="flex" justifyContent="space-between">
-                        {avatars.slice(4).map((avatarItem) => (
+                        {avatars.slice(4).map((avatarItem, index) => (
                           <Box
                             component="img"
                             name="profilepic"
@@ -326,6 +326,7 @@ const EditProfile = () => {
                             width={100}
                             height={100}
                             borderRadius={50}
+                            key={index}
                             src={`${avatarItem}`}
                             alt={`${avatarItem}`}
                             sx={{
@@ -364,7 +365,6 @@ const EditProfile = () => {
                     name="username"
                     label="Username"
                     variant="filled"
-                    defaultValue={username}
                     value={username}
                     InputProps={{
                       startAdornment: (
@@ -389,7 +389,6 @@ const EditProfile = () => {
                     label="Email"
                     variant="filled"
                     value={email}
-                    defaultValue={email}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
@@ -414,7 +413,7 @@ const EditProfile = () => {
                     variant="filled"
                     multiline
                     rows={6}
-                    defaultValue={bio}
+                    value={bio}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start"></InputAdornment>

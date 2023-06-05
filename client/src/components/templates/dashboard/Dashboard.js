@@ -15,9 +15,9 @@ import {
   Modal,
 } from "@mui/material";
 import axios from "axios";
-import Header from "../header/Header";
-import Footer from "../footer/Footer";
-import theme, { Colors } from "../../utils/Themes";
+import Header from "../../header/Header";
+import Footer from "../../footer/Footer";
+import theme, { Colors } from "../../../utils/Themes";
 import { useNavigate } from "react-router-dom";
 const style = {
   position: "absolute",
@@ -44,9 +44,11 @@ const Dashboard = () => {
   const sendUserInfo = (user) => {
     navigate("/Edit", { state: { user } });
   };
+  const handleAddUser = () => {
+    navigate("/AddPage");
+  };
   const [open, setOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
-  console.log(selectedUser);
 
   const handleOpen = (user) => {
     setSelectedUser(user);
@@ -265,7 +267,11 @@ const Dashboard = () => {
               </Box>
             </Modal>
             <Box mt={2} display="flex" justifyContent="center">
-              <Button variant="contained" color="primary">
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleAddUser}
+              >
                 Add User
               </Button>
             </Box>

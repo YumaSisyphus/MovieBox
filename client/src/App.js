@@ -10,7 +10,6 @@ import ActorPage from "./components/templates/actorPage/ActorPage";
 import MoviePage from "./components/templates/moviePage/movie";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import theme from "./utils/Themes";
-
 import HomePage from "./components/templates/HomePage/HomePage";
 import PrivateRoutes from "./utils/PrivateRoutes";
 import EditProfile from "./components/templates/EditProfile/EditProfile";
@@ -23,10 +22,10 @@ import MoviesWatched from "./components/templates/MoviesWatched/MoviesWatched";
 import Watchlist from "./components/templates/Watchlist/Watchlist";
 import Favorite from "./components/templates/Favorite/Favorite";
 import Lists from "./components/templates/Lists/Lists";
-
+import AddPage from "./components/templates/AddPage/AddPage";
 import Seats from "./components/templates/Seats/Seats";
-import Dashboard from "./components/dashboard/Dashboard";
-import Edit from "./components/Edit/Edit";
+import Dashboard from "./components/templates/dashboard/Dashboard";
+import Edit from "./components/templates/Edit/Edit";
 
 function App() {
   return (
@@ -51,6 +50,7 @@ function App() {
               <Route path="/actorPage" Component={ActorPage} />
               <Route path="/dashboard" Component={Dashboard} />
               <Route path="/edit" Component={Edit} />
+              <Route path="/addpage" Component={AddPage} />
               <Route path="/movies" Component={Movies} />
               <Route path="/moviePage" Component={MoviePage} />
               <Route path="/" Component={HomePage} />

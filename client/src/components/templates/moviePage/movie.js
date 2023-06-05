@@ -137,13 +137,14 @@ const Movie = () => {
     };
     fetchActors();
   }, []);
+
   const sendActorInfo = (actor) => {
     navigate("/ActorPage", { state: { actor } });
   };
 
   const handleSubmitReview = async () => {
     try {
-    } catch (error) {}
+    } catch (error) { }
   };
 
   return (
@@ -168,7 +169,8 @@ const Movie = () => {
               height: "500px",
               backgroundImage: `url(${movie.Cover})`,
               backgroundRepeat: "no-repeat",
-              backgroundSize: "100%",
+              backgroundPosition: "center",
+              backgroundSize: "cover",
               boxShadow:
                 "inset 10px -100px 20px 5px #14181C, inset 20px -60px 100px 50px #14181C, inset -20px -100px 100px 50px #14181C;",
             }}
@@ -196,7 +198,9 @@ const Movie = () => {
                 <img
                   src={movie.Thumbnail}
                   alt="Movie"
-                  style={{ width: "100%", height: "100%" }}
+                  style={{
+                    width: "100%", height: "100%", objectFit: "cover", objectPosition: "center"
+                  }}
                 />
               </Grid>
 
@@ -375,8 +379,8 @@ const Movie = () => {
                               !isWatched
                                 ? "Watch"
                                 : isHoveredWatch
-                                ? "Remove"
-                                : "Watched"
+                                  ? "Remove"
+                                  : "Watched"
                             }
                             sx={{
                               color: "#fff",
@@ -405,8 +409,8 @@ const Movie = () => {
                               !isFavorite
                                 ? "Favorite"
                                 : isHoveredFavorite
-                                ? "Remove"
-                                : "Favorite"
+                                  ? "Remove"
+                                  : "Favorite"
                             }
                           />
                         </StyledListItemIcon>
@@ -433,8 +437,8 @@ const Movie = () => {
                               !isChecked
                                 ? "Watchlist"
                                 : isHoveredWatchlist
-                                ? "Remove"
-                                : "Watchlist"
+                                  ? "Remove"
+                                  : "Watchlist"
                             }
                           />
                         </StyledListItemIcon>

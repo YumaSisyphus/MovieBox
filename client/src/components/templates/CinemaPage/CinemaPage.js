@@ -116,11 +116,13 @@ const CinemaPage = () => {
                     <hr style={{ border: "1px solid #8f8f8f", marginLeft: "2%" }} />
 
 
-                    <Box display="flex" flexDirection="column" mt={3} ml={2} bgcolor="#0b1017">
+                    <Box display="flex" flexDirection="column" mt={3} ml={2} bgcolor="#0b1017" className={styles.movieContainer}>
                         {Array.isArray(movies) && movies.map((movie) => (
                             <Box display="flex" className={styles.rowBorder} height={120} alignItems="center">
                                 <Box
-                                ml={2}
+                                    ml={2}
+                                    mt={2}
+                                    mb={2}
                                     width="70px"
                                     height="90px"
                                     className={styles.MovieBorder}

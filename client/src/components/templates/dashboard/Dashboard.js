@@ -15,9 +15,9 @@ import {
   Modal,
 } from "@mui/material";
 import axios from "axios";
-import Header from "../header/Header";
-import Footer from "../footer/Footer";
-import theme, { Colors } from "../../utils/Themes";
+import Header from "../../header/Header";
+import Footer from "../../footer/Footer";
+import theme, { Colors } from "../../../utils/Themes";
 import { useNavigate } from "react-router-dom";
 const style = {
   position: "absolute",
@@ -44,9 +44,11 @@ const Dashboard = () => {
   const sendUserInfo = (user) => {
     navigate("/Edit", { state: { user } });
   };
+  const handleAddUser = () => {
+    navigate("/AddPage");
+  };
   const [open, setOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
-  console.log(selectedUser);
 
   const handleOpen = (user) => {
     setSelectedUser(user);
@@ -68,7 +70,7 @@ const Dashboard = () => {
       <Header />
       <div
         style={{
-          height: "100%",
+          height: "77vh",
           backgroundImage: `linear-gradient(to top, rgba(26, 26, 36), rgba(22, 22, 28))`,
           display: "flex",
           alignItems: "center",
@@ -82,7 +84,6 @@ const Dashboard = () => {
               align="center"
               gutterBottom
               color="#ebebeb"
-              mb={3}
             >
               User Dashboard
             </Typography>
@@ -265,8 +266,12 @@ const Dashboard = () => {
                 <Button onClick={handleClose}>No</Button>
               </Box>
             </Modal>
-            <Box mt={2} display="flex" justifyContent="center" mb={5}>
-              <Button variant="contained" color="primary" >
+            <Box mt={2} display="flex" justifyContent="center">
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleAddUser}
+              >
                 Add User
               </Button>
             </Box>

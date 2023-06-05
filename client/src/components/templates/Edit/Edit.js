@@ -11,9 +11,9 @@ import {
   Modal,
 } from "@mui/material";
 import axios from "axios";
-import Header from "../header/Header";
-import Footer from "../footer/Footer";
-import theme from "../../utils/Themes";
+import Header from "../../header/Header";
+import Footer from "../../footer/Footer";
+import theme from "../../../utils/Themes";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { format } from "date-fns";

@@ -11,20 +11,23 @@ import {
   Modal,
   IconButton,
   ThemeProvider,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
 } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { format } from "date-fns";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import CloseIcon from "@mui/icons-material/Close";
-import styles from "./EditProfile.module.css";
-import Cookies from "universal-cookie";
-import { Link } from "react-router-dom";
+import styles from "./AddPage.module.css";
+import {  useNavigate } from "react-router-dom";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 
 const style = {
   position: "absolute",
@@ -54,26 +57,19 @@ const minDate = new Date(
 );
 
 const EditProfile = () => {
-  const cookies = new Cookies();
-  const token = cookies.get("token");
-  const { UserID } = token[0];
-  const [user, setUser] = useState([]);
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
-  const [bio, setBio] = useState("");
-  const [profilePic, setProfilePic] = useState("");
+  const [bio, setBio] = useState(null);
+  const [profilePic, setProfilePic] = useState("Profile/user.png");
   const [birthday, setBirthday] = useState(null);
+  const [userType, setUserType] = useState();
   const [errorMessage, setError] = useState(null);
   const [password, setPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [showChangePassword, setShowChangePassword] = useState(false);
-  const handleShowChangePassword = () => {
-    setShowChangePassword((prev) => !prev);
-  };
+
   const handleClickShowConfirmPassword = () => {
     setShowConfirmPassword((prev) => !prev);
   };
@@ -86,33 +82,10 @@ const EditProfile = () => {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-  const handleClickShowNewPassword = () => {
-    setShowNewPassword((prev) => !prev);
-  };
-  const handleMouseDownNewPassword = (event) => {
-    event.preventDefault();
-  };
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await axios.get(`/api/getUser/${UserID}`);
-        setUser(response.data);
-        setUsername(response.data.Username);
-        setEmail(response.data.Email);
-        setBio(response.data.Bio);
-        setProfilePic(response.data.ProfilePic);
-        const tempDate = new Date(response.data.Birthday);
-        setBirthday(tempDate);
-      } catch (error) {
-        console.error("Error fetching user:", error);
-      }
-    };
-    fetchUser();
-  }, []);
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
   };
@@ -127,99 +100,77 @@ const EditProfile = () => {
     setOpen(false);
   };
   const handleProfilePicDelete = () => {
-    setProfilePic("user.png");
+    setProfilePic("Profile/user.png");
     setOpen(false);
   };
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
   };
-  const handleNewPasswordChange = (event) => {
-    setNewPassword(event.target.value);
-  };
   const handleConfirmPasswordChange = (event) => {
     setConfirmPassword(event.target.value);
   };
   const handleDateChange = (date) => {
-    setBirthday(date);
+    const formattedDate = format(date, "dd/MM/yyyy");
+    setBirthday(formattedDate);
+  };
+  const handleUserTypeChange = (event) => {
+    setUserType(event.target.value);
   };
 
   const handleSaveChanges = async () => {
     try {
-      const responseUsername = await axios.get(
-        `/api/checkUsernameEdit/${username}`
-      );
-      const responseUsernameID = await axios.get(
-        `/api/checkUsernameEditID/${UserID}`
-      );
-      const responseEmail = await axios.get(`/api/checkEmailEdit/${email}`);
-      const responseEmailID = await axios.get(
-        `/api/checkEmailEditID/${UserID}`
-      );
-      const emailExists = responseEmail.data.exists;
-      const usernameExists = responseUsername.data.exists;
-      if (usernameExists && username !== responseUsernameID.data) {
-        toast.error(
-          "Username already exists. Please choose a different username."
-        );
-        return;
-      }
-      if (emailExists && email !== responseEmailID.data) {
-        toast.error("Email already exists. Please choose a different email.");
-        return;
-      }
-      if (!username && !email) {
-        toast.error("Please fill all the fileds");
-        return;
-      }
-      if (username.length < 5) {
+      if (!username || !email || !password || !userType) {
+        toast.error("Please fill the required* fields");
+      } else if (username.length < 5) {
         toast.error("Username must be at least 5 characters");
-        return;
-      }
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
         toast.error("Please check if you have written your email correctly");
-        return;
-      }
-      await axios.put(`/api/editProfile/${UserID}`, {
-        username,
-        bio,
-        profilePic,
-        email,
-        birthday: format(birthday, "dd/MM/yyyy"),
-      });
-      toast.success("Username, Bio, ProfilePic and Email changed successfully");
-      if (showChangePassword) {
-        if (
-          newPassword.length < 8 ||
-          !/[A-Z]/.test(newPassword) ||
-          !/[a-z]/.test(newPassword) ||
-          !/[0123456789]/.test(newPassword)
-        ) {
-          toast.error(
-            "Password should be at least 8 characters long, contain one uppercase letter, one lowercase letter and one special character"
-          );
-          return;
-        }
-        if (newPassword !== confirmPassword) {
-          toast.error(
-            "Please check if you've typed your new password correctly"
-          );
-          return;
-        }
-        await axios
-          .put(`/api/editPassword/${UserID}`, {
-            password,
-            newPassword,
-          })
+      } else if (
+        password.length < 8 ||
+        !/[A-Z]/.test(password) ||
+        !/[a-z]/.test(password) ||
+        !/[0123456789]/.test(password)
+      ) {
+        toast.error(
+          "Password should be at least 8 characters long, contain one uppercase letter, one lowercase letter and one special character"
+        );
+      } else if (password !== confirmPassword) {
+        toast.error("Please check if you've typed your password correctly");
+      } else {
+        axios
+          .get(`/api/checkUserRegister?username=${username}&email=${email}`)
           .then((response) => {
-            toast(response.data.msg);
+            const userExists = response.data.exists;
+            if (userExists) {
+              toast.error(
+                "User already exists. Please choose a different username or email."
+              );
+            } else {
+              axios
+                .post("/api/addUser", {
+                  username,
+                  email,
+                  password,
+                  bio,
+                  profilePic,
+                  userType,
+                  birthday,
+                })
+                .then(() => {
+                  setTimeout(() => {
+                    navigate("/Dashboard");
+                  }, 500);
+                })
+                .catch((err) => toast.error(err.response.data));
+            }
           });
       }
     } catch (error) {
-      console.error("Error updating profile:", error);
-      toast.error("An error occurred while updating your profile");
+      console.error("Error creating user:", error);
+      toast.error("An error occurred while creating this user");
     }
   };
-
+  console.log(userType);
   return (
     <ThemeProvider theme={theme}>
       <Header />
@@ -231,7 +182,7 @@ const EditProfile = () => {
           gap: "5%",
         }}
       >
-        <Container maxWidth="md" sx={{display: "flex", flexDirection:"row"}}>
+        <Container maxWidth="md" sx={{ display: "flex", flexDirection: "row" }}>
           <div style={{ display: "flex", flexDirection: "column" }}>
             <Container maxWidth="md">
               <Box
@@ -363,7 +314,7 @@ const EditProfile = () => {
                   <TextField
                     id="username"
                     name="username"
-                    label="Username"
+                    label="Username*"
                     variant="filled"
                     value={username}
                     InputProps={{
@@ -386,7 +337,7 @@ const EditProfile = () => {
                   <TextField
                     id="email"
                     name="email"
-                    label="Email"
+                    label="Email*"
                     variant="filled"
                     value={email}
                     InputProps={{
@@ -413,7 +364,6 @@ const EditProfile = () => {
                     variant="filled"
                     multiline
                     rows={6}
-                    value={bio}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start"></InputAdornment>
@@ -428,8 +378,31 @@ const EditProfile = () => {
                   />
                 </Box>
                 <Box mt={5}>
+                  <FormControl
+                    sx={{
+                      minWidth: 140,
+                      backgroundColor: "#ebebeb",
+                      borderRadius: "4px",
+                    }}
+                    size="small"
+                  >
+                    <InputLabel>User type*</InputLabel>
+                    <Select
+                      name="userType"
+                      id="userType"
+                      label="User type*"
+                      onChange={handleUserTypeChange}
+                      defaultValue=""
+                    >
+                      <MenuItem value="User">User</MenuItem>
+                      <MenuItem value="Theatre">Theatre</MenuItem>
+                      <MenuItem value="Admin">Admin</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Box>
+                <Box mt={5}>
                   <LocalizationProvider
-                    sx={{ borderColor: "#fff" }}
+                    sx={{ borderColor: "#ebebeb" }}
                     dateAdapter={AdapterDateFns}
                   >
                     <DatePicker
@@ -447,12 +420,14 @@ const EditProfile = () => {
                           borderRadius: "4px",
                           backgroundColor: "#ebebeb",
                         },
+                        label: {
+                          backgroundColor: "rgba(200,200,200,0)",
+                        },
                       }}
                       format="dd/MM/yyyy"
                       variant="filled"
                       label="Birthday"
                       maxDate={minDate}
-                      value={birthday}
                       onError={(newError) => setError(newError)}
                       slotProps={{
                         textField: {
@@ -480,24 +455,12 @@ const EditProfile = () => {
                       Save Changes
                     </Typography>
                   </Button>
-                  <Button
-                    className={styles.SaveButton}
-                    onClick={handleShowChangePassword}
-                  >
-                    <Typography
-                      color={Colors.white}
-                      className={styles.SaveText}
-                    >
-                      Change Password
-                    </Typography>
-                  </Button>
                 </Box>
               </Box>
             </Container>
           </div>
           <div
             style={{
-              display: showChangePassword ? "flex" : "none",
               flexDirection: "column",
             }}
           >
@@ -510,10 +473,9 @@ const EditProfile = () => {
                   <TextField
                     id="password"
                     name="password"
-                    label="Password"
+                    label="Password*"
                     variant="filled"
                     type={showPassword ? "text" : "password"}
-                    defaultValue=""
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start"></InputAdornment>
@@ -544,48 +506,11 @@ const EditProfile = () => {
                 </Box>
                 <Box mt={5}>
                   <TextField
-                    id="newpassword"
-                    name="newpassword"
-                    label="New Password"
-                    variant="filled"
-                    type={showNewPassword ? "text" : "password"}
-                    defaultValue=""
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start"></InputAdornment>
-                      ),
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <IconButton
-                            onClick={handleClickShowNewPassword}
-                            onMouseDown={handleMouseDownNewPassword}
-                            edge="end"
-                          >
-                            {showNewPassword ? (
-                              <VisibilityOff color="black" />
-                            ) : (
-                              <Visibility color="black" />
-                            )}
-                          </IconButton>
-                        </InputAdornment>
-                      ),
-                      style: {
-                        backgroundColor: "#ebebeb",
-                        borderRadius: "5px",
-                        width: "400px",
-                      },
-                    }}
-                    onChange={handleNewPasswordChange}
-                  />
-                </Box>
-                <Box mt={5}>
-                  <TextField
                     id="confirmpassword"
                     name="confirmpassword"
-                    label="Confirm Password"
+                    label="Confirm Password*"
                     variant="filled"
                     type={showConfirmPassword ? "text" : "password"}
-                    defaultValue=""
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start"></InputAdornment>

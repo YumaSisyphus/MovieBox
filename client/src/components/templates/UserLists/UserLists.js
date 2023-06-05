@@ -81,7 +81,7 @@ const UserLists = () => {
                                     >
                                         <Box className={styles.ListBoxInner} pl={2} pr={2} mt={1}>
                                             <Typography color="#ebebeb">{lists.Title}</Typography>
-                                            <Typography color="#b0b0b0">{lists.Description}</Typography>
+                                            <Typography color="#b0b0b0" className={styles.ListDescription}>{lists.Description}</Typography>
                                             <Box display="flex" mt={2} gap={1} alignContent="center">
                                                 <img
                                                     width="30px"
@@ -90,9 +90,9 @@ const UserLists = () => {
                                                     alt="Profile picture"
                                                     className={lists.profilePicture}
                                                 />
-                                                <Typography mt={0.2} color="#b0b0b0">{lists.Username}</Typography>
+                                                <Typography mt={0.2} mb={5} color="#b0b0b0">{lists.Username}</Typography>
                                             </Box>
-                                            <Button sx={{ marginTop: "5%", bgcolor: "#ebebeb", color: "#000" }}>Go To List</Button>
+                                            <Button sx={{ marginTop: "5%", bgcolor: "#ebebeb", color: "#000", alignSelf: "flex-end", display: "flex" }} size="small" className={styles.ListButton}>Go To List</Button>
 
                                         </Box>
                                     </Box>

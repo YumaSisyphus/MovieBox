@@ -772,7 +772,7 @@ app.get("/api/getLists", (req, res) => {
 app.get("/api/getUserLists/:id", (req, res) => {
   const { id } = req.params;
   const query =
-    "SELECT * FROM lists WHERE UserID = ?;";
+    "SELECT lists.*, users.Username, users.ProfilePic FROM lists JOIN users ON lists.UserID = users.UserID WHERE lists.UserID = ?;";
   db.query(query, [id], (error, results) => {
     if (error) {
       console.error("Error fetching user lists", error);

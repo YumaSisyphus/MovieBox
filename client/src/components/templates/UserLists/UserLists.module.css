@@ -15,3 +15,21 @@
     width: 50px;
     height: 50px;
 }
+
+.ListDescription{
+    width: 200px; 
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis;
+}
+
+.ListButton{
+    border: 1px solid #000 !important;
+}
+
+
+.ListButton:hover{
+    background-color: transparent;
+    border: 1px solid #ebebeb !important;
+    color: #ebebeb;
+}
